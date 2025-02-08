@@ -5,7 +5,7 @@ excerpt: "E-commerce System"
 categories:
   - Categories2
 tags:
-  - [SpringBoot, java]
+  - [tag1, tag2]
 
 permalink: /categories2/post-name-here-3/
 
