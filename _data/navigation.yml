@@ -24,7 +24,7 @@ main:
 # sidebar navigation (categories)
 # 2022.02.15 sidebar update : simple ver.
 categories:
-  - title: "IT Basic"
+  - title: "IT"
     url: /categories/it/
   - title: "SQL"
     url: /categories/sql/
