@@ -24,8 +24,6 @@ main:
 # sidebar navigation (categories)
 # 2022.02.15 sidebar update : simple ver.
 categories:
- -title:"Resume"
-  children:
    - title: "ItierSolution"
      url: /categories/career1/
    - title: "BusinessInsight"
