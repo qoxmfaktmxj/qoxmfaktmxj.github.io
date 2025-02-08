@@ -1,5 +1,5 @@
 ---
-title: "Business Insight"
+title: "BusinessInsight"
 layout: category
 permalink: /categories/career2/
 author_profile: true

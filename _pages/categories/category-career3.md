@@ -1,5 +1,5 @@
 ---
-title: "ISU System"
+title: "ISUSystem"
 layout: category
 permalink: /categories/career3/
 author_profile: true

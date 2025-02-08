@@ -24,9 +24,11 @@ main:
 # sidebar navigation (categories)
 # 2022.02.15 sidebar update : simple ver.
 categories:
-  - title: "Itier Solution"
-    url: /categories/career1/
-  - title: "Business Insight"
-    url: /categories/career2/
-  - title: "ISU System"
-    url: /categories/career3/  
+ -title:"Resume"
+  children:
+   - title: "ItierSolution"
+     url: /categories/career1/
+   - title: "BusinessInsight"
+     url: /categories/career2/
+   - title: "ISUSystem"
+     url: /categories/career3/  

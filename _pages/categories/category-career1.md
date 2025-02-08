@@ -1,5 +1,5 @@
 ---
-title: "Itier Solution"
+title: "ItierSolution"
 layout: category
 permalink: /categories/career1/
 author_profile: true
