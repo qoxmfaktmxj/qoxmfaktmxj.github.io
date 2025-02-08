@@ -10,7 +10,7 @@
 # Review documentation to determine if you should use `theme` or `remote_theme`
 # https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/#installing-the-theme
 
-theme                  : "minimal-mistakes-jekyll"
+# theme                  : "minimal-mistakes-jekyll"
 # remote_theme           : "mmistakes/minimal-mistakes"
 minimal_mistakes_skin    : "dark" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
@@ -19,9 +19,9 @@ locale                   : "en-US"
 rtl                      : # true, false (default) # turns direction of the page into right to left for RTL languages
 title                    : "기록 남기기"
 title_separator          : "-"
-subtitle                 : "Recording and sharing development knowledge." # site tagline that appears below site title in masthead
+subtitle                 : "Recording and sharing IT knowledge." # site tagline that appears below site title in masthead
 name                     : "kms"
-description              : "Recording and sharing development knowledge."
+description              : "Recording and sharing IT knowledge."
 url                      : "https://qoxmfaktmxj.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : "qoxmfaktmxj/qoxmfaktmxj.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
