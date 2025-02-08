@@ -25,8 +25,8 @@ main:
 # 2022.02.15 sidebar update : simple ver.
 categories:
   - title: "Itier Solution"
-    url: /categories/itierSolution/
+    url: /categories/categories1/
   - title: "Business Insight"
-    url: /categories/businessInsight/
+    url: /categories/categories2/
   - title: "ISU System"
     url: /categories/categories3/
