@@ -3,17 +3,17 @@ title: "Itier Solution"
 excerpt: "MES System"
 
 categories:
-  - categories1
+  - Categories1
 tags:
-  - [MES, C#]
+  - [tag1, tag2]
 
-permalink: /categories1/itierSolution/
+permalink: /categories1/post-name-here/
 
 toc: true
 toc_sticky: true
 
-date: 2025-02-09
-last_modified_at: 2025-02-09
+date: 2020-05-21
+last_modified_at: 2021-10-09
 ---
 
 ## 🦥 MES System / MMDM System
