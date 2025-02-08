@@ -4,8 +4,10 @@ excerpt: "MES System"
 
 categories:
   - ItierSolution
+tags:
+  - [tag1, tag2]
 
-permalink: /career1/resume/1
+permalink: /career1/resume/
 
 toc: true
 toc_sticky: true
