@@ -7,7 +7,7 @@ categories:
 tags:
   - [SpringBoot, java]
 
-permalink: /categories2/businessInsight/
+permalink: /categories2/post-name-here3/
 
 toc: true
 toc_sticky: true

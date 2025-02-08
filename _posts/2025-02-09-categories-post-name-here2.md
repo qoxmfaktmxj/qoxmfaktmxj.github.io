@@ -7,7 +7,7 @@ categories:
 tags:
   - [EHR, PL-SQL]
 
-permalink: /categories3/isuSystem/
+permalink: /categories3/post-name-here2/
 
 toc: true
 toc_sticky: true
