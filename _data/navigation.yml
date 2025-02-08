@@ -6,14 +6,14 @@ main:
   - title: "About"
     url: /about/  
 
-  - title: "Naver"
-    url: "https://blog.naver.com/qoxmfaktmxj"
+  #- title: "Naver"
+  #  url: "https://blog.naver.com/qoxmfaktmxj"
 
-  - title: "Instagram"
-    url: "https://www.instagram.com/Kmin_seok_91"
+  #- title: "Instagram"
+  #  url: "https://www.instagram.com/Kmin_seok_91"
 
-  - title: "GitHub"
-    url: https://github.com/qoxmfaktmxj
+  #- title: "GitHub"  
+  #  url: https://github.com/qoxmfaktmxj
 
   # - title: "Projects"
   #   url: /projects/

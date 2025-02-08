@@ -1,9 +1,39 @@
 ---
-title: "안녕하세요 저는 개발자 김민석입니다."
+title: "안녕하세요 배마에요. 공부한 내용들을 잊지 않기 위해 기록하는 용도 입니다."
 permalink: /about/
 layout: single
 comments: false
 ---
 
-안녕하세요.
-제가 공부했던 내용들을 잊지 않기 위해 기록해 두기 위한 블로그 입니다.
+<div>
+    <img src="/assets/images/jeju_kms.jpg" alt="about_meee" width="70%" min-width="700px" itemprop="image">
+</div>
+
+<div style="border-left: 2px solid rgba(199, 198, 198, 0.7); margin: 0.5em 0 0 0.5em; padding-left: 1.5em; font-weight: 500;">
+    <ul class="author__urls social-icons">
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">  Seoul, Korea</span>
+        </li>
+        <li>
+          <a href="https://github.com/qoxmfaktmxj" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">  https://github.com/qoxmfaktmxj</span>
+          </a>
+        </li>
+        <li>
+          <a href="mailto:qoxmfaktmxj@naver.com">
+            <meta itemprop="email" content="qoxmfaktmxj@naver.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">  qoxmfaktmxj@naver.com</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.instagram.com/Kmin_seok_91" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">  https://www.instagram.com/Kmin_seok_91</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/qoxmfaktmxj" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">  https://github.com/qoxmfaktmxj</span>
+          </a>
+        </li>
+    </ul>
+  </div>
