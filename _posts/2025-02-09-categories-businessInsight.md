@@ -1,13 +1,13 @@
 ---
-title: "Itier Solution"
-excerpt: "MES System"
+title: "Business Insight"
+excerpt: "E-commerce System"
 
 categories:
-  - Categories1
+  - Categories2
 tags:
-  - [MES, C#]
+  - [SpringBoot, java]
 
-permalink: /categories1/itierSolution/
+permalink: /categories2/businessInsight/
 
 toc: true
 toc_sticky: true

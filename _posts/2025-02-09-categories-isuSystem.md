@@ -1,13 +1,13 @@
 ---
-title: "Itier Solution"
-excerpt: "MES System"
+title: "Isu System"
+excerpt: "E-HR System"
 
 categories:
-  - Categories1
+  - Categories3
 tags:
-  - [MES, C#]
+  - [EHR, PL-SQL]
 
-permalink: /categories1/itierSolution/
+permalink: /categories3/isuSystem/
 
 toc: true
 toc_sticky: true
