@@ -30,5 +30,10 @@ comments: false
             <i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">  https://www.instagram.com/Kmin_seok_91</span>
           </a>
         </li>
+        <li>
+          <a href="https://blog.naver.com/qoxmfaktmxj" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">  https://blog.naver.com/qoxmfaktmxj</span>
+          </a>
+        </li>
     </ul>
   </div>
