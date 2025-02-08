@@ -1,9 +1,9 @@
 ---
-title: "IT Basic"
+title: "IT-Basic"
 layout: category
-permalink: /categories/info/
+permalink: /categories/itbasic/
 author_profile: true
-taxonomy: info
+taxonomy: IT-Basic
 sidebar:
   nav: "categories"
 ---

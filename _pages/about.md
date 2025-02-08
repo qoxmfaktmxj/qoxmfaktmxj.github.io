@@ -30,10 +30,5 @@ comments: false
             <i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">  https://www.instagram.com/Kmin_seok_91</span>
           </a>
         </li>
-        <li>
-          <a href="https://github.com/qoxmfaktmxj" itemprop="sameAs" rel="nofollow noopener noreferrer">
-            <i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">  https://github.com/qoxmfaktmxj</span>
-          </a>
-        </li>
     </ul>
   </div>
