@@ -1,9 +1,9 @@
 ---
-title: "Categories3"
+title: "Certificate"
 layout: category
-permalink: /categories/categories3/
+permalink: /categories/cert/
 author_profile: true
-taxonomy: Categories3
+taxonomy: cert
 sidebar:
   nav: "categories"
 ---

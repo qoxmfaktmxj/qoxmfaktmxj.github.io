@@ -3,6 +3,9 @@ main:
   - title: "Home"
     url: https://qoxmfaktmxj.github.io/
 
+  - title: "About"
+    url: /about/  
+
   - title: "Naver"
     url: "https://blog.naver.com/qoxmfaktmxj"
 
@@ -22,10 +25,10 @@ main:
 # 2022.02.15 sidebar update : simple ver.
 categories:
   - title: "IT Basic"
-    url: /categories/categories1/
-  - title: "SQL Study"
-    url: /categories/categories2/
+    url: /categories/info/
+  - title: "SQL"
+    url: /categories/query/
   - title: "Certificate"
-    url: /categories/categories3/
+    url: /categories/cert/
   - title: "Algorithm"
-    url: /categories/categories4/
+    url: /categories/alg/

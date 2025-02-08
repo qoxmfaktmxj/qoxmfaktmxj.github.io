@@ -1,9 +1,9 @@
 ---
-title: "Categories2"
+title: "SQL"
 layout: category
-permalink: /categories/categories2/
+permalink: /categories/query/
 author_profile: true
-taxonomy: Categories2
+taxonomy: query
 sidebar:
   nav: "categories"
 ---
