@@ -1,13 +1,16 @@
 # main links
 main:
   - title: "Home"
-    url: https://choiiis.github.io/
+    url: https://qoxmfaktmxj.github.io/
 
-  - title: "About"
-    url: /about/
+  - title: "Naver"
+    url: "https://blog.naver.com/qoxmfaktmxj"
+
+  - title: "Instagram"
+    url: "https://www.instagram.com/Kmin_seok_91"
 
   - title: "GitHub"
-    url: https://github.com/choiiis
+    url: https://github.com/qoxmfaktmxj
 
   # - title: "Projects"
   #   url: /projects/
@@ -18,11 +21,11 @@ main:
 # sidebar navigation (categories)
 # 2022.02.15 sidebar update : simple ver.
 categories:
-  - title: "Categories1"
+  - title: "IT Basic"
     url: /categories/categories1/
-  - title: "Categories2"
+  - title: "SQL Study"
     url: /categories/categories2/
-  - title: "Categories3"
+  - title: "Certificate"
     url: /categories/categories3/
-  - title: "Categories4"
+  - title: "Algorithm"
     url: /categories/categories4/
