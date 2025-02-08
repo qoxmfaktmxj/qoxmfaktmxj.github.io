@@ -1,9 +1,9 @@
 ---
-title: "Certificate"
+title: "Itier Solution"
 layout: category
-permalink: /categories/cert/
+permalink: /categories/career1/
 author_profile: true
-taxonomy: Certificate
+taxonomy: career1
 sidebar:
   nav: "categories"
 ---

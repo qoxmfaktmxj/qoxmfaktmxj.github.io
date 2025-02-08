@@ -1,5 +1,5 @@
 ---
-title: "안녕하세요 배마에요. 공부한 내용들을 잊지 않기 위해 기록하는 용도 입니다."
+title: "안녕하세요 배마에요. 항상 배우려고 노력하는 개발자 입니다."
 permalink: /about/
 layout: single
 comments: false

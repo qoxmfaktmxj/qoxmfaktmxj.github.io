@@ -24,11 +24,9 @@ main:
 # sidebar navigation (categories)
 # 2022.02.15 sidebar update : simple ver.
 categories:
-  - title: "IT Basic"
-    url: /categories/itbasic/
-  - title: "SQL"
-    url: /categories/sql/
-  - title: "Certificate"
-    url: /categories/cert/
-  - title: "Algorithm"
-    url: /categories/alg/
+  - title: "Itier Solution"
+    url: /categories/career1/
+  - title: "Business Insight"
+    url: /categories/career2/
+  - title: "Isu System"
+    url: /categories/career3/  

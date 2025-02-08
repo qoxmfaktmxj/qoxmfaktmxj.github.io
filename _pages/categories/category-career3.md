@@ -1,9 +1,9 @@
 ---
-title: "Algorithm"
+title: "Isu System"
 layout: category
-permalink: /categories/alg/
+permalink: /categories/career3/
 author_profile: true
-taxonomy: Algorithm
+taxonomy: career3
 sidebar:
   nav: "categories"
 ---
