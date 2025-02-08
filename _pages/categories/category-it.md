@@ -1,9 +1,9 @@
 ---
-title: "ITBasic"
+title: "IT"
 layout: category
 permalink: /categories/it/
 author_profile: true
-taxonomy: ITBasic
+taxonomy: IT
 sidebar:
   nav: "categories"
 ---
