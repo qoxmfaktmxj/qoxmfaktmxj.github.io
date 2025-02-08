@@ -1,7 +1,7 @@
 ---
 title: "Itier Solution"
 layout: category
-permalink: /categories/itierSolution/
+permalink: /categories/categories1/
 author_profile: true
 taxonomy: Itier Solution
 sidebar:
