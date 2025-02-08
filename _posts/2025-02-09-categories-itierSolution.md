@@ -3,7 +3,7 @@ title: "Itier Solution"
 excerpt: "MES System"
 
 categories:
-  - Itier Solution
+  - categories1
 tags:
   - [MES, C#]
 
