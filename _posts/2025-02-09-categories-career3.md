@@ -7,13 +7,13 @@ categories:
 tags:
   - [EHR, PL-SQL]
 
-permalink: /categories3/post-name-here-2/
+permalink: /categories3/career3/
 
 toc: true
 toc_sticky: true
 
-date: 2025-02-09
-last_modified_at: 2025-02-09
+date: 2022-01-01
+last_modified_at: 2022-01-01
 ---
 
 ## 🦥 E-HR System

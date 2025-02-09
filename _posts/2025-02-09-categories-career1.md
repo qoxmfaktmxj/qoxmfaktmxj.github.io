@@ -12,8 +12,8 @@ permalink: /categories1/career1/
 toc: true
 toc_sticky: true
 
-date: 2020-05-21
-last_modified_at: 2021-10-09
+date: 2017-12-03
+last_modified_at: 2017-12-03
 ---
 
 ## 🦥 MES System / MMDM System
