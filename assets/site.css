@@ -250,6 +250,7 @@ a:hover {
 
 .hero-card h1 {
   margin: 8px 0;
+  color: #f5f5f5;
   font-family: "Space Grotesk", sans-serif;
   font-size: clamp(1.45rem, 2.5vw, 2.05rem);
   line-height: 1.2;
