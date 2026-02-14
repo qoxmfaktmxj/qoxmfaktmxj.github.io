@@ -6,6 +6,12 @@
     <title>
       {% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}
     </title>
+    <link rel="icon" type="image/svg+xml" href="{{ '/assets/icons/kms-favicon.svg' | relative_url }}">
+    <link rel="shortcut icon" href="{{ '/assets/icons/kms-favicon.svg' | relative_url }}">
+    <link rel="apple-touch-icon" href="{{ '/assets/icons/kms-favicon.svg' | relative_url }}">
+    <link rel="manifest" href="{{ '/assets/site.webmanifest' | relative_url }}">
+    <meta name="theme-color" content="#111111">
+    <meta name="msapplication-TileColor" content="#111111">
     <link rel="stylesheet" href="{{ '/assets/site.css' | relative_url }}">
     <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ '/feed.xml' | relative_url }}">
     <script defer src="{{ '/assets/site.js' | relative_url }}"></script>
@@ -63,4 +69,3 @@
     </div>
   </body>
 </html>
-
