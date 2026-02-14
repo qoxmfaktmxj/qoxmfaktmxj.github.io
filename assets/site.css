@@ -1,16 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Pretendard:wght@400;500;600;700&display=swap");
 
 :root {
-  --bg: #f4f7fb;
-  --ink: #1c2733;
-  --muted: #627285;
-  --line: #d8e1ec;
+  --bg: #f2f2f2;
+  --ink: #121212;
+  --muted: #666666;
+  --line: #d6d6d6;
   --card: #ffffff;
-  --brand: #1b66ff;
-  --brand-deep: #123baa;
-  --nav-bg: #0f1724;
-  --nav-ink: #d7dfeb;
-  --chip: #eef4ff;
+  --brand: #000000;
+  --brand-deep: #000000;
+  --nav-bg: #111111;
+  --nav-ink: #e8e8e8;
+  --chip: #ededed;
 }
 
 * {
@@ -21,10 +21,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background:
-    radial-gradient(circle at 78% -10%, #d5e5ff 0, transparent 36%),
-    radial-gradient(circle at -20% 8%, #ebf3ff 0, transparent 40%),
-    var(--bg);
+  background: radial-gradient(circle at 70% -10%, #ffffff 0, transparent 40%), var(--bg);
   color: var(--ink);
   font-family: "Pretendard", "Noto Sans KR", system-ui, sans-serif;
   line-height: 1.7;
@@ -51,9 +48,9 @@ a:hover {
   align-self: start;
   min-height: 100vh;
   padding: 22px 18px;
-  background: linear-gradient(180deg, #0f1724 0%, #172335 100%);
+  background: linear-gradient(180deg, #0f0f0f 0%, #1a1a1a 100%);
   color: var(--nav-ink);
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .brand {
@@ -76,8 +73,8 @@ a:hover {
   place-items: center;
   font-family: "Space Grotesk", sans-serif;
   font-weight: 700;
-  background: linear-gradient(155deg, #2a66ff 0%, #4a7dff 100%);
-  color: #fff;
+  background: #ffffff;
+  color: #000000;
 }
 
 .brand-text {
@@ -92,7 +89,7 @@ a:hover {
 
 .brand-text small {
   font-size: 0.77rem;
-  color: #9db0ca;
+  color: #b0b0b0;
 }
 
 .search-block {
@@ -104,23 +101,23 @@ a:hover {
   display: block;
   margin-bottom: 7px;
   font-size: 0.82rem;
-  color: #9eb1ca;
+  color: #bcbcbc;
 }
 
 .search-input {
   width: 100%;
-  border: 1px solid #2f4059;
+  border: 1px solid #434343;
   border-radius: 12px;
   padding: 10px 12px;
-  background: #18263b;
-  color: #e8efff;
+  background: #202020;
+  color: #f1f1f1;
   font-size: 0.92rem;
   outline: none;
 }
 
 .search-input:focus {
-  border-color: #4f82ff;
-  box-shadow: 0 0 0 3px rgba(79, 130, 255, 0.2);
+  border-color: #8e8e8e;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
 }
 
 .search-results {
@@ -133,8 +130,8 @@ a:hover {
   overflow: auto;
   z-index: 40;
   border-radius: 14px;
-  border: 1px solid #2d3a51;
-  background: #152133;
+  border: 1px solid #3a3a3a;
+  background: #1b1b1b;
   box-shadow: 0 14px 30px rgba(2, 8, 20, 0.45);
 }
 
@@ -142,8 +139,8 @@ a:hover {
   display: grid;
   gap: 2px;
   padding: 10px 12px;
-  border-bottom: 1px solid #243247;
-  color: #d9e4f5;
+  border-bottom: 1px solid #2f2f2f;
+  color: #d9d9d9;
 }
 
 .search-item:last-child {
@@ -151,24 +148,24 @@ a:hover {
 }
 
 .search-item strong {
-  color: #eef4ff;
+  color: #ffffff;
   font-size: 0.93rem;
 }
 
 .search-item small {
-  color: #8fa4c0;
+  color: #a2a2a2;
   font-size: 0.76rem;
 }
 
 .search-item span {
-  color: #b3c2d6;
+  color: #bdbdbd;
   font-size: 0.82rem;
 }
 
 .search-empty {
   margin: 0;
   padding: 12px;
-  color: #b4c4d8;
+  color: #bdbdbd;
   font-size: 0.85rem;
 }
 
@@ -181,46 +178,46 @@ a:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #2a3a53;
+  border: 1px solid #373737;
   border-radius: 12px;
   padding: 10px 12px;
-  color: #d4dfef;
+  color: #dddddd;
   font-size: 0.93rem;
 }
 
 .sidebar-link:hover {
   text-decoration: none;
-  background: #1d2a3f;
+  background: #262626;
 }
 
 .sidebar-link.is-active {
-  background: linear-gradient(145deg, #22406d 0%, #2d568c 100%);
-  border-color: #4b74ad;
+  background: linear-gradient(145deg, #2d2d2d 0%, #3a3a3a 100%);
+  border-color: #666666;
 }
 
 .count {
   min-width: 2ch;
   text-align: right;
   font-family: "Space Grotesk", sans-serif;
-  color: #9cb5d8;
+  color: #c5c5c5;
 }
 
 .sidebar-note {
   margin-top: 20px;
   padding: 12px 13px;
   border-radius: 13px;
-  border: 1px solid #2d3e58;
+  border: 1px solid #3f3f3f;
   background: rgba(255, 255, 255, 0.04);
 }
 
 .sidebar-note p {
   margin: 0;
   font-weight: 700;
-  color: #eaf1ff;
+  color: #f3f3f3;
 }
 
 .sidebar-note small {
-  color: #a4b6cf;
+  color: #b6b6b6;
 }
 
 .main-content {
@@ -232,7 +229,7 @@ a:hover {
   border: 1px solid var(--line);
   border-radius: 18px;
   padding: 22px 22px 24px;
-  box-shadow: 0 10px 26px rgba(17, 39, 65, 0.07);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
   margin-bottom: 18px;
 }
 
@@ -246,9 +243,9 @@ a:hover {
 .hero-card {
   border-radius: 18px;
   padding: 24px;
-  color: #f6f9ff;
-  background: linear-gradient(130deg, #123f93 0%, #1b64d4 52%, #3b89ff 100%);
-  box-shadow: 0 14px 30px rgba(20, 75, 160, 0.3);
+  color: #f6f6f6;
+  background: linear-gradient(130deg, #0f0f0f 0%, #252525 55%, #3a3a3a 100%);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.32);
 }
 
 .hero-card h1 {
@@ -273,15 +270,15 @@ a:hover {
   border-radius: 999px;
   padding: 6px 10px;
   font-size: 0.78rem;
-  color: #f2f7ff;
-  background: rgba(255, 255, 255, 0.22);
+  color: #f2f2f2;
+  background: rgba(255, 255, 255, 0.16);
 }
 
 .stats-card {
   border-radius: 18px;
   padding: 18px;
-  background: linear-gradient(180deg, #ffffff 0%, #edf4ff 100%);
-  border: 1px solid #d4e1f3;
+  background: linear-gradient(180deg, #ffffff 0%, #f4f4f4 100%);
+  border: 1px solid #d8d8d8;
 }
 
 .stats-card h2 {
@@ -310,19 +307,19 @@ a:hover {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 0.74rem;
-  color: #d2e5ff;
+  color: #d9d9d9;
   font-weight: 700;
 }
 
 .panel .kicker {
-  color: #7590ac;
+  color: #777777;
 }
 
 h1,
 h2,
 h3 {
   margin-top: 0;
-  color: #101a2a;
+  color: #111111;
   font-family: "Space Grotesk", sans-serif;
   line-height: 1.25;
 }
@@ -344,7 +341,7 @@ h3 {
 
 .featured-excerpt {
   margin-top: 0;
-  color: #4e6076;
+  color: #555555;
 }
 
 .post-grid {
@@ -354,17 +351,17 @@ h3 {
 }
 
 .grid-post {
-  border: 1px solid #dde5ee;
+  border: 1px solid #d9d9d9;
   border-radius: 14px;
   padding: 14px;
-  background: linear-gradient(180deg, #fff 0%, #fbfdff 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
 }
 
 .post-title {
   display: inline-block;
   font-size: 1.06rem;
   font-weight: 700;
-  color: #14263c;
+  color: #111111;
 }
 
 .post-excerpt {
@@ -395,7 +392,7 @@ h3 {
   border-radius: 999px;
   padding: 4px 9px;
   font-size: 0.77rem;
-  color: #2c5fb2;
+  color: #1d1d1d;
   background: var(--chip);
 }
 
@@ -411,7 +408,7 @@ h3 {
 }
 
 code {
-  background: #edf3ff;
+  background: #efefef;
   border-radius: 6px;
   padding: 0.12em 0.35em;
 }
@@ -420,7 +417,7 @@ pre {
   overflow-x: auto;
   border-radius: 12px;
   padding: 14px;
-  background: #eef3fa;
+  background: #f0f0f0;
 }
 
 .comments-panel h2 {
@@ -465,4 +462,3 @@ pre {
     border-radius: 14px;
   }
 }
-

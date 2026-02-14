@@ -16,9 +16,15 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 POSTS_DIR = ROOT_DIR / "_posts"
 STATE_FILE = ROOT_DIR / ".automation" / "state.json"
 
-NEWS_FEEDS = [
+PRIMARY_NEWS_FEEDS = [
     "https://news.google.com/rss/search?q=artificial+intelligence+when:1d&hl=en-US&gl=US&ceid=US:en",
     "https://techcrunch.com/category/artificial-intelligence/feed/",
+]
+
+FALLBACK_NEWS_FEEDS = [
+    "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+    "https://venturebeat.com/category/ai/feed/",
+    "https://www.wired.com/feed/tag/ai/latest/rss",
 ]
 
 DEFAULT_MODEL = "claude-haiku-4-5-20251001"
@@ -136,13 +142,14 @@ def parse_rss_time(entry: dict) -> float:
     return 0.0
 
 
-def fetch_news_items(limit: int = 8) -> List[NewsItem]:
+def collect_news_from_feeds(feed_urls: List[str], seen_urls: set) -> List[NewsItem]:
     items: List[NewsItem] = []
-    seen_urls = set()
 
-    for feed_url in NEWS_FEEDS:
+    for feed_url in feed_urls:
         feed = feedparser.parse(feed_url)
         source_name = feed.feed.get("title", "Unknown source")
+        if getattr(feed, "bozo", False):
+            print(f"[WARN] RSS parse issue: {feed_url}")
 
         for entry in feed.entries:
             url = entry.get("link")
@@ -160,6 +167,20 @@ def fetch_news_items(limit: int = 8) -> List[NewsItem]:
                     ts=parse_rss_time(entry),
                 )
             )
+
+    return items
+
+
+def fetch_news_items(limit: int = 8, min_items: int = 5) -> List[NewsItem]:
+    seen_urls = set()
+    items = collect_news_from_feeds(PRIMARY_NEWS_FEEDS, seen_urls)
+
+    if len(items) < min_items:
+        print(
+            f"[INFO] Primary news items are low ({len(items)}). "
+            f"Loading fallback feeds..."
+        )
+        items.extend(collect_news_from_feeds(FALLBACK_NEWS_FEEDS, seen_urls))
 
     items.sort(key=lambda item: item.ts, reverse=True)
     return items[:limit]
@@ -408,4 +429,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
