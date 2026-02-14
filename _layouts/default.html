@@ -4,7 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
-      {% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}
+      {% if page.url == '/' and page.title %}
+        {{ page.title }}
+      {% elsif page.title %}
+        {{ page.title }} | {{ site.title }}
+      {% else %}
+        {{ site.title }}
+      {% endif %}
     </title>
     <link rel="icon" type="image/svg+xml" href="{{ '/assets/icons/kms-favicon.svg' | relative_url }}">
     <link rel="shortcut icon" href="{{ '/assets/icons/kms-favicon.svg' | relative_url }}">
@@ -22,7 +28,7 @@
         <a class="brand" href="{{ '/' | relative_url }}" aria-label="홈으로 이동">
           <span class="brand-mark">BE</span>
           <span class="brand-text">
-            <strong>Seok's Blog</strong>
+            <strong>석이's Blog</strong>
             <small>Engineering Notes</small>
           </span>
         </a>

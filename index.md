@@ -1,5 +1,4 @@
 ---
 layout: home
-title: "Daily AI + Dev Study"
+title: "석이's Blog"
 ---
-
