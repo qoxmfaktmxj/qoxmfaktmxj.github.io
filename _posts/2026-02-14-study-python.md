@@ -2,8 +2,8 @@
 layout: post
 title: "Python 데이터 검증: Pydantic으로 안전한 코드 작성하기"
 date: 2026-02-14 17:33:09 +0900
-categories: [study]
-tags: [study, python, automation]
+categories: [python]
+tags: [study, python, backend, automation]
 ---
 
 # Python 데이터 검증: Pydantic으로 안전한 코드 작성하기

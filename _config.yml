@@ -3,7 +3,6 @@ description: "Daily automated AI news and dev study notes"
 url: "https://qoxmfaktmxj.github.io"
 baseurl: ""
 lang: en
-timezone: Asia/Seoul
 theme: minima
 plugins:
   - jekyll-feed

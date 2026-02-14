@@ -1,0 +1,20 @@
+items:
+  - key: ai-daily-news
+    label: AI Daily News
+    path: /categories/ai-daily-news/
+  - key: python
+    label: Python
+    path: /categories/python/
+  - key: nextjs
+    label: Next.js
+    path: /categories/nextjs/
+  - key: java
+    label: Java
+    path: /categories/java/
+  - key: sql
+    label: SQL
+    path: /categories/sql/
+  - key: data-infra
+    label: Data Infra
+    path: /categories/data-infra/
+

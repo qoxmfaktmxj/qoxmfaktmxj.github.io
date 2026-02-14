@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="{{ page.lang | default: site.lang | default: 'ko' }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      {% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}
+    </title>
+    <link rel="stylesheet" href="{{ '/assets/site.css' | relative_url }}">
+    <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ '/feed.xml' | relative_url }}">
+  </head>
+  <body>
+    <div class="site-shell">
+      <aside class="sidebar">
+        <a class="brand" href="{{ '/' | relative_url }}">
+          <span class="brand-mark">Q</span>
+          <span class="brand-text">Qoxmfaktmxj Blog</span>
+        </a>
+
+        <nav class="sidebar-nav">
+          <a class="sidebar-link {% if page.url == '/' %}is-active{% endif %}" href="{{ '/' | relative_url }}">
+            Home
+          </a>
+          {% for item in site.data.sidebar.items %}
+            {% assign current_count = site.categories[item.key] | size %}
+            <a class="sidebar-link {% if page.category_key == item.key %}is-active{% endif %}" href="{{ item.path | relative_url }}">
+              <span>{{ item.label }}</span>
+              <span class="count">{{ current_count }}</span>
+            </a>
+          {% endfor %}
+        </nav>
+
+        <div class="sidebar-note">
+          <p>매일 자동 발행</p>
+          <small>AI 뉴스 + 개발 학습 글</small>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        {{ content }}
+      </main>
+    </div>
+  </body>
+</html>
+

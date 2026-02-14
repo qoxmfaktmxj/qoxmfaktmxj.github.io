@@ -1,0 +1,254 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap");
+
+:root {
+  --bg: #f2f5f8;
+  --ink: #13212b;
+  --muted: #5d6f7c;
+  --line: #d5dde5;
+  --card: #ffffff;
+  --brand: #0f4c81;
+  --brand-soft: #dcefff;
+  --nav-bg: linear-gradient(160deg, #0f2f4b 0%, #1f4f77 55%, #2a6a95 100%);
+  --nav-ink: #e8f3fb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at 20% 10%, #ffffff 0, var(--bg) 42%, #e8eef4 100%);
+  color: var(--ink);
+  font-family: "Noto Sans KR", system-ui, sans-serif;
+  line-height: 1.7;
+}
+
+a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.site-shell {
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  min-height: 100vh;
+  padding: 28px 22px;
+  background: var(--nav-bg);
+  color: var(--nav-ink);
+}
+
+.brand {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 28px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  background: #ffffff;
+  color: #123b59;
+}
+
+.brand-text {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.06rem;
+  font-weight: 700;
+}
+
+.sidebar-nav {
+  display: grid;
+  gap: 8px;
+}
+
+.sidebar-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  padding: 10px 12px;
+  color: var(--nav-ink);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.09);
+  text-decoration: none;
+}
+
+.sidebar-link.is-active {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.38);
+}
+
+.count {
+  min-width: 2ch;
+  text-align: right;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+}
+
+.sidebar-note {
+  margin-top: 26px;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-note p {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+}
+
+.sidebar-note small {
+  opacity: 0.9;
+}
+
+.main-content {
+  padding: 28px 32px 56px;
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 24px 24px 28px;
+  box-shadow: 0 10px 28px rgba(12, 32, 52, 0.08);
+  margin-bottom: 20px;
+}
+
+.hero-panel {
+  margin-bottom: 18px;
+  padding: 28px 24px;
+  border-radius: 20px;
+  color: #f8fbff;
+  background: linear-gradient(125deg, #0d2a44 0%, #1f4f7a 52%, #387daa 100%);
+  box-shadow: 0 14px 30px rgba(16, 50, 82, 0.25);
+}
+
+.hero-panel h1 {
+  margin: 10px 0 8px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.6rem, 2.8vw, 2.3rem);
+}
+
+.hero-panel p {
+  margin: 0;
+}
+
+.kicker {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  letter-spacing: 0.08em;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  color: #d6ecff;
+}
+
+.panel .kicker {
+  color: var(--muted);
+}
+
+h1,
+h2,
+h3 {
+  margin-top: 0;
+  font-family: "Space Grotesk", sans-serif;
+  line-height: 1.25;
+}
+
+.post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.post-card {
+  padding: 12px 0 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.post-card:last-child {
+  border-bottom: 0;
+}
+
+.post-title {
+  display: inline-block;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #15344c;
+}
+
+.post-meta {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.post-content img {
+  max-width: 100%;
+}
+
+code {
+  background: var(--brand-soft);
+  border-radius: 6px;
+  padding: 0.1em 0.35em;
+}
+
+pre {
+  overflow-x: auto;
+  background: #eaf1f8;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+@media (max-width: 980px) {
+  .site-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    min-height: auto;
+    border-bottom-left-radius: 22px;
+    border-bottom-right-radius: 22px;
+  }
+
+  .main-content {
+    padding: 16px 14px 32px;
+  }
+
+  .panel,
+  .hero-panel {
+    border-radius: 16px;
+  }
+}
+

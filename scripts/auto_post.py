@@ -21,17 +21,6 @@ NEWS_FEEDS = [
     "https://techcrunch.com/category/artificial-intelligence/feed/",
 ]
 
-STUDY_TOPICS = [
-    "python",
-    "java",
-    "react",
-    "nextjs",
-    "typescript",
-    "fastapi",
-    "sqlmodel",
-    "docker",
-]
-
 DEFAULT_MODEL = "claude-haiku-4-5-20251001"
 
 
@@ -42,6 +31,72 @@ class NewsItem:
     source: str
     published: str
     ts: float
+
+
+@dataclass
+class StudyTopic:
+    slug: str
+    prompt_topic: str
+    category: str
+    tags: List[str]
+
+
+STUDY_TOPICS: List[StudyTopic] = [
+    StudyTopic(
+        slug="python",
+        prompt_topic="Python",
+        category="python",
+        tags=["python", "backend"],
+    ),
+    StudyTopic(
+        slug="nextjs",
+        prompt_topic="Next.js",
+        category="nextjs",
+        tags=["nextjs", "react", "frontend"],
+    ),
+    StudyTopic(
+        slug="java",
+        prompt_topic="Java",
+        category="java",
+        tags=["java", "spring", "backend"],
+    ),
+    StudyTopic(
+        slug="sql-postgresql",
+        prompt_topic="PostgreSQL SQL",
+        category="sql",
+        tags=["sql", "postgresql", "database"],
+    ),
+    StudyTopic(
+        slug="sql-mysql",
+        prompt_topic="MySQL SQL",
+        category="sql",
+        tags=["sql", "mysql", "database"],
+    ),
+    StudyTopic(
+        slug="sql-oracle",
+        prompt_topic="Oracle SQL",
+        category="sql",
+        tags=["sql", "oracle", "database"],
+    ),
+    StudyTopic(
+        slug="redis",
+        prompt_topic="Redis",
+        category="sql",
+        tags=["redis", "caching", "database"],
+    ),
+    StudyTopic(
+        slug="elasticsearch",
+        prompt_topic="Elasticsearch",
+        category="data-infra",
+        tags=["elasticsearch", "search", "infra"],
+    ),
+    StudyTopic(
+        slug="kafka",
+        prompt_topic="Apache Kafka",
+        category="data-infra",
+        tags=["kafka", "streaming", "infra"],
+    ),
+]
 
 
 def now_kst() -> datetime:
@@ -204,10 +259,11 @@ Output requirements:
 """.strip()
 
 
-def build_study_prompt(topic: str, today: str) -> str:
+def build_study_prompt(topic: StudyTopic, today: str) -> str:
     return f"""
 Date: {today} (Asia/Seoul)
-Topic: {topic}
+Topic: {topic.prompt_topic}
+Category hint: {topic.category}
 
 Write a Korean daily study post in Markdown for developers.
 
@@ -274,7 +330,7 @@ def create_news_post(now: datetime) -> bool:
         path=post_path,
         title=title,
         now=now,
-        categories=["ai-news"],
+        categories=["ai-daily-news"],
         tags=["ai", "news", "automation"],
         content=content,
     )
@@ -286,7 +342,7 @@ def create_study_post(now: datetime, state: dict) -> bool:
     topic_index = int(state.get("topic_index", 0)) % len(STUDY_TOPICS)
     topic = STUDY_TOPICS[topic_index]
     date_str = now.strftime("%Y-%m-%d")
-    post_path = POSTS_DIR / f"{date_str}-study-{topic}.md"
+    post_path = POSTS_DIR / f"{date_str}-study-{topic.slug}.md"
     if post_path.exists():
         print(f"Skip study post. Already exists: {post_path.name}")
         return False
@@ -304,8 +360,8 @@ def create_study_post(now: datetime, state: dict) -> bool:
         path=post_path,
         title=title,
         now=now,
-        categories=["study"],
-        tags=["study", topic, "automation"],
+        categories=[topic.category],
+        tags=["study", *topic.tags, "automation"],
         content=content,
     )
     state["topic_index"] = (topic_index + 1) % len(STUDY_TOPICS)
@@ -352,3 +408,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
