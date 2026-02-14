@@ -1,31 +1,72 @@
 ---
 layout: default
 ---
-<section class="hero-panel">
-  <p class="kicker">Automation Blog</p>
-  <h1>{{ site.title }}</h1>
-  <p>{{ site.description }}</p>
+{% assign featured = site.posts.first %}
+{% assign latest = site.posts | slice: 1, 12 %}
+
+<section class="hero-grid">
+  <article class="hero-card">
+    <p class="kicker">Hashnode-like Magazine</p>
+    <h1>개발 기록 + 자동화 학습 허브</h1>
+    <p>매일 자동으로 올라오는 AI 뉴스와 스택별 학습 노트를 한 화면에서 확인할 수 있도록 구성했습니다.</p>
+    <div class="hero-chips">
+      <span>AI Daily News</span>
+      <span>Python</span>
+      <span>Next.js</span>
+      <span>Java</span>
+      <span>SQL</span>
+      <span>Data Infra</span>
+    </div>
+  </article>
+  <aside class="stats-card">
+    <h2>Blog Stats</h2>
+    <dl>
+      <div><dt>Total Posts</dt><dd>{{ site.posts | size }}</dd></div>
+      <div><dt>Categories</dt><dd>{{ site.data.sidebar.items | size }}</dd></div>
+      <div>
+        <dt>Last Update</dt>
+        <dd>{% if site.posts.size > 0 %}{{ site.posts.first.date | date: "%Y-%m-%d" }}{% else %}-{% endif %}</dd>
+      </div>
+    </dl>
+  </aside>
 </section>
 
+{% if featured %}
+  <section class="panel featured-panel">
+    <p class="kicker">Featured</p>
+    <a class="featured-title" href="{{ featured.url | relative_url }}">{{ featured.title }}</a>
+    <p class="featured-excerpt">{{ featured.excerpt | strip_html | strip_newlines | truncate: 220 }}</p>
+    <div class="post-meta">
+      <time datetime="{{ featured.date | date_to_xmlschema }}">{{ featured.date | date: "%Y-%m-%d" }}</time>
+      {% if featured.categories and featured.categories.size > 0 %}
+        <span>·</span>
+        <span>{{ featured.categories | join: ", " }}</span>
+      {% endif %}
+    </div>
+  </section>
+{% endif %}
+
 <section class="panel">
-  <h2>Latest Posts</h2>
-  {% if site.posts.size > 0 %}
-    <ul class="post-list">
-      {% for post in site.posts %}
-        <li class="post-card">
+  <div class="section-head">
+    <h2>Latest Posts</h2>
+  </div>
+  {% if latest and latest.size > 0 %}
+    <div class="post-grid">
+      {% for post in latest %}
+        <article class="grid-post">
           <a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          <p class="post-excerpt">{{ post.excerpt | strip_html | strip_newlines | truncate: 130 }}</p>
           <div class="post-meta">
             <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
             {% if post.categories and post.categories.size > 0 %}
               <span>·</span>
-              <span>{{ post.categories | join: ", " }}</span>
+              <span>{{ post.categories | first }}</span>
             {% endif %}
           </div>
-        </li>
+        </article>
       {% endfor %}
-    </ul>
+    </div>
   {% else %}
     <p>아직 게시된 글이 없습니다.</p>
   {% endif %}
 </section>
-

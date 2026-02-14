@@ -1,0 +1,28 @@
+<section class="panel comments-panel">
+  <h2>댓글</h2>
+  {% assign g = site.comments.giscus %}
+  {% if g.repo_id and g.category_id and g.repo_id != "" and g.category_id != "" %}
+    <script
+      src="https://giscus.app/client.js"
+      data-repo="{{ g.repo }}"
+      data-repo-id="{{ g.repo_id }}"
+      data-category="{{ g.category }}"
+      data-category-id="{{ g.category_id }}"
+      data-mapping="{{ g.mapping }}"
+      data-strict="{{ g.strict }}"
+      data-reactions-enabled="{{ g.reactions_enabled }}"
+      data-emit-metadata="{{ g.emit_metadata }}"
+      data-input-position="{{ g.input_position }}"
+      data-theme="{{ g.theme }}"
+      data-lang="{{ g.lang }}"
+      crossorigin="anonymous"
+      async>
+    </script>
+  {% else %}
+    <p>
+      giscus 설정이 아직 완료되지 않았습니다.
+      <code>_config.yml</code>의 <code>comments.giscus.category_id</code>를 채워주세요.
+    </p>
+  {% endif %}
+</section>
+

@@ -8,14 +8,31 @@
     </title>
     <link rel="stylesheet" href="{{ '/assets/site.css' | relative_url }}">
     <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ '/feed.xml' | relative_url }}">
+    <script defer src="{{ '/assets/site.js' | relative_url }}"></script>
   </head>
-  <body>
+  <body data-baseurl="{{ site.baseurl | default: '' }}">
     <div class="site-shell">
       <aside class="sidebar">
-        <a class="brand" href="{{ '/' | relative_url }}">
-          <span class="brand-mark">Q</span>
-          <span class="brand-text">Qoxmfaktmxj Blog</span>
+        <a class="brand" href="{{ '/' | relative_url }}" aria-label="홈으로 이동">
+          <span class="brand-mark">QX</span>
+          <span class="brand-text">
+            <strong>Qoxmfaktmxj</strong>
+            <small>Engineering Notes</small>
+          </span>
         </a>
+
+        <section class="search-block">
+          <label class="search-label" for="site-search-input">Search</label>
+          <input
+            id="site-search-input"
+            class="search-input"
+            type="search"
+            placeholder="제목/본문 검색..."
+            autocomplete="off"
+            spellcheck="false"
+          >
+          <div id="site-search-results" class="search-results" hidden></div>
+        </section>
 
         <nav class="sidebar-nav">
           <a class="sidebar-link {% if page.url == '/' %}is-active{% endif %}" href="{{ '/' | relative_url }}">
@@ -28,6 +45,10 @@
               <span class="count">{{ current_count }}</span>
             </a>
           {% endfor %}
+          <a class="sidebar-link {% if page.url == '/about/' %}is-active{% endif %}" href="{{ '/about/' | relative_url }}">
+            <span>About</span>
+            <span class="count">·</span>
+          </a>
         </nav>
 
         <div class="sidebar-note">

@@ -11,3 +11,4 @@ permalink: /about/
 - 네이버 블로그 아카이브 이전 글 보관
 
 글 생성은 GitHub Actions에서 수행되고, GitHub Pages로 배포됩니다.
+

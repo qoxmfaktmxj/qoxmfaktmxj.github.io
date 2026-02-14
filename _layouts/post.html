@@ -12,7 +12,19 @@ layout: default
         <span>{{ page.categories | join: ", " }}</span>
       {% endif %}
     </div>
+    {% if page.tags and page.tags.size > 0 %}
+      <div class="tag-list">
+        {% for tag in page.tags %}
+          <span class="tag-chip">#{{ tag }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
   </header>
+
   {{ content }}
 </article>
+
+{% if site.comments.giscus.enabled %}
+  {% include comments-giscus.html %}
+{% endif %}
 

@@ -1,23 +1,28 @@
 ---
 layout: default
 ---
-<section class="panel">
+{% assign category_posts = site.categories[page.category_key] %}
+
+<section class="panel category-head">
   <p class="kicker">Category</p>
   <h1>{{ page.title }}</h1>
   {% if page.description %}<p>{{ page.description }}</p>{% endif %}
+  <p class="count-line">총 {{ category_posts | size }}개 글</p>
+</section>
 
-  {% assign category_posts = site.categories[page.category_key] %}
+<section class="panel">
   {% if category_posts and category_posts.size > 0 %}
-    <ul class="post-list">
+    <div class="post-grid">
       {% for post in category_posts %}
-        <li class="post-card">
+        <article class="grid-post">
           <a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          <p class="post-excerpt">{{ post.excerpt | strip_html | strip_newlines | truncate: 140 }}</p>
           <div class="post-meta">
             <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
           </div>
-        </li>
+        </article>
       {% endfor %}
-    </ul>
+    </div>
   {% else %}
     <p>아직 이 카테고리에는 글이 없습니다.</p>
   {% endif %}

@@ -2,7 +2,7 @@ title: Qoxmfaktmxj Blog
 description: "Daily automated AI news and dev study notes"
 url: "https://qoxmfaktmxj.github.io"
 baseurl: ""
-lang: en
+lang: ko
 theme: minima
 plugins:
   - jekyll-feed
@@ -11,3 +11,18 @@ markdown: kramdown
 kramdown:
   input: GFM
 show_excerpts: true
+comments:
+  provider: giscus
+  giscus:
+    enabled: true
+    repo: qoxmfaktmxj/qoxmfaktmxj.github.io
+    repo_id: R_kgDON2U_0Q
+    category: General
+    category_id: ""
+    mapping: pathname
+    strict: "0"
+    reactions_enabled: "1"
+    emit_metadata: "0"
+    input_position: bottom
+    theme: light
+    lang: ko
