@@ -1,0 +1,334 @@
+import json
+import os
+import re
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import List, Tuple
+from zoneinfo import ZoneInfo
+
+import feedparser
+import requests
+
+
+ROOT_DIR = Path(__file__).resolve().parents[1]
+POSTS_DIR = ROOT_DIR / "_posts"
+STATE_FILE = ROOT_DIR / ".automation" / "state.json"
+
+NEWS_FEEDS = [
+    "https://news.google.com/rss/search?q=artificial+intelligence+when:1d&hl=en-US&gl=US&ceid=US:en",
+    "https://techcrunch.com/category/artificial-intelligence/feed/",
+]
+
+STUDY_TOPICS = [
+    "python",
+    "java",
+    "react",
+    "nextjs",
+    "typescript",
+    "fastapi",
+    "sqlmodel",
+    "docker",
+]
+
+DEFAULT_MODEL = "claude-haiku-4-5-20251001"
+
+
+@dataclass
+class NewsItem:
+    title: str
+    url: str
+    source: str
+    published: str
+    ts: float
+
+
+def now_kst() -> datetime:
+    return datetime.now(ZoneInfo("Asia/Seoul"))
+
+
+def load_state() -> dict:
+    if not STATE_FILE.exists():
+        return {"topic_index": 0}
+    try:
+        return json.loads(STATE_FILE.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {"topic_index": 0}
+
+
+def save_state(state: dict) -> None:
+    STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    STATE_FILE.write_text(
+        json.dumps(state, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+
+
+def parse_rss_time(entry: dict) -> float:
+    for key in ("published_parsed", "updated_parsed"):
+        parsed = entry.get(key)
+        if parsed:
+            return datetime(
+                parsed.tm_year,
+                parsed.tm_mon,
+                parsed.tm_mday,
+                parsed.tm_hour,
+                parsed.tm_min,
+                parsed.tm_sec,
+                tzinfo=timezone.utc,
+            ).timestamp()
+    return 0.0
+
+
+def fetch_news_items(limit: int = 8) -> List[NewsItem]:
+    items: List[NewsItem] = []
+    seen_urls = set()
+
+    for feed_url in NEWS_FEEDS:
+        feed = feedparser.parse(feed_url)
+        source_name = feed.feed.get("title", "Unknown source")
+
+        for entry in feed.entries:
+            url = entry.get("link")
+            title = str(entry.get("title", "")).strip()
+            if not url or not title or url in seen_urls:
+                continue
+
+            seen_urls.add(url)
+            items.append(
+                NewsItem(
+                    title=title,
+                    url=url,
+                    source=source_name,
+                    published=str(entry.get("published", entry.get("updated", ""))),
+                    ts=parse_rss_time(entry),
+                )
+            )
+
+    items.sort(key=lambda item: item.ts, reverse=True)
+    return items[:limit]
+
+
+def strip_code_fence(text: str) -> str:
+    text = text.strip()
+    if text.startswith("```"):
+        text = re.sub(r"^```(?:json)?\s*", "", text)
+        text = re.sub(r"\s*```$", "", text)
+    return text.strip()
+
+
+def parse_json_response(text: str) -> Tuple[str, str]:
+    candidate = strip_code_fence(text)
+    try:
+        data = json.loads(candidate)
+    except json.JSONDecodeError:
+        match = re.search(r"\{.*\}", candidate, flags=re.DOTALL)
+        if not match:
+            raise
+        data = json.loads(match.group(0))
+
+    title = str(data.get("title", "")).strip()
+    content = str(data.get("content", "")).strip()
+    if not title or not content:
+        raise ValueError("Model response missing title/content")
+    return title, content
+
+
+def call_claude(system_prompt: str, user_prompt: str) -> str:
+    api_key = os.getenv("ANTHROPIC_API_KEY", "").strip()
+    if not api_key:
+        raise RuntimeError("ANTHROPIC_API_KEY is not set")
+
+    model = os.getenv("ANTHROPIC_MODEL", DEFAULT_MODEL).strip() or DEFAULT_MODEL
+    payload = {
+        "model": model,
+        "max_tokens": 2200,
+        "temperature": 0.4,
+        "system": system_prompt,
+        "messages": [{"role": "user", "content": user_prompt}],
+    }
+    headers = {
+        "x-api-key": api_key,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+    }
+
+    response = requests.post(
+        "https://api.anthropic.com/v1/messages",
+        headers=headers,
+        json=payload,
+        timeout=120,
+    )
+    if not response.ok:
+        raise RuntimeError(f"Anthropic API error: {response.status_code} {response.text}")
+
+    body = response.json()
+    chunks = [
+        part.get("text", "")
+        for part in body.get("content", [])
+        if part.get("type") == "text"
+    ]
+    text = "\n".join(chunks).strip()
+    if not text:
+        raise RuntimeError("Anthropic API returned empty content")
+    return text
+
+
+def build_news_prompt(items: List[NewsItem], today: str) -> str:
+    refs = "\n".join(
+        [
+            f"{idx}. {item.title} | {item.source} | {item.url}"
+            for idx, item in enumerate(items, start=1)
+        ]
+    )
+    return f"""
+Date: {today} (Asia/Seoul)
+
+Write a Korean blog post in Markdown about today's AI news.
+Use only the references below.
+
+References:
+{refs}
+
+Output requirements:
+1) Respond with JSON only.
+2) JSON schema: {{"title":"...","content":"..."}}
+3) content must be valid Markdown (no code fences).
+4) Include:
+   - short intro
+   - "Top News" section with at least 5 bullets
+   - "What This Means for Developers" section
+   - "Source Links" section with the URLs
+5) Keep a practical, concise tone.
+""".strip()
+
+
+def build_study_prompt(topic: str, today: str) -> str:
+    return f"""
+Date: {today} (Asia/Seoul)
+Topic: {topic}
+
+Write a Korean daily study post in Markdown for developers.
+
+Output requirements:
+1) Respond with JSON only.
+2) JSON schema: {{"title":"...","content":"..."}}
+3) content must be valid Markdown (no code fences).
+4) Include:
+   - Why this topic matters in real projects
+   - Core concepts (3-5 bullets)
+   - Hands-on mini example (code block allowed inside Markdown)
+   - Common mistakes
+   - One-day practice checklist
+5) Keep it practical and focused.
+""".strip()
+
+
+def quote_yaml(value: str) -> str:
+    return value.replace('"', '\\"')
+
+
+def write_post_file(
+    path: Path,
+    title: str,
+    now: datetime,
+    categories: List[str],
+    tags: List[str],
+    content: str,
+) -> None:
+    frontmatter = (
+        "---\n"
+        "layout: post\n"
+        f'title: "{quote_yaml(title)}"\n'
+        f"date: {now.strftime('%Y-%m-%d %H:%M:%S %z')}\n"
+        f"categories: [{', '.join(categories)}]\n"
+        f"tags: [{', '.join(tags)}]\n"
+        "---\n\n"
+    )
+    path.write_text(frontmatter + content.strip() + "\n", encoding="utf-8")
+
+
+def create_news_post(now: datetime) -> bool:
+    date_str = now.strftime("%Y-%m-%d")
+    post_path = POSTS_DIR / f"{date_str}-ai-news-daily.md"
+    if post_path.exists():
+        print(f"Skip news post. Already exists: {post_path.name}")
+        return False
+
+    items = fetch_news_items(limit=8)
+    if not items:
+        print("No RSS items found. Skip news post.")
+        return False
+
+    system_prompt = (
+        "You are a technical blog writer. "
+        "You return strict JSON exactly matching requested schema."
+    )
+    model_output = call_claude(
+        system_prompt=system_prompt,
+        user_prompt=build_news_prompt(items=items, today=date_str),
+    )
+    title, content = parse_json_response(model_output)
+    write_post_file(
+        path=post_path,
+        title=title,
+        now=now,
+        categories=["ai-news"],
+        tags=["ai", "news", "automation"],
+        content=content,
+    )
+    print(f"Created: {post_path.name}")
+    return True
+
+
+def create_study_post(now: datetime, state: dict) -> bool:
+    topic_index = int(state.get("topic_index", 0)) % len(STUDY_TOPICS)
+    topic = STUDY_TOPICS[topic_index]
+    date_str = now.strftime("%Y-%m-%d")
+    post_path = POSTS_DIR / f"{date_str}-study-{topic}.md"
+    if post_path.exists():
+        print(f"Skip study post. Already exists: {post_path.name}")
+        return False
+
+    system_prompt = (
+        "You are a senior software engineer writing practical study guides. "
+        "You return strict JSON exactly matching requested schema."
+    )
+    model_output = call_claude(
+        system_prompt=system_prompt,
+        user_prompt=build_study_prompt(topic=topic, today=date_str),
+    )
+    title, content = parse_json_response(model_output)
+    write_post_file(
+        path=post_path,
+        title=title,
+        now=now,
+        categories=["study"],
+        tags=["study", topic, "automation"],
+        content=content,
+    )
+    state["topic_index"] = (topic_index + 1) % len(STUDY_TOPICS)
+    print(f"Created: {post_path.name}")
+    return True
+
+
+def main() -> None:
+    POSTS_DIR.mkdir(parents=True, exist_ok=True)
+    state = load_state()
+    now = now_kst()
+
+    created_news = create_news_post(now)
+    created_study = create_study_post(now, state)
+
+    if created_study:
+        save_state(state)
+
+    if not (created_news or created_study):
+        print("No new posts created.")
+    else:
+        print("Post generation completed.")
+
+
+if __name__ == "__main__":
+    main()
+
