@@ -3,6 +3,7 @@ description: "Daily automated AI news and dev study notes"
 url: "https://qoxmfaktmxj.github.io"
 baseurl: ""
 lang: ko
+timezone: Asia/Seoul
 theme: minima
 plugins:
   - jekyll-feed
@@ -18,11 +19,11 @@ comments:
     repo: qoxmfaktmxj/qoxmfaktmxj.github.io
     repo_id: R_kgDON2U_0Q
     category: General
-    category_id: ""
+    category_id: DIC_kwDON2U_0c4C2bCZ
     mapping: pathname
     strict: "0"
     reactions_enabled: "1"
     emit_metadata: "0"
-    input_position: bottom
-    theme: light
+    input_position: top
+    theme: preferred_color_scheme
     lang: ko
