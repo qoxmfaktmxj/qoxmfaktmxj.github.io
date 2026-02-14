@@ -25,6 +25,16 @@ jobs:
       - name: Install dependencies
         run: pip install -r scripts/requirements.txt
 
+      - name: Validate Anthropic secret
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::error::ANTHROPIC_API_KEY is missing. Add it in Settings -> Secrets and variables -> Actions -> Repository secrets."
+            exit 1
+          fi
+          echo "ANTHROPIC_API_KEY is set."
+
       - name: Generate posts
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -42,4 +52,3 @@ jobs:
           else
             echo "No changes to commit."
           fi
-

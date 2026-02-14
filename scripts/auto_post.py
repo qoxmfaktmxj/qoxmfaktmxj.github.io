@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import traceback
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -317,18 +318,37 @@ def main() -> None:
     state = load_state()
     now = now_kst()
 
-    created_news = create_news_post(now)
-    created_study = create_study_post(now, state)
+    created_news = False
+    created_study = False
+    errors: List[str] = []
+
+    try:
+        created_news = create_news_post(now)
+    except Exception as exc:
+        errors.append(f"news: {exc}")
+        traceback.print_exc()
+
+    try:
+        created_study = create_study_post(now, state)
+    except Exception as exc:
+        errors.append(f"study: {exc}")
+        traceback.print_exc()
 
     if created_study:
         save_state(state)
 
+    if errors:
+        print("Generation errors:")
+        for err in errors:
+            print(f"- {err}")
+
     if not (created_news or created_study):
         print("No new posts created.")
+        if errors:
+            raise SystemExit(1)
     else:
         print("Post generation completed.")
 
 
 if __name__ == "__main__":
     main()
-
