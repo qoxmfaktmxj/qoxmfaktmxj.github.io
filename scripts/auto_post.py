@@ -277,6 +277,7 @@ Output requirements:
    - "What This Means for Developers" section
    - "Source Links" section with the URLs
 5) Keep a practical, concise tone.
+6) Do NOT include any "팁" or "Tip" section. Do NOT add motivational closing remarks.
 """.strip()
 
 
@@ -299,6 +300,7 @@ Output requirements:
    - Common mistakes
    - One-day practice checklist
 5) Keep it practical and focused.
+6) Do NOT include any "팁" or "Tip" section at the end. Do NOT add motivational closing remarks or preview of next day's topic.
 """.strip()
 
 
