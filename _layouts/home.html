@@ -1,8 +1,9 @@
 ---
 layout: default
 ---
-{% assign featured = site.posts.first %}
-{% assign latest = site.posts | slice: 1, 12 %}
+{% assign all_filtered = site.posts | where_exp: "post", "post.categories contains 'english' == false" %}
+{% assign featured = all_filtered.first %}
+{% assign latest = all_filtered | slice: 1, 12 %}
 
 <section class="hero-grid">
   <article class="hero-card">
@@ -48,7 +49,7 @@ layout: default
 
 <section class="panel">
   <div class="section-head">
-    <h2>Latest Posts</h2>
+    <h2>최근 글</h2>
   </div>
   {% if latest and latest.size > 0 %}
     <div class="post-grid">
