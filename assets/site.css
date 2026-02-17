@@ -1,16 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Pretendard:wght@400;500;600;700&display=swap");
 
 :root {
-  --bg: #f2f2f2;
-  --ink: #121212;
-  --muted: #666666;
-  --line: #d6d6d6;
-  --card: #ffffff;
-  --brand: #000000;
-  --brand-deep: #000000;
-  --nav-bg: #111111;
+  --bg: #F7F0F0;
+  --ink: #484349;
+  --muted: #7a7279;
+  --line: #d6cfd0;
+  --card: #fffafa;
+  --brand: #484349;
+  --brand-deep: #484349;
+  --nav-bg: #484349;
   --nav-ink: #e8e8e8;
-  --chip: #ededed;
+  --chip: #efe8e8;
 }
 
 * {
@@ -21,7 +21,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: radial-gradient(circle at 70% -10%, #ffffff 0, transparent 40%), var(--bg);
+  background: radial-gradient(circle at 70% -10%, #fffafa 0, transparent 40%), var(--bg);
   color: var(--ink);
   font-family: "Pretendard", "Noto Sans KR", system-ui, sans-serif;
   line-height: 1.7;
@@ -48,7 +48,7 @@ a:hover {
   align-self: start;
   min-height: 100vh;
   padding: 22px 18px;
-  background: linear-gradient(180deg, #0f0f0f 0%, #1a1a1a 100%);
+  background: linear-gradient(180deg, #484349 0%, #5a5258 100%);
   color: var(--nav-ink);
   border-right: 1px solid rgba(255, 255, 255, 0.12);
 }
@@ -73,8 +73,8 @@ a:hover {
   place-items: center;
   font-family: "Space Grotesk", sans-serif;
   font-weight: 700;
-  background: #ffffff;
-  color: #000000;
+  background: #F7F0F0;
+  color: #484349;
 }
 
 .brand-text {
@@ -106,10 +106,10 @@ a:hover {
 
 .search-input {
   width: 100%;
-  border: 1px solid #434343;
+  border: 1px solid #5a5258;
   border-radius: 12px;
   padding: 10px 12px;
-  background: #202020;
+  background: #3d373e;
   color: #f1f1f1;
   font-size: 0.92rem;
   outline: none;
@@ -130,8 +130,8 @@ a:hover {
   overflow: auto;
   z-index: 40;
   border-radius: 14px;
-  border: 1px solid #3a3a3a;
-  background: #1b1b1b;
+  border: 1px solid #5a5258;
+  background: #3d373e;
   box-shadow: 0 14px 30px rgba(2, 8, 20, 0.45);
 }
 
@@ -139,7 +139,7 @@ a:hover {
   display: grid;
   gap: 2px;
   padding: 10px 12px;
-  border-bottom: 1px solid #2f2f2f;
+  border-bottom: 1px solid #5a5258;
   color: #d9d9d9;
 }
 
@@ -178,7 +178,7 @@ a:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #373737;
+  border: 1px solid #6a636b;
   border-radius: 12px;
   padding: 10px 12px;
   color: #dddddd;
@@ -187,12 +187,12 @@ a:hover {
 
 .sidebar-link:hover {
   text-decoration: none;
-  background: #262626;
+  background: #5a5258;
 }
 
 .sidebar-link.is-active {
-  background: linear-gradient(145deg, #2d2d2d 0%, #3a3a3a 100%);
-  border-color: #666666;
+  background: linear-gradient(145deg, #5a5258 0%, #6a636b 100%);
+  border-color: #847d85;
 }
 
 .count {
@@ -206,7 +206,7 @@ a:hover {
   margin-top: 20px;
   padding: 12px 13px;
   border-radius: 13px;
-  border: 1px solid #3f3f3f;
+  border: 1px solid #6a636b;
   background: rgba(255, 255, 255, 0.04);
 }
 
@@ -244,7 +244,7 @@ a:hover {
   border-radius: 18px;
   padding: 24px;
   color: #f6f6f6;
-  background: linear-gradient(130deg, #0f0f0f 0%, #252525 55%, #3a3a3a 100%);
+  background: linear-gradient(130deg, #484349 0%, #5a5258 55%, #6a636b 100%);
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.32);
 }
 
@@ -278,8 +278,8 @@ a:hover {
 .stats-card {
   border-radius: 18px;
   padding: 18px;
-  background: linear-gradient(180deg, #ffffff 0%, #f4f4f4 100%);
-  border: 1px solid #d8d8d8;
+  background: linear-gradient(180deg, #fffafa 0%, #F7F0F0 100%);
+  border: 1px solid #d6cfd0;
 }
 
 .stats-card h2 {
@@ -320,7 +320,7 @@ h1,
 h2,
 h3 {
   margin-top: 0;
-  color: #111111;
+  color: #484349;
   font-family: "Space Grotesk", sans-serif;
   line-height: 1.25;
 }
@@ -342,7 +342,7 @@ h3 {
 
 .featured-excerpt {
   margin-top: 0;
-  color: #555555;
+  color: #7a7279;
 }
 
 .post-grid {
@@ -352,17 +352,17 @@ h3 {
 }
 
 .grid-post {
-  border: 1px solid #d9d9d9;
+  border: 1px solid #d6cfd0;
   border-radius: 14px;
   padding: 14px;
-  background: linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
+  background: linear-gradient(180deg, #fffafa 0%, #F7F0F0 100%);
 }
 
 .post-title {
   display: inline-block;
   font-size: 1.06rem;
   font-weight: 700;
-  color: #111111;
+  color: #484349;
 }
 
 .post-excerpt {
@@ -393,7 +393,7 @@ h3 {
   border-radius: 999px;
   padding: 4px 9px;
   font-size: 0.77rem;
-  color: #1d1d1d;
+  color: #484349;
   background: var(--chip);
 }
 
@@ -409,7 +409,7 @@ h3 {
 }
 
 code {
-  background: #efefef;
+  background: #efe8e8;
   border-radius: 6px;
   padding: 0.12em 0.35em;
 }
@@ -418,7 +418,7 @@ pre {
   overflow-x: auto;
   border-radius: 12px;
   padding: 14px;
-  background: #f0f0f0;
+  background: #efe8e8;
 }
 
 .comments-panel h2 {
