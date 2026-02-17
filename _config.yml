@@ -12,6 +12,7 @@ markdown: kramdown
 kramdown:
   input: GFM
 show_excerpts: true
+future: true
 comments:
   provider: giscus
   giscus:
