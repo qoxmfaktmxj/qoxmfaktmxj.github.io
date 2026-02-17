@@ -17,4 +17,7 @@ items:
   - key: data-infra
     label: Data Infra
     path: /categories/data-infra/
+  - key: english
+    label: English
+    path: /categories/english/
 
