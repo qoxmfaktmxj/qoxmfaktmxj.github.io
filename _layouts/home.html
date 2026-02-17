@@ -1,9 +1,13 @@
 ---
 layout: default
 ---
-{% assign all_filtered = site.posts | where_exp: "post", "post.categories contains 'english' == false" %}
-{% assign featured = all_filtered.first %}
-{% assign latest = all_filtered | slice: 1, 12 %}
+{% assign featured = nil %}
+{% for post in site.posts %}
+  {% unless post.categories contains 'english' %}
+    {% assign featured = post %}
+    {% break %}
+  {% endunless %}
+{% endfor %}
 
 <section class="hero-grid">
   <article class="hero-card">
@@ -51,21 +55,33 @@ layout: default
   <div class="section-head">
     <h2>최근 글</h2>
   </div>
-  {% if latest and latest.size > 0 %}
+  {% assign latest_count = 0 %}
+  {% capture latest_items %}
+    {% for post in site.posts %}
+      {% if latest_count >= 12 %}
+        {% break %}
+      {% endif %}
+      {% unless post.categories contains 'english' %}
+        {% if featured == nil or post.url != featured.url %}
+          {% assign latest_count = latest_count | plus: 1 %}
+          <article class="grid-post">
+            <a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+            <p class="post-excerpt">{{ post.excerpt | strip_html | strip_newlines | truncate: 130 }}</p>
+            <div class="post-meta">
+              <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+              {% if post.categories and post.categories.size > 0 %}
+                <span>·</span>
+                <span>{{ post.categories | first }}</span>
+              {% endif %}
+            </div>
+          </article>
+        {% endif %}
+      {% endunless %}
+    {% endfor %}
+  {% endcapture %}
+  {% if latest_count > 0 %}
     <div class="post-grid">
-      {% for post in latest %}
-        <article class="grid-post">
-          <a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
-          <p class="post-excerpt">{{ post.excerpt | strip_html | strip_newlines | truncate: 130 }}</p>
-          <div class="post-meta">
-            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
-            {% if post.categories and post.categories.size > 0 %}
-              <span>·</span>
-              <span>{{ post.categories | first }}</span>
-            {% endif %}
-          </div>
-        </article>
-      {% endfor %}
+      {{ latest_items }}
     </div>
   {% else %}
     <p>아직 게시된 글이 없습니다.</p>
