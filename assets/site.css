@@ -9,7 +9,7 @@
   --brand: #4062BB;
   --brand-deep: #4062BB;
   --nav-bg: #4062BB;
-  --nav-ink: #e8e8e8;
+  --nav-ink: #ffffff;
   --chip: #dde3f0;
 }
 
@@ -89,7 +89,7 @@ a:hover {
 
 .brand-text small {
   font-size: 0.77rem;
-  color: #b8c4e0;
+  color: #ffffff;
 }
 
 .search-block {
@@ -101,7 +101,7 @@ a:hover {
   display: block;
   margin-bottom: 7px;
   font-size: 0.82rem;
-  color: #b8c4e0;
+  color: #ffffff;
 }
 
 .search-input {
@@ -181,25 +181,27 @@ a:hover {
   border: 1px solid #6880c8;
   border-radius: 12px;
   padding: 10px 12px;
-  color: #e0e4f0;
+  color: #ffffff;
   font-size: 0.93rem;
 }
 
 .sidebar-link:hover {
   text-decoration: none;
   background: #5474c7;
+  color: #ffffff;
 }
 
 .sidebar-link.is-active {
   background: linear-gradient(145deg, #5474c7 0%, #6880c8 100%);
   border-color: #8ea4d8;
+  color: #ffffff;
 }
 
 .count {
   min-width: 2ch;
   text-align: right;
   font-family: "Space Grotesk", sans-serif;
-  color: #c5cde0;
+  color: #ffffff;
 }
 
 .sidebar-note {
@@ -213,11 +215,11 @@ a:hover {
 .sidebar-note p {
   margin: 0;
   font-weight: 700;
-  color: #f3f3f8;
+  color: #ffffff;
 }
 
 .sidebar-note small {
-  color: #b8c4e0;
+  color: #ffffff;
 }
 
 .main-content {
