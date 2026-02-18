@@ -21,7 +21,9 @@ layout: default
     {% endif %}
   </header>
 
-  {{ content }}
+  <div class="post-body">
+    {{ content }}
+  </div>
 </article>
 
 {% if site.comments.giscus.enabled %}

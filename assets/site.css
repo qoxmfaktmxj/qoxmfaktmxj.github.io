@@ -422,8 +422,30 @@ h3 {
 }
 
 /* layout title(h1)와 본문 첫 h1 중복으로 생기는 상단 간격/크기 차이 방지 */
-.post-content > h1:first-of-type {
+.post-body > h1:first-child,
+.post-body > h1:first-of-type {
   display: none;
+}
+
+/* 본문 타이포 간격 통일 (카테고리별 생성 포맷 차이 완화) */
+.post-body p,
+.post-body li {
+  line-height: 1.75;
+  font-size: 1rem;
+}
+
+.post-body h2 {
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+}
+
+.post-body h3 {
+  margin-top: 1em;
+  margin-bottom: 0.45em;
+}
+
+.post-body pre {
+  margin: 12px 0;
 }
 
 code {
