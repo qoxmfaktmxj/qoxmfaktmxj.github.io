@@ -43,7 +43,3 @@ tags: [ai, news, automation]
 - [Indian AI lab Sarvam's new models are a major bet on the viability of open-source AI - TechCrunch](https://techcrunch.com/2026/02/18/indian-ai-lab-sarvams-new-models-are-a-major-bet-on-the-viability-of-open-source-ai/)
 - [Google’s AI music maker is coming to the Gemini app - The Verge](https://www.theverge.com/ai-artificial-intelligence/880584/google-gemini-ai-music-maker-lyria-3-beta)
 - [Perplexity joins anti-ad camp as AI companies battle over trust and revenue - The Verge](https://www.theverge.com/ai-artificial-intelligence/880562/perplexity-ditches-ai-ads)
-
----
-
-본 포스트는 **외부 API Key 없이 RSS 피드 기반으로 수집/정리**했습니다.
