@@ -31,7 +31,7 @@
 3. 배포
 - `main` 또는 `master` 브랜치에 push
 - `pages-deploy.yml`: 사이트 배포
-- `auto-post.yml`: 매일 `00:15 UTC` 자동 실행 + 수동 실행 가능
+- `auto-post.yml`: 매일 `00:00 UTC` 자동 실행 (= KST 09:00) + 수동 실행 가능
 
 ## 댓글(giscus) 설정
 
