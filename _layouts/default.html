@@ -48,7 +48,8 @@
 
         <nav class="sidebar-nav">
           <a class="sidebar-link {% if page.url == '/' %}is-active{% endif %}" href="{{ '/' | relative_url }}">
-            Home
+            <span>Home</span>
+            <span class="count">·</span>
           </a>
           {% for item in site.data.sidebar.items %}
             {% assign current_count = site.categories[item.key] | size %}

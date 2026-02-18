@@ -51,6 +51,7 @@ a:hover {
   background: linear-gradient(180deg, #4062BB 0%, #5474c7 100%);
   color: var(--nav-ink);
   border-right: 1px solid rgba(255, 255, 255, 0.12);
+  overflow-x: hidden;
 }
 
 .brand {
@@ -175,14 +176,23 @@ a:hover {
 }
 
 .sidebar-link {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
+  column-gap: 10px;
+  width: 100%;
   border: 1px solid #6880c8;
   border-radius: 12px;
   padding: 10px 12px;
   color: #ffffff;
   font-size: 0.93rem;
+}
+
+.sidebar-link > span:first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .sidebar-link:hover {
