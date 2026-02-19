@@ -278,6 +278,14 @@ Output requirements:
    - "Source Links" section with the URLs
 5) Keep a practical, concise tone.
 6) Do NOT include any "팁" or "Tip" section. Do NOT add motivational closing remarks.
+
+Mobile-friendly formatting rules (MUST follow):
+- Keep paragraphs short: max 2-3 sentences per paragraph.
+- For bullet points, use bold title on one line, then description on the next line. Example:
+  - **Title here**
+    Description text here.
+- Never write a bullet as a single long sentence. Always split title and detail.
+- If any code is included, always use fenced code blocks (```language), never 4-space indent.
 """.strip()
 
 
@@ -301,6 +309,16 @@ Output requirements:
    - One-day practice checklist
 5) Keep it practical and focused.
 6) Do NOT include any "팁" or "Tip" section at the end. Do NOT add motivational closing remarks or preview of next day's topic.
+
+Mobile-friendly formatting rules (MUST follow):
+- Keep paragraphs short: max 2-3 sentences per paragraph. Break long paragraphs into multiple short ones.
+- For bullet points, use bold title on one line, then description on the next line. Example:
+  - **Title here**
+    Description text here.
+- Never write a bullet as a single long sentence. Always split title and detail.
+- Always use fenced code blocks (```language), NEVER use 4-space indented code blocks.
+- If a code example is longer than 15 lines, split it into multiple separate fenced code blocks with a short explanation between each block.
+- For "Common mistakes" section, format each item as a bold title + newline + description, not a single long line.
 """.strip()
 
 

@@ -49,9 +49,53 @@ def normalize_ws(text: str) -> str:
     return re.sub(r"\s+", " ", text or "").strip()
 
 
+def convert_indented_code_to_fenced(text: str) -> str:
+    """Convert 4-space indented code blocks to fenced code blocks for mobile readability."""
+    lines = text.split("\n")
+    result: list[str] = []
+    code_lines: list[str] = []
+    in_code = False
+
+    for line in lines:
+        is_code_line = line.startswith("    ") and line.strip()
+        is_blank = not line.strip()
+
+        if is_code_line:
+            if not in_code:
+                in_code = True
+                code_lines = []
+            code_lines.append(line[4:])
+        elif is_blank and in_code:
+            code_lines.append("")
+        else:
+            if in_code:
+                # Remove trailing blank lines from code block
+                while code_lines and not code_lines[-1].strip():
+                    code_lines.pop()
+                if code_lines:
+                    result.append("```")
+                    result.extend(code_lines)
+                    result.append("```")
+                in_code = False
+                code_lines = []
+            result.append(line)
+
+    if in_code and code_lines:
+        while code_lines and not code_lines[-1].strip():
+            code_lines.pop()
+        if code_lines:
+            result.append("```")
+            result.extend(code_lines)
+            result.append("```")
+
+    return "\n".join(result)
+
+
 def sanitize_markdown(text: str) -> str:
     text = text.replace("\u200b", "").replace("\ufeff", "")
-    return re.sub(r"\n{3,}", "\n\n", text).strip()
+    text = re.sub(r"\n{3,}", "\n\n", text).strip()
+    text = convert_indented_code_to_fenced(text)
+    return text
 
 
 def classify_category(title: str, category: str, content_text: str) -> str:
