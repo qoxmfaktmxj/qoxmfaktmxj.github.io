@@ -8,15 +8,24 @@ tags: [study, sql, oracle, database, automation]
 
 ## 왜 Oracle SQL을 제대로 알아야 할까?
 
-금융, 통신, 공공기관 등 대규모 엔터프라이즈 시스템의 대부분이 Oracle 데이터베이스를 사용합니다. 효율적인 쿼리 작성은 시스템 성능에 직결되며, 잘못된 SQL은 전체 애플리케이션을 느리게 만듭니다. 특히 대용량 데이터 처리에서 인덱스 활용과 쿼리 최적화는 필수 스킬입니다.
+금융, 통신, 공공기관 등 대규모 엔터프라이즈 시스템의 대부분이 Oracle 데이터베이스를 사용합니다.
+
+효율적인 쿼리 작성은 시스템 성능에 직결되며, 잘못된 SQL은 전체 애플리케이션을 느리게 만듭니다.
+특히 대용량 데이터 처리에서 인덱스 활용과 쿼리 최적화는 필수 스킬입니다.
 
 ## 핵심 개념 5가지
 
-- **SELECT 문의 실행 순서**: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY 순서로 실행되므로, 이를 이해해야 성능 최적화가 가능합니다
-- **인덱스 활용**: WHERE 절에서 인덱스 컬럼을 올바르게 사용하면 쿼리 속도가 수십 배 향상될 수 있습니다
-- **조인(JOIN) 전략**: INNER JOIN, LEFT JOIN, RIGHT JOIN의 차이를 정확히 이해하고 필요한 조인 타입을 선택해야 합니다
-- **집계 함수와 GROUP BY**: COUNT, SUM, AVG 등을 GROUP BY와 함께 사용할 때 NULL 처리와 HAVING 절의 역할을 명확히 해야 합니다
-- **서브쿼리와 WITH 절**: 복잡한 쿼리는 CTE(Common Table Expression)를 사용해 가독성과 유지보수성을 높일 수 있습니다
+- **SELECT 문의 실행 순서**
+  FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY.
+  이 순서를 이해해야 성능 최적화가 가능합니다
+- **인덱스 활용**
+  WHERE 절에서 인덱스 컬럼을 올바르게 사용하면 쿼리 속도가 수십 배 향상됩니다
+- **조인(JOIN) 전략**
+  INNER, LEFT, RIGHT JOIN의 차이를 정확히 이해하고 필요한 타입을 선택해야 합니다
+- **집계 함수와 GROUP BY**
+  COUNT, SUM, AVG 등을 GROUP BY와 함께 사용할 때 NULL 처리와 HAVING 절의 역할을 명확히 해야 합니다
+- **서브쿼리와 WITH 절**
+  복잡한 쿼리는 CTE를 사용해 가독성과 유지보수성을 높일 수 있습니다
 
 ## 실습 예제: 부서별 평균 급여 조회
 

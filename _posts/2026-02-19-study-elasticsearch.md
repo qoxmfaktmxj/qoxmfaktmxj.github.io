@@ -8,60 +8,81 @@ tags: [study, elasticsearch, search, infra, automation]
 
 ## 왜 Elasticsearch를 배워야 할까?
 
-실제 프로젝트에서 데이터베이스만으로는 빠른 검색과 복잡한 쿼리를 처리하기 어렵습니다. Elasticsearch는 대규모 데이터셋에서 밀리초 단위의 검색 응답을 제공하며, 로그 분석, 전문 검색(full-text search), 실시간 분석 등 데이터 인프라의 핵심 역할을 합니다. Netflix, Uber, Airbnb 같은 대규모 서비스들이 모두 Elasticsearch를 운영 중입니다.
+실제 프로젝트에서 데이터베이스만으로는 빠른 검색과 복잡한 쿼리를 처리하기 어렵습니다.
+
+Elasticsearch는 대규모 데이터셋에서 밀리초 단위의 검색 응답을 제공하며, 로그 분석, 전문 검색, 실시간 분석 등 데이터 인프라의 핵심 역할을 합니다.
+Netflix, Uber, Airbnb 같은 대규모 서비스들이 모두 운영 중입니다.
 
 ## 핵심 개념
 
-- **클러스터(Cluster)**: 여러 노드로 구성된 Elasticsearch 인스턴스 그룹. 데이터 분산 저장과 고가용성을 제공합니다.
-- **인덱스(Index)**: 관계형 데이터베이스의 테이블과 유사한 개념. 문서들의 논리적 그룹입니다.
-- **문서(Document)**: JSON 형식의 데이터 단위. 각 문서는 고유한 ID를 가집니다.
-- **샤드(Shard)**: 인덱스를 분할한 물리적 단위. 병렬 처리와 확장성을 제공합니다.
-- **매핑(Mapping)**: 문서의 필드 타입과 분석 방식을 정의하는 스키마입니다.
+- **클러스터(Cluster)**
+  여러 노드로 구성된 Elasticsearch 인스턴스 그룹.
+  데이터 분산 저장과 고가용성을 제공합니다.
+- **인덱스(Index)**
+  관계형 데이터베이스의 테이블과 유사한 개념. 문서들의 논리적 그룹입니다.
+- **문서(Document)**
+  JSON 형식의 데이터 단위. 각 문서는 고유한 ID를 가집니다.
+- **샤드(Shard)**
+  인덱스를 분할한 물리적 단위. 병렬 처리와 확장성을 제공합니다.
+- **매핑(Mapping)**
+  문서의 필드 타입과 분석 방식을 정의하는 스키마입니다.
 
 ## 실습: 기본 CRUD 작업
 
 먼저 Elasticsearch가 실행 중이라고 가정합니다(기본 포트: 9200).
 
-    # 1. 인덱스 생성
-    curl -X PUT "localhost:9200/products" -H 'Content-Type: application/json' -d'{
-      "settings": {
-        "number_of_shards": 1,
-        "number_of_replicas": 0
-      },
-      "mappings": {
-        "properties": {
-          "name": {"type": "text"},
-          "price": {"type": "integer"},
-          "category": {"type": "keyword"}
-        }
-      }
-    }'
+```bash
+# 1. 인덱스 생성
+curl -X PUT "localhost:9200/products" \
+  -H 'Content-Type: application/json' -d'
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "properties": {
+      "name": {"type": "text"},
+      "price": {"type": "integer"},
+      "category": {"type": "keyword"}
+    }
+  }
+}'
+```
 
-    # 2. 문서 추가
-    curl -X POST "localhost:9200/products/_doc" -H 'Content-Type: application/json' -d'{
-      "name": "무선 이어폰",
-      "price": 89000,
-      "category": "electronics"
-    }'
+```bash
+# 2. 문서 추가
+curl -X POST "localhost:9200/products/_doc" \
+  -H 'Content-Type: application/json' -d'
+{
+  "name": "무선 이어폰",
+  "price": 89000,
+  "category": "electronics"
+}'
+```
 
-    # 3. 검색 쿼리
-    curl -X GET "localhost:9200/products/_search" -H 'Content-Type: application/json' -d'{
-      "query": {
-        "match": {
-          "name": "이어폰"
-        }
-      }
-    }'
+```bash
+# 3. 검색 쿼리
+curl -X GET "localhost:9200/products/_search" \
+  -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "match": { "name": "이어폰" }
+  }
+}'
+```
 
-    # 4. 문서 업데이트
-    curl -X POST "localhost:9200/products/_doc/1/_update" -H 'Content-Type: application/json' -d'{
-      "doc": {
-        "price": 79000
-      }
-    }'
+```bash
+# 4. 문서 업데이트
+curl -X POST "localhost:9200/products/_doc/1/_update" \
+  -H 'Content-Type: application/json' -d'
+{
+  "doc": { "price": 79000 }
+}'
 
-    # 5. 문서 삭제
-    curl -X DELETE "localhost:9200/products/_doc/1"
+# 5. 문서 삭제
+curl -X DELETE "localhost:9200/products/_doc/1"
+```
 
 ## 자주 하는 실수
 

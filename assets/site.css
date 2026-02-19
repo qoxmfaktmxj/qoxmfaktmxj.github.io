@@ -468,6 +468,30 @@ h3 {
   word-break: break-word;
 }
 
+/* 긴 불릿 포인트 가독성: 항목 간 간격 확보 */
+.post-body ul,
+.post-body ol {
+  padding-left: 1.4em;
+}
+
+.post-body li {
+  margin-bottom: 0.4em;
+}
+
+.post-body li > strong:first-child {
+  display: inline;
+}
+
+/* 인라인 코드: 모바일에서 줄바꿈 허용 */
+.post-body code {
+  word-break: break-all;
+}
+
+/* 체크리스트 간격 */
+.post-body ul li input[type="checkbox"] {
+  margin-right: 0.4em;
+}
+
 .post-body pre {
   margin: 12px 0;
 }
@@ -574,6 +598,21 @@ pre code {
   .post-body th,
   .post-body td {
     padding: 6px 8px;
+  }
+
+  /* 모바일 본문 가독성 */
+  .post-body ul,
+  .post-body ol {
+    padding-left: 1.2em;
+  }
+
+  .post-body li {
+    margin-bottom: 0.5em;
+  }
+
+  /* 긴 불릿 텍스트 줄간격 확보 */
+  .post-body li p {
+    margin: 0.3em 0;
   }
 }
 
