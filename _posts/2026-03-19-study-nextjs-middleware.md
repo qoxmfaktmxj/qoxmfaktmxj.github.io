@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Next.js Middleware 실전: 인증 게이트, A/B 테스트, 지역화 구현"
-date: 2026-03-19 11:00:00 +0900
+date: 2026-03-19 14:00:00 +0900
 categories: [nextjs]
 tags: [study, nextjs, middleware, auth, ab-test, i18n, edge]
 ---

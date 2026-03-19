@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Next.js Server Actions 실전 가이드: 폼 처리부터 낙관적 업데이트까지"
-date: 2026-03-19 09:00:00 +0900
+date: 2026-03-19 12:00:00 +0900
 categories: [nextjs]
 tags: [study, nextjs, server-actions, form, optimistic-update, react19]
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Next.js 데이터 페칭 패턴 비교: fetch, React Query, SWR 언제 뭘 쓸까"
-date: 2026-03-19 10:00:00 +0900
+date: 2026-03-19 13:00:00 +0900
 categories: [nextjs]
 tags: [study, nextjs, data-fetching, react-query, swr, server-component, cache]
 ---
