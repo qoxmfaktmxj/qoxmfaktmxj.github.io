@@ -6,8 +6,7 @@ categories: [ai]
 tags: [ai, harness-engineering, codex, claude-code, setup, report, software-engineering]
 ---
 
-> 원본 문서: `C:\Users\kms\Desktop\dev\EHR_6\docs\HARNESS-SETUP-REPORT.md`
-> 게시 목적: EHR6 저장소의 하네스 엔지니어링 세팅 상태를 블로그용으로 정리
+> EHR6 저장소의 하네스 엔지니어링 세팅 상태 예시 파일을 위해 게시
 
 # EHR6 하네스 엔지니어링 세팅 점검 보고서
 
