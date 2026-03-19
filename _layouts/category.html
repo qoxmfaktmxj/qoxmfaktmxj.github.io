@@ -3,7 +3,7 @@ layout: default
 ---
 {% assign category_posts = site.categories[page.category_key] %}
 
-<section class="panel category-head">
+<section class="panel category-head" data-category="{{ page.category_key }}">
   <p class="kicker">Category</p>
   <h1>{{ page.title }}</h1>
   {% if page.description %}<p>{{ page.description }}</p>{% endif %}
@@ -14,7 +14,9 @@ layout: default
   {% if category_posts and category_posts.size > 0 %}
     <div class="post-grid">
       {% for post in category_posts %}
-        <article class="grid-post">
+        {% assign post_cat = post.categories | first | downcase | replace: ' ', '-' %}
+        <article class="grid-post" data-category="{{ post_cat }}">
+          <span class="post-badge">{{ post.categories | first }}</span>
           <a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
           <p class="post-excerpt">{{ post.excerpt | strip_html | strip_newlines | truncate: 140 }}</p>
           <div class="post-meta">
