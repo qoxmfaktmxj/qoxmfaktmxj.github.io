@@ -2,7 +2,7 @@
 layout: post
 title: "에이전틱 엔지니어링 핵심 개념 5가지 총정리"
 date: 2026-03-20 21:40:00 +0900
-categories: [ai-daily-news]
+categories: [ai]
 tags: [ai, news, automation]
 ---
 
