@@ -1,3 +1,11 @@
+---
+layout: post
+title: "AI 에이전트 퍼스트 마스터 프롬프트: Harness·Agentic·SDD·TDD 통합 실전 가이드"
+date: 2026-03-20 22:09:00 +0900
+categories: [ai]
+tags: [ai, harness-engineering, agentic-engineering, sdd, tdd, sub-agents, prompt]
+---
+
 # AI 직접 투입용 마스터 프롬프트: Harness Engineering + Agentic Engineering + SDD + TDD + Sub-Agents + Skills
 
 > 이 문서는 AI에게 **그대로 붙여 넣는 용도**다.  
