@@ -16,27 +16,34 @@ tags: [ai, agentic-engineering, harness-engineering, governance, prompt, templat
 
 ## 구성 파일 (다운로드)
 
-아래 4개 파일은 레포의 `assets/file/` 경로에 올라가 있으며, 그대로 내려받아 사용할 수 있습니다.
+아래 4개 파일은 레포의 `assets/file/` 경로에 올라가 있습니다.
+
+> 일부 브라우저는 `.md` 파일을 바로 열고 다운로드 버튼을 따로 안 보여줄 수 있습니다.
+> 그 경우 파일이 열리면 브라우저의 **다른 이름으로 저장**을 사용하면 됩니다.
 
 - **01_BOOTSTRAP_PROMPT.md**
   - 첫 접점용 프롬프트
   - 질문 배치, 근거 태그, Discovery Packet, Layer 2 handoff 포함
-  - <a href="/assets/file/01_BOOTSTRAP_PROMPT.md" download>다운로드</a>
+  - [사이트 링크 열기](/assets/file/01_BOOTSTRAP_PROMPT.md)
+  - [GitHub raw 열기](https://raw.githubusercontent.com/qoxmfaktmxj/qoxmfaktmxj.github.io/main/assets/file/01_BOOTSTRAP_PROMPT.md)
 
 - **02_GOVERNANCE_SPEC.md**
   - 운영 헌법/가드레일 문서
   - 모드 전이, 위험도 R0~R3, 승인 매트릭스, 품질 점수, sub-agent, skill/hook 원칙 포함
-  - <a href="/assets/file/02_GOVERNANCE_SPEC.md" download>다운로드</a>
+  - [사이트 링크 열기](/assets/file/02_GOVERNANCE_SPEC.md)
+  - [GitHub raw 열기](https://raw.githubusercontent.com/qoxmfaktmxj/qoxmfaktmxj.github.io/main/assets/file/02_GOVERNANCE_SPEC.md)
 
 - **03_ARTIFACT_TEMPLATES.md**
   - 실제 문서 초안 생성 템플릿
   - AGENTS.md, ARCHITECTURE.md, TEST_STRATEGY.md, QUALITY_SCORE.md 등 canonical 골격 포함
-  - <a href="/assets/file/03_ARTIFACT_TEMPLATES.md" download>다운로드</a>
+  - [사이트 링크 열기](/assets/file/03_ARTIFACT_TEMPLATES.md)
+  - [GitHub raw 열기](https://raw.githubusercontent.com/qoxmfaktmxj/qoxmfaktmxj.github.io/main/assets/file/03_ARTIFACT_TEMPLATES.md)
 
 - **04_TOOL_ADAPTERS.md**
   - 도구 투영 및 기계적 강제 레이어
   - Claude/Cursor/CI/hooks/CODEOWNERS 적용 규칙 포함
-  - <a href="/assets/file/04_TOOL_ADAPTERS.md" download>다운로드</a>
+  - [사이트 링크 열기](/assets/file/04_TOOL_ADAPTERS.md)
+  - [GitHub raw 열기](https://raw.githubusercontent.com/qoxmfaktmxj/qoxmfaktmxj.github.io/main/assets/file/04_TOOL_ADAPTERS.md)
 
 ---
 
