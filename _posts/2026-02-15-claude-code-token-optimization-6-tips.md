@@ -2,7 +2,7 @@
 layout: post
 title: "클로드 코드 토큰 녹는 문제, 영상 한 편으로 정리한 6가지 절약법"
 date: 2026-02-15 22:39:07 +0900
-categories: [ai-daily-news]
+categories: [ai]
 tags: [claude-code, opus, sonnet, token, context-engineering, productivity]
 ---
 

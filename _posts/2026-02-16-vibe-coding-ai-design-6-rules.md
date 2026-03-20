@@ -2,7 +2,7 @@
 layout: post
 title: "AI가 만든 디자인이 구린 이유, 바이브코딩 6가지 규칙 요약"
 date: 2026-02-16 23:10:00 +0900
-categories: [ai-daily-news]
+categories: [ai]
 tags: [vibe-coding, ai-design, claude-code, coolors, stitch, shadcn-ui]
 ---
 
