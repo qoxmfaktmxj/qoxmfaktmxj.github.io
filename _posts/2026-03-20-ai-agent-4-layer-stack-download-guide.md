@@ -24,26 +24,22 @@ tags: [ai, agentic-engineering, harness-engineering, governance, prompt, templat
 - **01_BOOTSTRAP_PROMPT.md**
   - 첫 접점용 프롬프트
   - 질문 배치, 근거 태그, Discovery Packet, Layer 2 handoff 포함
-  - [사이트 링크 열기](/assets/file/01_BOOTSTRAP_PROMPT.md)
-  - [GitHub raw 열기](https://raw.githubusercontent.com/qoxmfaktmxj/qoxmfaktmxj.github.io/main/assets/file/01_BOOTSTRAP_PROMPT.md)
+  - [GitHub 문서 열기](https://raw.githubusercontent.com/qoxmfaktmxj/qoxmfaktmxj.github.io/main/assets/file/01_BOOTSTRAP_PROMPT.md)
 
 - **02_GOVERNANCE_SPEC.md**
   - 운영 헌법/가드레일 문서
   - 모드 전이, 위험도 R0~R3, 승인 매트릭스, 품질 점수, sub-agent, skill/hook 원칙 포함
-  - [사이트 링크 열기](/assets/file/02_GOVERNANCE_SPEC.md)
-  - [GitHub raw 열기](https://raw.githubusercontent.com/qoxmfaktmxj/qoxmfaktmxj.github.io/main/assets/file/02_GOVERNANCE_SPEC.md)
+  - [GitHub 문서 열기](https://raw.githubusercontent.com/qoxmfaktmxj/qoxmfaktmxj.github.io/main/assets/file/02_GOVERNANCE_SPEC.md)
 
 - **03_ARTIFACT_TEMPLATES.md**
   - 실제 문서 초안 생성 템플릿
   - AGENTS.md, ARCHITECTURE.md, TEST_STRATEGY.md, QUALITY_SCORE.md 등 canonical 골격 포함
-  - [사이트 링크 열기](/assets/file/03_ARTIFACT_TEMPLATES.md)
-  - [GitHub raw 열기](https://raw.githubusercontent.com/qoxmfaktmxj/qoxmfaktmxj.github.io/main/assets/file/03_ARTIFACT_TEMPLATES.md)
+  - [GitHub 문서 열기](https://raw.githubusercontent.com/qoxmfaktmxj/qoxmfaktmxj.github.io/main/assets/file/03_ARTIFACT_TEMPLATES.md)
 
 - **04_TOOL_ADAPTERS.md**
   - 도구 투영 및 기계적 강제 레이어
   - Claude/Cursor/CI/hooks/CODEOWNERS 적용 규칙 포함
-  - [사이트 링크 열기](/assets/file/04_TOOL_ADAPTERS.md)
-  - [GitHub raw 열기](https://raw.githubusercontent.com/qoxmfaktmxj/qoxmfaktmxj.github.io/main/assets/file/04_TOOL_ADAPTERS.md)
+  - [GitHub 문서 열기](https://raw.githubusercontent.com/qoxmfaktmxj/qoxmfaktmxj.github.io/main/assets/file/04_TOOL_ADAPTERS.md)
 
 ---
 
