@@ -1,96 +1,71 @@
 ---
 layout: post
-title: "Elasticsearch 기초: 검색 엔진의 핵심 이해하기"
+title: "Elasticsearch Query DSL 실전: bool, filter, aggregation 제대로 쓰기"
 date: 2026-03-21 10:02:24 +0900
 categories: [data-infra]
-tags: [study, elasticsearch, search, infra, automation]
+tags: [study, elasticsearch, query-dsl, aggregation, filter, infra]
 ---
 
-## 왜 Elasticsearch가 중요한가?
+## 왜 Query DSL을 따로 배워야 할까?
 
-Elasticsearch는 대규모 데이터에서 빠른 검색을 가능하게 하는 핵심 인프라입니다. 로그 분석, 전문 검색, 실시간 분석이 필요한 모든 프로젝트에서 필수적입니다.
+Elasticsearch를 도입한 팀이 가장 자주 겪는 문제 중 하나는 "검색은 되는데 결과가 이상하다"는 것입니다. 대부분은 Query DSL의 의도를 구분하지 못해서 생깁니다.
 
-실제 프로젝트에서 데이터베이스만으로는 수백만 건의 레코드를 빠르게 검색할 수 없습니다. Elasticsearch는 이 문제를 해결합니다.
+특히 `must`, `should`, `filter`, `aggregation`을 섞어 쓸 때 의미를 잘못 이해하면 정확도와 성능이 동시에 무너집니다.
 
 ## 핵심 개념
 
-- **Index (인덱스)**
-  데이터베이스의 테이블과 유사한 개념입니다. 검색 가능한 데이터의 모음입니다.
+- **must**
+  반드시 만족해야 하고, score 계산에도 반영됩니다.
+- **filter**
+  반드시 만족해야 하지만 score 계산에는 반영되지 않습니다.
+  캐시 효율이 좋아 성능상 유리합니다.
+- **should**
+  만족하면 점수를 올리는 조건입니다.
+- **aggregation**
+  검색 결과를 요약/집계하는 기능입니다.
 
-- **Document (문서)**
-  인덱스 내의 개별 데이터 단위입니다. JSON 형식으로 저장됩니다.
-
-- **Shard (샤드)**
-  인덱스를 여러 부분으로 나누어 분산 저장합니다. 성능과 확장성을 높입니다.
-
-- **Replica (복제본)**
-  샤드의 복사본으로, 장애 대응과 읽기 성능을 향상시킵니다.
-
-- **Mapping (매핑)**
-  문서의 필드 타입을 정의합니다. 데이터베이스 스키마와 유사합니다.
-
-## 실습: 기본 CRUD 작업
-
-먼저 인덱스를 생성하고 문서를 추가해봅시다.
+## 실전 예시: 상품 검색 + 필터 + 집계
 
 ```bash
-curl -X PUT "localhost:9200/products" -H 'Content-Type: application/json' -d'{
-  "settings": {
-    "number_of_shards": 1,
-    "number_of_replicas": 1
-  },
-  "mappings": {
-    "properties": {
-      "name": {"type": "text"},
-      "price": {"type": "integer"},
-      "category": {"type": "keyword"}
-    }
-  }
-}'
-```
-
-이제 문서를 추가합니다.
-
-```bash
-curl -X POST "localhost:9200/products/_doc" -H 'Content-Type: application/json' -d'{
-  "name": "무선 마우스",
-  "price": 25000,
-  "category": "전자기기"
-}'
-```
-
-검색 쿼리를 실행합니다.
-
-```bash
-curl -X GET "localhost:9200/products/_search" -H 'Content-Type: application/json' -d'{
+curl -X GET "localhost:9200/products/_search"   -H 'Content-Type: application/json' -d'
+{
   "query": {
-    "match": {
-      "name": "마우스"
+    "bool": {
+      "must": [
+        { "match": { "name": "airpods" } }
+      ],
+      "filter": [
+        { "term": { "brand": "apple" } },
+        { "range": { "price": { "lte": 400000 } } }
+      ]
+    }
+  },
+  "aggs": {
+    "by_category": {
+      "terms": { "field": "category.keyword" }
     }
   }
 }'
 ```
 
-## 일반적인 실수
+## 이 쿼리의 의미
 
-- **Text vs Keyword 혼동**
-  Text는 전문 검색용(분석됨), Keyword는 정확 매칭용(분석 안 됨)입니다. 용도에 맞게 선택하세요.
+- 이름은 `airpods`와 관련성이 있어야 함
+- 브랜드는 `apple`이어야 함
+- 가격은 40만원 이하여야 함
+- 결과와 함께 카테고리 집계도 같이 뽑음
 
-- **과도한 샤드 설정**
-  샤드가 너무 많으면 오버헤드가 증가합니다. 일반적으로 노드당 1-3개 샤드가 적절합니다.
+## 왜 filter를 따로 빼야 하나?
 
-- **Mapping 없이 시작**
-  동적 매핑은 편하지만 예측 불가능합니다. 프로덕션에서는 명시적 매핑을 정의하세요.
+브랜드나 가격 제한은 관련도(score)를 높이는 조건이 아니라, 단순한 제약 조건입니다. 이걸 `must`에 넣으면 불필요하게 점수 계산에 포함되어 비효율적일 수 있습니다.
 
-- **쿼리 성능 무시**
-  복잡한 쿼리는 성능을 저하시킵니다. 인덱싱 전략으로 최적화하세요.
+## 흔한 실수
 
-## 오늘의 실습 체크리스트
+- 정확 일치가 필요한데 `match`를 사용함
+- 집계용 필드에 `text` 타입을 그대로 사용함
+- `filter`로 처리할 조건까지 전부 `must`에 넣음
+- 검색 정확도 문제를 쿼리보다 색인 문제로 봐야 하는데 놓침
 
-- [ ] Elasticsearch 로컬 환경 설정 (Docker 또는 직접 설치)
-- [ ] 간단한 인덱스 생성 및 매핑 정의
-- [ ] 샘플 문서 5개 이상 추가
-- [ ] match, term, range 쿼리 각각 실행해보기
-- [ ] 검색 결과의 _score 값 이해하기
-- [ ] GET 요청으로 특정 문서 조회하기
-- [ ] 문서 업데이트 및 삭제 작업 수행
+## 한 줄 정리
+
+Elasticsearch Query DSL의 핵심은 "조건을 많이 쓰는 것"이 아니라, **관련도 계산 조건과 필터 조건을 정확히 분리하는 것**입니다.

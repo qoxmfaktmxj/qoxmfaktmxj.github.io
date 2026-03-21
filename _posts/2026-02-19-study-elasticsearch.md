@@ -1,113 +1,110 @@
 ---
 layout: post
-title: "Elasticsearch 기초: 검색 엔진의 핵심 이해하기"
+title: "Elasticsearch 역색인과 Analyzer 실전: 검색 품질을 결정하는 핵심"
 date: 2026-02-19 10:08:56 +0900
 categories: [data-infra]
-tags: [study, elasticsearch, search, infra, automation]
+tags: [study, elasticsearch, analyzer, inverted-index, search, infra]
 ---
 
-## 왜 Elasticsearch를 배워야 할까?
+## 왜 이 주제가 중요한가?
 
-실제 프로젝트에서 데이터베이스만으로는 빠른 검색과 복잡한 쿼리를 처리하기 어렵습니다.
+Elasticsearch를 도입한 뒤 검색 결과가 기대와 다르게 나오는 경우가 많습니다. 원인은 대개 **역색인 구조와 Analyzer 동작을 제대로 이해하지 못한 상태에서 기본값만 사용했기 때문**입니다.
 
-Elasticsearch는 대규모 데이터셋에서 밀리초 단위의 검색 응답을 제공하며, 로그 분석, 전문 검색, 실시간 분석 등 데이터 인프라의 핵심 역할을 합니다.
-Netflix, Uber, Airbnb 같은 대규모 서비스들이 모두 운영 중입니다.
+검색 품질은 단순히 데이터를 많이 넣는다고 좋아지지 않습니다. 어떤 토큰으로 쪼개고, 어떤 필드를 `text`로 볼지 `keyword`로 볼지, 검색 시 어떤 분석 규칙을 적용할지가 훨씬 중요합니다.
 
 ## 핵심 개념
 
-- **클러스터(Cluster)**
-  여러 노드로 구성된 Elasticsearch 인스턴스 그룹.
-  데이터 분산 저장과 고가용성을 제공합니다.
-- **인덱스(Index)**
-  관계형 데이터베이스의 테이블과 유사한 개념. 문서들의 논리적 그룹입니다.
-- **문서(Document)**
-  JSON 형식의 데이터 단위. 각 문서는 고유한 ID를 가집니다.
-- **샤드(Shard)**
-  인덱스를 분할한 물리적 단위. 병렬 처리와 확장성을 제공합니다.
-- **매핑(Mapping)**
-  문서의 필드 타입과 분석 방식을 정의하는 스키마입니다.
+- **역색인(Inverted Index)**
+  문서 중심이 아니라 "단어 → 문서" 방향으로 저장하는 구조입니다.
+  전문 검색이 빠른 이유는 전체 문서를 훑지 않고 토큰별 색인만 조회하기 때문입니다.
 
-## 실습: 기본 CRUD 작업
+- **Analyzer**
+  텍스트를 색인 가능한 단위로 변환하는 파이프라인입니다.
+  `character filter → tokenizer → token filter` 순서로 작동합니다.
 
-먼저 Elasticsearch가 실행 중이라고 가정합니다(기본 포트: 9200).
+- **text vs keyword**
+  `text`는 토큰화되어 전문검색에 적합하고,
+  `keyword`는 정확히 같은 값 비교/집계/정렬에 적합합니다.
+
+- **검색 품질의 본질**
+  사용자가 입력하는 표현과 색인된 토큰이 얼마나 잘 맞아떨어지느냐가 핵심입니다.
+
+## 실무 예시: 상품 검색 인덱스 설계
 
 ```bash
-# 1. 인덱스 생성
-curl -X PUT "localhost:9200/products" \
-  -H 'Content-Type: application/json' -d'
+curl -X PUT "localhost:9200/products_v2"   -H 'Content-Type: application/json' -d'
 {
   "settings": {
-    "number_of_shards": 1,
-    "number_of_replicas": 0
+    "analysis": {
+      "analyzer": {
+        "product_name_analyzer": {
+          "tokenizer": "standard",
+          "filter": ["lowercase"]
+        }
+      }
+    }
   },
   "mappings": {
     "properties": {
-      "name": {"type": "text"},
-      "price": {"type": "integer"},
-      "category": {"type": "keyword"}
+      "name": {
+        "type": "text",
+        "analyzer": "product_name_analyzer",
+        "fields": {
+          "raw": { "type": "keyword" }
+        }
+      },
+      "brand": { "type": "keyword" },
+      "price": { "type": "integer" },
+      "description": { "type": "text" }
     }
   }
 }'
 ```
 
+위 설계의 포인트는 `name`을 두 가지 방식으로 동시에 쓰는 것입니다.
+
+- `name`: 전문검색
+- `name.raw`: 정렬/정확 일치/집계
+
+## Analyzer 확인 방법
+
 ```bash
-# 2. 문서 추가
-curl -X POST "localhost:9200/products/_doc" \
-  -H 'Content-Type: application/json' -d'
+curl -X POST "localhost:9200/products_v2/_analyze"   -H 'Content-Type: application/json' -d'
 {
-  "name": "무선 이어폰",
-  "price": 89000,
-  "category": "electronics"
+  "analyzer": "product_name_analyzer",
+  "text": "Apple AirPods Pro 2"
 }'
 ```
 
+이 API는 실제로 텍스트가 어떤 토큰으로 잘리는지 확인할 때 매우 유용합니다.
+
+## 검색 예시
+
 ```bash
-# 3. 검색 쿼리
-curl -X GET "localhost:9200/products/_search" \
-  -H 'Content-Type: application/json' -d'
+curl -X GET "localhost:9200/products_v2/_search"   -H 'Content-Type: application/json' -d'
 {
   "query": {
-    "match": { "name": "이어폰" }
+    "match": {
+      "name": "airpods"
+    }
   }
 }'
 ```
 
-```bash
-# 4. 문서 업데이트
-curl -X POST "localhost:9200/products/_doc/1/_update" \
-  -H 'Content-Type: application/json' -d'
-{
-  "doc": { "price": 79000 }
-}'
+## 흔한 실수
 
-# 5. 문서 삭제
-curl -X DELETE "localhost:9200/products/_doc/1"
-```
+- 모든 필드를 `text`로 설정해서 집계/정렬이 깨짐
+- 코드값/카테고리 같은 필드를 `keyword`로 두지 않음
+- 한국어/영문 검색 특성을 고려하지 않고 기본 Analyzer만 사용
+- `_analyze` API로 토큰을 확인하지 않고 감으로 튜닝
 
-## 자주 하는 실수
+## 실무 체크리스트
 
-**1. 매핑을 무시하고 데이터 삽입하기**
-- 문제: 동적 매핑으로 인해 예상치 못한 타입 변환이 발생합니다.
-- 해결: 인덱스 생성 시 명확한 매핑을 정의하세요.
+- [ ] 검색 필드와 집계 필드를 분리했는가?
+- [ ] `text`/`keyword`를 용도에 맞게 나눴는가?
+- [ ] `_analyze`로 실제 토큰을 검증했는가?
+- [ ] 검색 결과가 왜 그렇게 나오는지 설명 가능한가?
 
-**2. 모든 필드를 text로 설정하기**
-- 문제: 정확한 매칭이 필요한 필드(ID, 카테고리)까지 분석되어 검색 성능이 저하됩니다.
-- 해결: 정확한 매칭이 필요하면 `keyword` 타입을 사용하세요.
+## 한 줄 정리
 
-**3. 샤드 개수를 무분별하게 늘리기**
-- 문제: 샤드가 많을수록 오버헤드가 증가하고 검색 속도가 느려집니다.
-- 해결: 데이터 크기와 쿼리 패턴에 맞게 샤드를 설정하세요(일반적으로 1-5개).
-
-**4. 인덱스 삭제 후 복구 불가능**
-- 문제: 실수로 인덱스를 삭제하면 데이터가 완전히 사라집니다.
-- 해결: 중요한 인덱스는 백업을 유지하고, 삭제 전 확인 절차를 거치세요.
-
-## 오늘의 실습 체크리스트
-
-- [ ] Elasticsearch 설치 및 실행 확인 (curl -X GET "localhost:9200")
-- [ ] 간단한 인덱스 생성하기
-- [ ] 샘플 문서 3개 이상 삽입하기
-- [ ] match 쿼리로 검색 테스트하기
-- [ ] term 쿼리와 match 쿼리의 차이 이해하기
-- [ ] 문서 업데이트 및 삭제 작업 수행하기
-- [ ] Kibana Dev Tools에서 위 작업들을 반복하기
+Elasticsearch 검색 품질의 절반 이상은 **쿼리보다 색인 설계와 Analyzer 선택**에서 결정됩니다.
