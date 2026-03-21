@@ -1,114 +1,95 @@
 ---
 layout: post
-title: "Python 컨텍스트 매니저(Context Manager) 마스터하기"
+title: "Python 데코레이터 실전: 로깅, 권한체크, 재시도 로직 공통화하기"
 date: 2026-03-03 10:07:40 +0900
 categories: [python]
-tags: [study, python, backend, automation]
+tags: [study, python, decorator, retry, logging, automation]
 ---
 
-## 실무에서 왜 중요한가?
+## 왜 데코레이터를 따로 배워야 할까?
 
-파일 처리, 데이터베이스 연결, 락(Lock) 관리 등에서 리소스를 안전하게 획득하고 해제해야 합니다.
-
-컨텍스트 매니저를 모르면 리소스 누수, 예외 발생 시 정리 실패 등의 버그가 발생합니다. 실무 코드에서 필수적인 패턴입니다.
+Python에서 데코레이터는 문법 트릭처럼 보이지만, 실무에서는 **반복되는 부가기능을 비즈니스 로직 밖으로 분리**하는 핵심 도구입니다. 로깅, 권한 검사, 실행 시간 측정, 재시도 정책을 함수마다 직접 넣기 시작하면 코드가 빠르게 지저분해집니다.
 
 ## 핵심 개념
 
-- **with 문의 동작 원리**
-  with 문은 `__enter__()` 메서드로 리소스를 획득하고, `__exit__()` 메서드로 정리합니다. 예외 발생 여부와 관계없이 항상 정리 코드가 실행됩니다.
+- **함수는 객체다**
+  Python에서는 함수를 변수처럼 전달할 수 있습니다.
+- **데코레이터는 함수를 감싸는 함수**
+  원래 함수를 수정하지 않고 앞뒤 동작을 끼워 넣습니다.
+- **`functools.wraps`는 거의 필수**
+  원본 함수 이름, docstring, metadata를 유지합니다.
 
-- **__enter__와 __exit__ 메서드**
-  `__enter__()`는 with 블록 진입 시 호출되며 값을 반환합니다. `__exit__()`는 블록 종료 시 항상 호출되어 리소스를 정리합니다.
-
-- **contextlib 모듈 활용**
-  `@contextmanager` 데코레이터를 사용하면 제너레이터로 간단히 컨텍스트 매니저를 만들 수 있습니다.
-
-- **예외 처리와의 관계**
-  `__exit__()` 메서드가 True를 반환하면 예외를 억제할 수 있습니다. False를 반환하면 예외가 전파됩니다.
-
-- **중첩된 컨텍스트 매니저**
-  여러 리소스를 동시에 관리할 때 with 문을 중첩하거나 쉼표로 연결할 수 있습니다.
-
-## 실습 예제
-
-### 기본 컨텍스트 매니저 구현
+## 실행 시간 측정 데코레이터
 
 ```python
-class FileManager:
-    def __init__(self, filename, mode):
-        self.filename = filename
-        self.mode = mode
-        self.file = None
-    
-    def __enter__(self):
-        print(f"파일 열기: {self.filename}")
-        self.file = open(self.filename, self.mode)
-        return self.file
-    
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        print(f"파일 닫기: {self.filename}")
-        if self.file:
-            self.file.close()
-        return False
+import time
+from functools import wraps
+
+
+def log_execution_time(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        duration = time.time() - start
+        print(f"[TIME] {func.__name__}: {duration:.4f}s")
+        return result
+    return wrapper
+
+
+@log_execution_time
+def generate_report():
+    time.sleep(1)
+    return "done"
+
+
+print(generate_report())
 ```
 
-위 클래스를 사용하는 방법입니다.
+## 재시도 데코레이터
 
 ```python
-with FileManager('test.txt', 'w') as f:
-    f.write('Hello, World!')
-    print("파일에 쓰는 중...")
+import time
+from functools import wraps
+
+
+def retry(max_attempts=3, delay=1):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            last_error = None
+            for attempt in range(1, max_attempts + 1):
+                try:
+                    return func(*args, **kwargs)
+                except Exception as e:
+                    last_error = e
+                    print(f"attempt={attempt} failed: {e}")
+                    if attempt < max_attempts:
+                        time.sleep(delay)
+            raise last_error
+        return wrapper
+    return decorator
+
+
+@retry(max_attempts=3, delay=2)
+def fetch_external_api():
+    raise RuntimeError("temporary network error")
 ```
 
-### contextlib를 사용한 간단한 구현
+## 실무에서 유용한 패턴
 
-```python
-from contextlib import contextmanager
+- API 호출 재시도
+- 관리자 권한 체크
+- 함수 실행 로그 남기기
+- 캐시 공통 처리
+- 트랜잭션 시작/종료 래핑
 
-@contextmanager
-def database_connection(db_name):
-    print(f"DB 연결: {db_name}")
-    connection = f"Connection to {db_name}"
-    try:
-        yield connection
-    finally:
-        print(f"DB 종료: {db_name}")
-```
+## 흔한 실수
 
-사용 예시입니다.
+- 데코레이터 안에서 예외를 삼켜버림
+- `wraps`를 쓰지 않아 디버깅이 어려워짐
+- 부가기능이 너무 많아 데코레이터 중첩이 과해짐
 
-```python
-with database_connection('mydb') as conn:
-    print(f"쿼리 실행: {conn}")
-```
+## 한 줄 정리
 
-### 여러 리소스 동시 관리
-
-```python
-with open('input.txt', 'r') as infile, open('output.txt', 'w') as outfile:
-    for line in infile:
-        outfile.write(line.upper())
-```
-
-## 자주 하는 실수
-
-- **__exit__ 메서드 구현 누락**
-  `__enter__`만 구현하고 `__exit__`를 빼먹으면 리소스가 정리되지 않습니다. 항상 쌍으로 구현해야 합니다.
-
-- **예외 발생 시 정리 코드 미실행**
-  try-finally 없이 일반 함수로 작성하면 예외 발생 시 정리 코드가 실행되지 않습니다. 컨텍스트 매니저를 사용하면 이 문제를 자동으로 해결합니다.
-
-- **__exit__의 반환값 오해**
-  `__exit__`가 True를 반환하면 예외가 억제됩니다. 의도하지 않은 예외 억제로 버그를 숨길 수 있으니 주의하세요.
-
-- **yield 후 예외 처리 누락**
-  `@contextmanager` 사용 시 yield 후 finally 블록 없이 정리 코드를 작성하면 예외 발생 시 실행되지 않을 수 있습니다.
-
-## 오늘의 실습 체크리스트
-
-- [ ] 클래스 기반 컨텍스트 매니저 3개 직접 작성하기
-- [ ] @contextmanager 데코레이터로 간단한 매니저 만들기
-- [ ] 파일 처리 코드에서 with 문 사용하기
-- [ ] 여러 리소스를 with 문으로 동시 관리하기
-- [ ] 의도적으로 예외를 발생시켜 __exit__이 호출되는지 확인하기
-- [ ] 기존 프로젝트에서 try-finally 패턴을 찾아 컨텍스트 매니저로 리팩토링하기
+데코레이터는 "멋있는 문법"이 아니라, **반복되는 운영 로직을 공통화하는 실무 도구**입니다.

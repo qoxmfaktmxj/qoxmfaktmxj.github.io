@@ -1,121 +1,61 @@
 ---
 layout: post
-title: "Redis와 SQL: 캐싱 전략으로 데이터베이스 성능 극대화하기"
+title: "Redis 분산 락 실전: 중복 실행과 동시성 충돌을 막는 기본 패턴"
 date: 2026-03-20 10:06:37 +0900
 categories: [sql]
-tags: [study, redis, caching, database, automation]
+tags: [study, redis, distributed-lock, concurrency, caching, infra]
 ---
 
-## 왜 이 주제가 중요한가?
+## 왜 Redis 분산 락이 필요한가?
 
-SQL 데이터베이스만으로는 고트래픽 서비스를 감당하기 어렵습니다. Redis를 캐시 레이어로 추가하면 데이터베이스 부하를 크게 줄이고 응답 속도를 10배 이상 개선할 수 있습니다.
+멀티 인스턴스 환경에서는 같은 작업이 동시에 두 번 이상 실행되는 문제가 자주 발생합니다. 예를 들어 배치 작업, 결제 후처리, 재고 차감, 쿠폰 발급 같은 로직은 중복 실행되면 곧바로 장애로 이어질 수 있습니다.
 
-실제 프로젝트에서 Redis 없이는 초당 수천 건의 요청을 처리하기 거의 불가능합니다. 특히 사용자 세션, 상품 정보, 순위 데이터 같은 자주 조회되는 데이터에 효과적입니다.
+이때 Redis는 빠른 락 저장소 역할을 할 수 있습니다.
 
-## 핵심 개념
-
-- **캐시 워밍 (Cache Warming)**
-  애플리케이션 시작 시 자주 사용되는 데이터를 미리 Redis에 로드하는 전략입니다.
-
-- **TTL (Time To Live) 설정**
-  캐시된 데이터의 유효 기간을 정해서 자동으로 만료되도록 합니다. 데이터 신선도와 메모리 효율의 균형을 맞춥니다.
-
-- **캐시 무효화 (Cache Invalidation)**
-  데이터베이스 업데이트 시 해당 캐시를 삭제하거나 갱신하는 과정입니다. 가장 어려운 부분이기도 합니다.
-
-- **Look-Aside 패턴**
-  애플리케이션이 먼저 Redis에서 데이터를 찾고, 없으면 SQL에서 조회한 후 Redis에 저장하는 방식입니다.
-
-- **Write-Through 패턴**
-  데이터 쓰기 시 Redis와 SQL 데이터베이스에 동시에 저장하는 방식입니다. 데이터 일관성이 높지만 속도가 느립니다.
-
-## 실전 예제
-
-### 기본 캐싱 구조
+## 가장 단순한 패턴: SET NX EX
 
 ```python
 import redis
-import json
-from datetime import timedelta
+import uuid
 
-redis_client = redis.Redis(host='localhost', port=6379, decode_responses=True)
+r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+lock_key = 'lock:coupon:123'
+lock_value = str(uuid.uuid4())
 
-def get_user_by_id(user_id):
-    # 1단계: Redis에서 확인
-    cache_key = f"user:{user_id}"
-    cached_user = redis_client.get(cache_key)
-    
-    if cached_user:
-        return json.loads(cached_user)
-    
-    # 2단계: 캐시 미스 시 SQL에서 조회
-    user = fetch_from_database(user_id)
-    
-    # 3단계: Redis에 저장 (TTL: 1시간)
-    redis_client.setex(
-        cache_key,
-        timedelta(hours=1),
-        json.dumps(user)
-    )
-    
-    return user
+locked = r.set(lock_key, lock_value, nx=True, ex=10)
+
+if locked:
+    try:
+        print('락 획득 성공, 작업 실행')
+    finally:
+        if r.get(lock_key) == lock_value:
+            r.delete(lock_key)
+else:
+    print('이미 다른 작업자가 실행 중')
 ```
 
-### 캐시 무효화 처리
+## 왜 value 비교 후 삭제해야 하나?
 
-```python
-def update_user(user_id, new_data):
-    # 1단계: 데이터베이스 업데이트
-    update_database(user_id, new_data)
-    
-    # 2단계: 캐시 삭제
-    cache_key = f"user:{user_id}"
-    redis_client.delete(cache_key)
-    
-    return new_data
-```
+락 만료/재획득 상황에서 다른 작업자가 이미 같은 key를 잡았을 수 있기 때문입니다. 아무 생각 없이 `DEL lock_key`를 호출하면 남의 락을 풀어버릴 수 있습니다.
 
-### 배치 캐싱 (자주 사용되는 데이터)
+## 적용이 적합한 경우
 
-```python
-def warm_up_cache():
-    # 상위 100개 상품을 캐시에 미리 로드
-    top_products = fetch_top_products_from_db(limit=100)
-    
-    for product in top_products:
-        cache_key = f"product:{product['id']}"
-        redis_client.setex(
-            cache_key,
-            timedelta(hours=6),
-            json.dumps(product)
-        )
-    
-    print(f"캐시 워밍 완료: {len(top_products)}개 상품")
-```
+- 중복 배치 실행 방지
+- 동일 주문 후처리 중복 방지
+- 짧은 임계영역 보호
 
-## 자주 하는 실수
+## 주의할 점
 
-- **TTL을 너무 길게 설정**
-  데이터가 오래되어 사용자에게 잘못된 정보를 제공할 수 있습니다. 데이터 특성에 맞춰 적절한 TTL을 설정하세요.
+- 장시간 작업에는 락 갱신 전략이 필요함
+- 락만으로 모든 정합성을 해결할 수 없음
+- DB 트랜잭션과 역할이 다름
 
-- **캐시 무효화 로직 누락**
-  데이터 업데이트 후 캐시를 삭제하지 않으면 계속 구 데이터를 제공합니다. 모든 쓰기 작업에서 캐시 삭제를 필수로 포함하세요.
+## 흔한 실수
 
-- **메모리 모니터링 부재**
-  Redis 메모리가 가득 차면 성능이 급격히 떨어집니다. 정기적으로 메모리 사용량을 확인하고 정책을 조정하세요.
+- 락 획득 실패 시 재시도/포기 전략 없음
+- 만료 시간 없이 락을 걸어 영구 점유 발생
+- 소유자 확인 없이 삭제
 
-- **직렬화 형식 불일치**
-  JSON으로 저장했는데 pickle로 읽으려고 하면 에러가 발생합니다. 팀 전체가 동일한 직렬화 방식을 사용하도록 통일하세요.
+## 한 줄 정리
 
-- **캐시 스탬피드 (Cache Stampede) 미처리**
-  인기 있는 데이터의 캐시가 동시에 만료되면 모든 요청이 데이터베이스로 몰립니다. 캐시 갱신 시간을 분산시키거나 Lock을 사용하세요.
-
-## 오늘의 실습 체크리스트
-
-- [ ] 로컬 환경에 Redis 설치 및 실행 확인
-- [ ] redis-py 라이브러리 설치
-- [ ] Look-Aside 패턴으로 간단한 캐싱 함수 작성
-- [ ] TTL을 다양하게 설정해서 동작 확인
-- [ ] 데이터 업데이트 시 캐시 무효화 로직 추가
-- [ ] redis-cli를 사용해 실제 캐시 데이터 확인
-- [ ] 캐시 히트율을 계산하는 간단한 모니터링 코드 작성
+Redis 분산 락의 핵심은 락을 거는 것보다, **안전하게 해제하고 중복 실행을 제어하는 규칙**에 있습니다.
