@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Elasticsearch Query DSL 실전: bool, filter, aggregation 제대로 쓰기"
-date: 2026-03-21 10:02:24 +0900
+date: 2026-03-21 10:12:24 +0900
 categories: [data-infra]
 tags: [study, elasticsearch, query-dsl, aggregation, filter, infra]
 ---
