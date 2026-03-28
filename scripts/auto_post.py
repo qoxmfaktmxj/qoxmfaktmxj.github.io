@@ -15,6 +15,7 @@ import requests
 ROOT_DIR = Path(__file__).resolve().parents[1]
 POSTS_DIR = ROOT_DIR / "_posts"
 STATE_FILE = ROOT_DIR / ".automation" / "state.json"
+CONFIG_FILE = ROOT_DIR / "_config.yml"
 
 PRIMARY_NEWS_FEEDS = [
     "https://news.google.com/rss/search?q=artificial+intelligence+when:1d&hl=en-US&gl=US&ceid=US:en",
@@ -326,6 +327,37 @@ def quote_yaml(value: str) -> str:
     return value.replace('"', '\\"')
 
 
+def read_jekyll_config_value(key: str, default: str = "") -> str:
+    if not CONFIG_FILE.exists():
+        return default
+
+    pattern = re.compile(rf"^{re.escape(key)}:\s*\"?([^\"\n]*)\"?\s*$", re.MULTILINE)
+    match = pattern.search(CONFIG_FILE.read_text(encoding="utf-8"))
+    if not match:
+        return default
+    return match.group(1).strip()
+
+
+def normalize_url_segment(value: str) -> str:
+    return value.strip().strip("/").replace(" ", "-")
+
+
+def slug_from_post_path(path: Path) -> str:
+    stem = path.stem
+    match = re.match(r"^\d{4}-\d{2}-\d{2}-(.+)$", stem)
+    return match.group(1) if match else stem
+
+
+def build_post_url(path: Path, now: datetime, categories: List[str]) -> str:
+    site_url = read_jekyll_config_value("url", "").rstrip("/")
+    baseurl = normalize_url_segment(read_jekyll_config_value("baseurl", ""))
+    category = normalize_url_segment(categories[0]) if categories else ""
+    slug = slug_from_post_path(path)
+
+    segments = [segment for segment in [baseurl, category, now.strftime("%Y"), now.strftime("%m"), now.strftime("%d"), f"{slug}.html"] if segment]
+    return f"{site_url}/{'/'.join(segments)}"
+
+
 def write_post_file(
     path: Path,
     title: str,
@@ -367,15 +399,17 @@ def create_news_post(now: datetime) -> bool:
         user_prompt=build_news_prompt(items=items, today=date_str),
     )
     title, content = parse_json_response(model_output)
+    categories = ["ai-daily-news"]
     write_post_file(
         path=post_path,
         title=title,
         now=now,
-        categories=["ai-daily-news"],
+        categories=categories,
         tags=["ai", "news", "automation"],
         content=content,
     )
     print(f"Created: {post_path.name}")
+    print(f"URL: {build_post_url(post_path, now, categories)}")
     return True
 
 
@@ -397,16 +431,18 @@ def create_study_post(now: datetime, state: dict) -> bool:
         user_prompt=build_study_prompt(topic=topic, today=date_str),
     )
     title, content = parse_json_response(model_output)
+    categories = [topic.category]
     write_post_file(
         path=post_path,
         title=title,
         now=now,
-        categories=[topic.category],
+        categories=categories,
         tags=["study", *topic.tags, "automation"],
         content=content,
     )
     state["topic_index"] = (topic_index + 1) % len(STUDY_TOPICS)
     print(f"Created: {post_path.name}")
+    print(f"URL: {build_post_url(post_path, now, categories)}")
     return True
 
 
