@@ -656,6 +656,332 @@ logger.info(
 
 ---
 
+## 핵심 개념 5: `contextvars`와 OpenTelemetry는 대체재가 아니라 서로 다른 층의 도구다
+
+실무에서 자주 나오는 오해가 하나 더 있다.
+
+- "우리는 OpenTelemetry 쓰니까 `contextvars` 안 써도 된다"
+- 또는 반대로 "`contextvars`로 trace id 넣었으니 tracing은 된 거다"
+
+둘 다 절반만 맞다.
+
+### 역할을 분리해서 봐야 한다
+
+#### `contextvars`
+
+- 애플리케이션 내부 현재 실행 흐름에 메타데이터를 바인딩한다
+- 로깅, 로컬 관측, request scope 전달에 강하다
+- 개발자가 원하는 커스텀 키를 쉽게 싣기 좋다
+
+#### OpenTelemetry
+
+- 분산 추적 표준을 제공한다
+- 서비스 간 span 관계, duration, attribute, propagation 규칙을 다룬다
+- exporter를 통해 Jaeger, Tempo, Datadog, Honeycomb 등으로 흘려보내기 좋다
+
+즉 실무에서는 대개 이렇게 결합한다.
+
+- tracing 시스템이 생성한 `trace_id`, `span_id`를 로그에 같이 남긴다
+- 애플리케이션 로컬 키인 `request_id`, `tenant_id`, `user_id`, `job_id`는 `contextvars`로 관리한다
+- 로그 검색과 trace drill-down이 서로 연결되도록 필드명을 맞춘다
+
+### 왜 둘을 같이 써야 하는가
+
+trace만 있고 애플리케이션 로그 필드가 부실하면, "어느 span이 느린가"는 보여도 "이 span이 어느 주문/어느 테넌트/어느 운영 이벤트와 연결되는가"가 약하다.
+
+반대로 request id만 있고 분산 추적이 없으면, 서비스 A에서 B, C로 이어지는 cross-service 지연은 읽기 어렵다.
+
+가장 운영 친화적인 조합은 다음과 같다.
+
+- trace 시스템: 네트워크 경계와 span 구조 추적
+- `contextvars`: 애플리케이션 내부 공통 메타데이터 바인딩
+- 구조화 로그: 인간이 읽고 검색하는 사건 기록
+
+### 추천 필드 설계
+
+로깅 이벤트에는 최소한 아래 정도를 맞추는 편이 좋다.
+
+- `trace_id`: tracing 시스템 식별자
+- `span_id`: 가능하면 현재 span 식별자
+- `request_id`: 애플리케이션 진입 단위 식별자
+- `tenant_id`, `user_id`, `job_id`: 운영 검색용 업무 키
+- `service`, `env`, `version`: 배포 맥락
+
+이렇게 해두면 운영자는 다음 경로로 역추적할 수 있다.
+
+1. 에러 로그에서 `trace_id` 확인
+2. tracing 시스템에서 같은 trace 조회
+3. 느린 span과 예외 span 확인
+4. 같은 trace에 묶인 도메인 식별자와 요청 헤더 확인
+5. 재시도, 후속 비동기 작업, 외부 호출 로그까지 이어서 검색
+
+즉 `contextvars`는 tracing을 대체하는 게 아니라, **trace에 비즈니스 문맥을 실무적으로 붙이는 접착층**에 가깝다.
+
+---
+
+## 실무 예시 4: 이벤트 발행과 소비에서 상관관계 키를 어떻게 이어갈 것인가
+
+HTTP 요청 안에서는 컨텍스트가 잘 보이는데, 이벤트 기반 아키텍처로 넘어가면 갑자기 로그 흐름이 끊기는 팀이 많다. 원인은 거의 항상 같다.
+
+- producer는 컨텍스트를 로컬 메모리에만 가지고 있음
+- broker로 보낸 메시지에는 trace/request 키가 없음
+- consumer는 새 프로세스라서 이전 컨텍스트를 알 수 없음
+
+따라서 이벤트 발행 시점에는 **무슨 키를 실을지**를 먼저 정해야 한다.
+
+### 어떤 키를 메시지에 실어야 하나?
+
+보통 아래 정도면 충분하다.
+
+- `trace_id`: 전체 흐름 상관관계
+- `request_id`: 원 요청 기준점
+- `causation_id`: 이 이벤트를 직접 발생시킨 로컬 액션 id
+- `correlation_id`: 같은 비즈니스 흐름을 묶는 상위 id
+- `tenant_id`, `actor_id`: 운영상 필요한 경우
+
+예를 들어 주문 생성 후 이벤트를 발행한다면:
+
+```python
+from dataclasses import asdict, dataclass
+
+
+@dataclass
+class EventEnvelope:
+    event_name: str
+    payload: dict
+    trace_id: str | None
+    request_id: str | None
+    correlation_id: str | None
+    causation_id: str | None
+    tenant_id: str | None
+
+
+async def publish_order_created(order_id: str, tenant_id: str) -> None:
+    envelope = EventEnvelope(
+        event_name="order_created",
+        payload={"order_id": order_id},
+        trace_id=trace_id_var.get(),
+        request_id=request_id_var.get(),
+        correlation_id=order_id,
+        causation_id=request_id_var.get(),
+        tenant_id=tenant_id,
+    )
+    await broker.publish(asdict(envelope))
+```
+
+여기서 핵심은 payload와 상관관계 메타데이터를 분리하는 것이다. 그래야 운영 도구에서도 envelope만 보고 흐름을 파악할 수 있다.
+
+### 소비 측에서는 entrypoint에서 다시 바인딩한다
+
+```python
+def bind_event_context(message: dict):
+    tokens = [
+        (trace_id_var, trace_id_var.set(message.get("trace_id"))),
+        (request_id_var, request_id_var.set(message.get("request_id"))),
+        (tenant_id_var, tenant_id_var.set(message.get("tenant_id"))),
+    ]
+    return tokens
+
+
+def reset_tokens(tokens) -> None:
+    for var, token in reversed(tokens):
+        var.reset(token)
+
+
+async def consume_order_created(message: dict) -> None:
+    tokens = bind_event_context(message)
+    try:
+        logger.info(
+            "consume_order_created",
+            extra={
+                "order_id": message["payload"]["order_id"],
+                "correlation_id": message.get("correlation_id"),
+            },
+        )
+        await rebuild_projection(message["payload"]["order_id"])
+    finally:
+        reset_tokens(tokens)
+```
+
+이 패턴의 장점은 HTTP, consumer, batch를 **같은 관측 규칙**으로 묶을 수 있다는 점이다.
+
+### 재시도와 DLQ에서는 id 정책을 따로 정해야 한다
+
+여기서 운영 난이도가 올라간다. 예를 들어 같은 메시지가 세 번 재시도될 때 아래 중 무엇을 유지할지 정해야 한다.
+
+- 원본 `trace_id` 유지
+- 재시도마다 새 `span_id` 부여
+- `attempt` 숫자 별도 기록
+- 최종 DLQ 이동 시 `first_seen_at`, `last_error`, `attempt` 저장
+
+실무 추천은 보통 이렇다.
+
+- 비즈니스 흐름을 대표하는 `trace_id` 또는 `correlation_id`는 유지
+- 각 재시도 실행은 별도 attempt 메타데이터로 구분
+- 로그와 메트릭에서 `attempt`를 함께 남김
+
+그렇게 해야 "같은 사건의 반복 실패"인지, "완전히 다른 사건"인지 구분하기 쉽다.
+
+---
+
+## 실무 예시 5: 테스트에서 context leak를 잡지 못하면 운영에서만 이상한 로그가 나온다
+
+`contextvars`는 정상 경로에서는 잘 동작해 보여도, 테스트가 허술하면 누수가 숨어들기 쉽다. 특히 아래 상황에서 자주 놓친다.
+
+- middleware에서 예외가 날 때 reset이 누락됨
+- helper 함수가 내부적으로 `set()`만 하고 `reset()`을 안 함
+- 테스트가 순차 실행일 때는 멀쩡하지만 동시 실행에서만 섞임
+- pytest fixture가 값을 세팅하고 다음 테스트까지 끌고 감
+
+### 1) 최소한의 reset 보장 테스트
+
+```python
+import pytest
+
+
+@pytest.mark.asyncio
+async def test_context_is_reset_after_request(client):
+    response = await client.get("/health", headers={"x-request-id": "req-test-1"})
+    assert response.status_code == 200
+    assert request_id_var.get() is None
+```
+
+테스트 종료 시점에 현재 컨텍스트가 깨끗한지 확인하는 것만으로도 누락을 꽤 빨리 잡을 수 있다.
+
+### 2) 동시 요청 분리 테스트
+
+```python
+import asyncio
+
+
+@pytest.mark.asyncio
+async def test_request_context_isolated_under_concurrency(client):
+    async def call(req_id: str):
+        response = await client.get("/echo-context", headers={"x-request-id": req_id})
+        return response.json()["request_id"]
+
+    results = await asyncio.gather(
+        call("req-a"),
+        call("req-b"),
+        call("req-c"),
+    )
+
+    assert results == ["req-a", "req-b", "req-c"]
+```
+
+이 테스트가 중요한 이유는 thread-local 기반 코드나 reset 누락이 있을 때 동시성 상황에서만 깨지는 문제가 바로 드러나기 때문이다.
+
+### 3) executor 경계 테스트
+
+```python
+@pytest.mark.asyncio
+async def test_context_propagates_to_to_thread():
+    token = request_id_var.set("req-thread")
+    try:
+        value = await asyncio.to_thread(request_id_var.get)
+        assert value == "req-thread"
+    finally:
+        request_id_var.reset(token)
+```
+
+반대로 커스텀 executor를 쓴다면 "자동 전파되지 않아야 정상"인 테스트도 둘 수 있다. 그다음 `copy_context()`를 적용한 뒤 기대 동작으로 바꾸면 된다.
+
+### 4) 로그 필드 존재 테스트
+
+실무에서는 컨텍스트가 살아 있어도 formatter/filter 설정이 누락되어 실제 로그에 안 찍히는 경우도 많다.
+
+- 로거 인스턴스만 다르고 filter 미적용
+- JSON formatter가 특정 필드를 버림
+- background worker는 별도 logging config를 써서 필드가 누락됨
+
+따라서 적어도 핵심 로거에 대해서는 캡처된 로그 레코드에 필드가 들어 있는지 검증하는 테스트가 필요하다.
+
+```python
+def test_log_record_has_request_id(caplog):
+    token = request_id_var.set("req-log-1")
+    try:
+        logger.info("hello")
+    finally:
+        request_id_var.reset(token)
+
+    record = caplog.records[-1]
+    assert getattr(record, "request_id") == "req-log-1"
+```
+
+테스트 관점에서 중요한 건 기능 테스트만이 아니다. **관측 가능성 자체를 회귀 테스트 대상으로 올리는 것**이 운영 비용을 크게 낮춘다.
+
+---
+
+## 도입 전략: 한 번에 전역 치환하지 말고, 진입점부터 좁게 넣어라
+
+팀이 기존 코드베이스에 `contextvars`를 도입할 때 자주 하는 실수는 두 가지다.
+
+- 모든 helper 함수에 한 번에 적용하려 든다
+- 반대로 middleware만 넣고 끝내서 실제 로그에는 반영되지 않는다
+
+현실적인 도입 순서는 보통 아래가 가장 안전하다.
+
+### 1단계: 진입점 한 곳에서 request id만 바인딩
+
+- HTTP middleware
+- consumer entrypoint
+- CLI main 함수
+
+가장 먼저 `request_id` 하나만 넣고, 응답 헤더 및 핵심 에러 로그에 찍히는지 본다.
+
+### 2단계: 로깅 필터/포매터를 붙여 모든 공통 로그에 자동 주입
+
+이 단계가 빠지면 `ContextVar`는 생겼는데 아무도 안 보는 값이 된다. 로그 수집 파이프라인에서 필드가 실제 인덱싱되는지까지 확인해야 한다.
+
+### 3단계: `trace_id`, `tenant_id`, `user_id` 등 최소 키 확장
+
+운영에서 실제 검색에 필요한 필드만 넣는다. 처음부터 열 개 넘는 키를 넣으면 관리가 어렵다.
+
+### 4단계: background producer/consumer 경계에 envelope 규칙 추가
+
+이 단계부터는 코드보다 메시지 계약이 중요하다. 어떤 토픽, 어떤 큐, 어떤 워커가 같은 규칙을 따를지 문서화해야 한다.
+
+### 5단계: tracing과 연결
+
+OpenTelemetry를 쓴다면 trace id를 로그에 같이 남기고, APM에서 로그와 trace를 교차 이동할 수 있게 한다.
+
+이 순서가 좋은 이유는 "먼저 관측 가치가 바로 보이는 곳"부터 효과를 낼 수 있기 때문이다. 특히 request id만 제대로 잡아도 장애 대응 시간이 꽤 줄어드는 팀이 많다.
+
+---
+
+## 판단 기준: 언제 `contextvars`를 쓰고, 언제 명시적 파라미터나 DI가 더 나은가
+
+마지막으로 실무 의사결정 기준을 정리해보자.
+
+### `contextvars`가 잘 맞는 경우
+
+- 요청/작업 범위 메타데이터를 공통 로그에 자동 주입하고 싶다
+- 함수 시그니처를 메타데이터 인자로 오염시키고 싶지 않다
+- asyncio 기반 서비스에서 thread-local 대체가 필요하다
+- middleware/consumer entrypoint가 명확하다
+- tracing/logging 표준화 작업을 같이 진행할 수 있다
+
+### 명시적 파라미터가 더 나은 경우
+
+- 비즈니스 규칙 판단에 반드시 필요한 입력이다
+- 함수 계약이 외부에 분명히 드러나야 한다
+- 배치, CLI, 테스트, HTTP 등 여러 진입 경로에서 같은 함수가 쓰인다
+- 컨텍스트 없이는 함수 의미가 성립하지 않는다
+
+### DI/명시적 객체 전달이 더 나은 경우
+
+- 현재 사용자, 권한 스냅샷, 트랜잭션 유닛 오브 워크 같은 구조화된 의존성이 필요하다
+- 테스트 더블 교체가 자주 필요하다
+- 로깅 메타데이터보다 행위와 상태가 중요하다
+
+한 줄로 줄이면 이렇다.
+
+> **컨텍스트는 "누가 이 작업을 둘러싸고 있었는가"를 담고, 함수 인자는 "이 작업이 무엇을 해야 하는가"를 담아야 한다.**
+
+이 구분이 선명할수록 코드와 운영 둘 다 편해진다.
+
+---
+
 ## 트레이드오프: `contextvars`는 강력하지만, 남용하면 디버깅 가능한 전역 상태가 된다
 
 실무에서 가장 좋은 패턴은 "많이 쓰는 것"이 아니라 "좁고 일관되게 쓰는 것"이다.
