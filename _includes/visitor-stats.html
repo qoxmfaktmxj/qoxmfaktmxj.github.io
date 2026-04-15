@@ -10,12 +10,15 @@
       const todayEl = document.getElementById("gc-today");
       if (!code || !totalEl || !todayEl) return;
 
-      const today = new Intl.DateTimeFormat("en-CA", {
+      const dateFormatter = new Intl.DateTimeFormat("en-CA", {
         timeZone: "Asia/Seoul",
         year: "numeric",
         month: "2-digit",
         day: "2-digit"
-      }).format(new Date());
+      });
+      const now = new Date();
+      const today = dateFormatter.format(now);
+      const tomorrow = dateFormatter.format(new Date(now.getTime() + 24 * 60 * 60 * 1000));
 
       const baseUrl = `https://${code}.goatcounter.com/counter/TOTAL.json`;
 
@@ -31,7 +34,7 @@
       }
 
       fillCount(totalEl, baseUrl);
-      fillCount(todayEl, `${baseUrl}?start=${today}&end=${today}`);
+      fillCount(todayEl, `${baseUrl}?start=${today}&end=${tomorrow}`);
     })();
   </script>
 {% endif %}
