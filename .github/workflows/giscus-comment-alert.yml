@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  discussions: read
 
 jobs:
   notify:
@@ -28,13 +29,10 @@ jobs:
 
           DISCUSSION_URL="https://github.com/${REPO}/discussions/${DISCUSSION_NUMBER}"
 
-          MSG=$(cat <<EOF
-💬 새 giscus 댓글
-작성자: ${COMMENTER}
-글: ${DISCUSSION_TITLE}
-링크: ${DISCUSSION_URL}
-EOF
-)
+          MSG=$(printf '💬 새 giscus 댓글\n작성자: %s\n글: %s\n링크: %s' \
+            "$COMMENTER" \
+            "$DISCUSSION_TITLE" \
+            "$DISCUSSION_URL")
 
           curl -sS -X POST "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage" \
             --data-urlencode "chat_id=${TG_CHAT_ID}" \
