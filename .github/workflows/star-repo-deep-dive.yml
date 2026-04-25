@@ -1,23 +1,12 @@
-name: GitHub Star Repo Deep Dive
+name: Generate Star Repo Deep Dive
 
 on:
   workflow_dispatch:
-    inputs:
-      force:
-        description: "Ignore the 2-day cadence guard"
-        required: false
-        default: "false"
-      min_stars:
-        description: "Minimum GitHub stars"
-        required: false
-        default: "50000"
   schedule:
-    # 11:40 KST. The script also enforces a 2-day cadence via state.
-    - cron: "40 2 * * *"
+    - cron: "10 22 * * *"
 
 permissions:
   contents: write
-  pull-requests: write
 
 concurrency:
   group: star-repo-deep-dive
@@ -26,47 +15,33 @@ concurrency:
 jobs:
   generate:
     runs-on: ubuntu-latest
-    env:
-      TZ: Asia/Seoul
+
     steps:
-      - name: Checkout main
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: main
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install -r scripts/requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f scripts/requirements.txt ]; then pip install -r scripts/requirements.txt; fi
 
-      - name: Generate GitHub deep-dive draft
+      - name: Generate deep dive
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FORCE_RUN: ${{ github.event.inputs.force || 'false' }}
-          MIN_STARS: ${{ github.event.inputs.min_stars || '50000' }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python scripts/star_repo_deep_dive.py
+
+      - name: Commit changes
         run: |
-          args=(--min-stars "$MIN_STARS")
-          if [ "$FORCE_RUN" = "true" ]; then
-            args+=(--force)
-          fi
-          python scripts/star_repo_deep_dive.py "${args[@]}"
-
-      - name: Create pull request if changed
-        uses: peter-evans/create-pull-request@v6
-        with:
-          branch: automation/star-repo-deep-dive
-          delete-branch: true
-          title: "chore: add GitHub star repo deep dive"
-          commit-message: "chore: add GitHub star repo deep dive"
-          body: |
-            Automated GitHub 50,000+ star repository deep-dive draft.
-
-            Safety notes:
-            - Does not push directly to main.
-            - Skips already analyzed repositories.
-            - Uses `.automation/star_repo_analysis.json` for cadence/state.
-          labels: automation, blog
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add _posts .automation
+          git diff --cached --quiet || git commit -m "chore: generate star repo deep dive"
+          git push
