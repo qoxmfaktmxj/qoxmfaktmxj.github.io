@@ -2,6 +2,9 @@ items:
   - key: ai-daily-news
     label: AI Daily News
     path: /categories/ai-daily-news/
+  - key: github-repo-analysis
+    label: Git Repo Deep Dive
+    path: /categories/github-repo-analysis/
   - key: ai
     label: AI
     path: /categories/ai/
