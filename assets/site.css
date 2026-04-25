@@ -22,6 +22,7 @@
   --cat-java:          #F89820;
   --cat-sql:           #C53D43;
   --cat-data-infra:    #14B8A6;
+  --cat-github-repo-analysis: #8B5CF6;
 }
 
 * {
@@ -630,6 +631,7 @@ pre code {
 [data-category="java"]          .cat-dot { background: var(--cat-java); }
 [data-category="sql"]           .cat-dot { background: var(--cat-sql); }
 [data-category="data-infra"]    .cat-dot { background: var(--cat-data-infra); }
+[data-category="github-repo-analysis"] .cat-dot { background: var(--cat-github-repo-analysis); }
 
 /* Post card left border by category */
 [data-category="ai-daily-news"].grid-post { border-left: 3px solid var(--cat-ai-daily-news); }
@@ -639,6 +641,7 @@ pre code {
 [data-category="java"].grid-post          { border-left: 3px solid var(--cat-java); }
 [data-category="sql"].grid-post           { border-left: 3px solid var(--cat-sql); }
 [data-category="data-infra"].grid-post    { border-left: 3px solid var(--cat-data-infra); }
+[data-category="github-repo-analysis"].grid-post { border-left: 3px solid var(--cat-github-repo-analysis); }
 
 /* Featured panel left border & accent by category */
 [data-category="ai-daily-news"].featured-panel { border-left: 4px solid var(--cat-ai-daily-news); }
@@ -648,6 +651,7 @@ pre code {
 [data-category="java"].featured-panel          { border-left: 4px solid var(--cat-java); }
 [data-category="sql"].featured-panel           { border-left: 4px solid var(--cat-sql); }
 [data-category="data-infra"].featured-panel    { border-left: 4px solid var(--cat-data-infra); }
+[data-category="github-repo-analysis"].featured-panel { border-left: 4px solid var(--cat-github-repo-analysis); }
 
 /* Category head panel left border by category */
 [data-category="ai-daily-news"].category-head { border-left: 4px solid var(--cat-ai-daily-news); }
@@ -657,6 +661,7 @@ pre code {
 [data-category="java"].category-head          { border-left: 4px solid var(--cat-java); }
 [data-category="sql"].category-head           { border-left: 4px solid var(--cat-sql); }
 [data-category="data-infra"].category-head    { border-left: 4px solid var(--cat-data-infra); }
+[data-category="github-repo-analysis"].category-head { border-left: 4px solid var(--cat-github-repo-analysis); }
 
 /* Category kicker color by category */
 [data-category="ai-daily-news"].category-head .kicker { color: var(--cat-ai-daily-news); }
@@ -666,6 +671,7 @@ pre code {
 [data-category="java"].category-head          .kicker { color: var(--cat-java); }
 [data-category="sql"].category-head           .kicker { color: var(--cat-sql); }
 [data-category="data-infra"].category-head    .kicker { color: var(--cat-data-infra); }
+[data-category="github-repo-analysis"].category-head .kicker { color: var(--cat-github-repo-analysis); }
 
 /* Featured kicker color by category */
 [data-category="ai-daily-news"].featured-panel .kicker { color: var(--cat-ai-daily-news); }
@@ -675,6 +681,7 @@ pre code {
 [data-category="java"].featured-panel          .kicker { color: var(--cat-java); }
 [data-category="sql"].featured-panel           .kicker { color: var(--cat-sql); }
 [data-category="data-infra"].featured-panel    .kicker { color: var(--cat-data-infra); }
+[data-category="github-repo-analysis"].featured-panel .kicker { color: var(--cat-github-repo-analysis); }
 
 /* Featured title color by category */
 [data-category="ai-daily-news"].featured-panel .featured-title { color: var(--cat-ai-daily-news); }
@@ -684,6 +691,7 @@ pre code {
 [data-category="java"].featured-panel          .featured-title { color: var(--cat-java); }
 [data-category="sql"].featured-panel           .featured-title { color: var(--cat-sql); }
 [data-category="data-infra"].featured-panel    .featured-title { color: var(--cat-data-infra); }
+[data-category="github-repo-analysis"].featured-panel .featured-title { color: var(--cat-github-repo-analysis); }
 
 /* Post category badge */
 .post-badge {
@@ -706,6 +714,7 @@ pre code {
 [data-category="java"]          .post-badge { background: var(--cat-java); }
 [data-category="sql"]           .post-badge { background: var(--cat-sql); }
 [data-category="data-infra"]    .post-badge { background: var(--cat-data-infra); }
+[data-category="github-repo-analysis"] .post-badge { background: var(--cat-github-repo-analysis); }
 
 /* ── Responsive ── */
 @media (max-width: 980px) {

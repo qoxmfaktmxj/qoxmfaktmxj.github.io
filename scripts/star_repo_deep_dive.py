@@ -219,10 +219,16 @@ def fetch_config_files(repo: RepoCandidate, paths: list[str]) -> dict[str, str]:
 
 def top_dirs(paths: list[str], limit: int = 12) -> list[tuple[str, int]]:
     counts: dict[str, int] = {}
+    root_files = 0
     for path in paths:
+        if "/" not in path:
+            root_files += 1
+            continue
         first = path.split("/", 1)[0]
         if first and not first.startswith("."):
             counts[first] = counts.get(first, 0) + 1
+    if root_files:
+        counts["<root files>"] = root_files
     return sorted(counts.items(), key=lambda item: item[1], reverse=True)[:limit]
 
 
