@@ -3,6 +3,8 @@ name: Generate Star Repo Deep Dive
 on:
   workflow_dispatch:
   schedule:
+    # GitHub cron is UTC. 22:10 UTC is around 07:10 KST.
+    # The workflow runs daily; scripts/star_repo_deep_dive.py enforces the 48-hour cadence via state.
     - cron: "10 22 * * *"
 
 permissions:
