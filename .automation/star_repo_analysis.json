@@ -1,9 +1,10 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-04-25T21:13:31+09:00",
+  "last_run_at": "2026-04-28T08:07:17+09:00",
   "analyzed": [
-    "codecrafters-io/build-your-own-x"
+    "codecrafters-io/build-your-own-x",
+    "sindresorhus/awesome"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-04-25T21:13:34+09:00"
+  "last_candidate_refresh": "2026-04-28T08:07:20+09:00"
 }
