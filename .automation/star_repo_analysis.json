@@ -1,13 +1,14 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-05-05T08:08:19+09:00",
+  "last_run_at": "2026-05-08T08:09:57+09:00",
   "analyzed": [
     "EbookFoundation/free-programming-books",
     "codecrafters-io/build-your-own-x",
     "freeCodeCamp/freeCodeCamp",
+    "openclaw/openclaw",
     "public-apis/public-apis",
     "sindresorhus/awesome"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-05-05T08:08:21+09:00"
+  "last_candidate_refresh": "2026-05-08T08:10:00+09:00"
 }
