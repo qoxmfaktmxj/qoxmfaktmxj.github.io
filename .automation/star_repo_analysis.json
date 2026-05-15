@@ -1,16 +1,17 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-05-13T08:15:38+09:00",
+  "last_run_at": "2026-05-16T08:09:27+09:00",
   "analyzed": [
     "EbookFoundation/free-programming-books",
     "codecrafters-io/build-your-own-x",
     "donnemartin/system-design-primer",
     "freeCodeCamp/freeCodeCamp",
+    "jwasham/coding-interview-university",
     "nilbuild/developer-roadmap",
     "openclaw/openclaw",
     "public-apis/public-apis",
     "sindresorhus/awesome"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-05-13T08:15:40+09:00"
+  "last_candidate_refresh": "2026-05-16T08:09:29+09:00"
 }
