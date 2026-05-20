@@ -1,8 +1,9 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-05-19T08:17:28+09:00",
+  "last_run_at": "2026-05-21T08:38:00+09:00",
   "analyzed": [
     "EbookFoundation/free-programming-books",
+    "awesome-selfhosted/awesome-selfhosted",
     "codecrafters-io/build-your-own-x",
     "donnemartin/system-design-primer",
     "freeCodeCamp/freeCodeCamp",
@@ -14,5 +15,5 @@
     "vinta/awesome-python"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-05-19T08:17:30+09:00"
+  "last_candidate_refresh": "2026-05-21T08:38:02+09:00"
 }
