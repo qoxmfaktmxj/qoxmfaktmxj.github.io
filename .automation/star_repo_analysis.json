@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-05-24T08:07:10+09:00",
+  "last_run_at": "2026-05-26T08:19:55+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "EbookFoundation/free-programming-books",
@@ -11,10 +11,11 @@
     "jwasham/coding-interview-university",
     "nilbuild/developer-roadmap",
     "openclaw/openclaw",
+    "practical-tutorials/project-based-learning",
     "public-apis/public-apis",
     "sindresorhus/awesome",
     "vinta/awesome-python"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-05-24T08:07:12+09:00"
+  "last_candidate_refresh": "2026-05-26T08:19:57+09:00"
 }
