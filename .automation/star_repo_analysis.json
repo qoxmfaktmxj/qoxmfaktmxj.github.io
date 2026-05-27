@@ -1,12 +1,13 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-05-26T08:19:55+09:00",
+  "last_run_at": "2026-05-28T08:36:44+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "EbookFoundation/free-programming-books",
     "awesome-selfhosted/awesome-selfhosted",
     "codecrafters-io/build-your-own-x",
     "donnemartin/system-design-primer",
+    "facebook/react",
     "freeCodeCamp/freeCodeCamp",
     "jwasham/coding-interview-university",
     "nilbuild/developer-roadmap",
@@ -17,5 +18,5 @@
     "vinta/awesome-python"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-05-26T08:19:57+09:00"
+  "last_candidate_refresh": "2026-05-28T08:36:45+09:00"
 }
