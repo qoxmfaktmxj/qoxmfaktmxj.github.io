@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-05-30T08:39:29+09:00",
+  "last_run_at": "2026-06-02T08:43:02+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "EbookFoundation/free-programming-books",
@@ -16,8 +16,9 @@
     "public-apis/public-apis",
     "sindresorhus/awesome",
     "torvalds/linux",
+    "trimstray/the-book-of-secret-knowledge",
     "vinta/awesome-python"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-05-30T08:39:31+09:00"
+  "last_candidate_refresh": "2026-06-02T08:43:04+09:00"
 }
