@@ -1,9 +1,10 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-06-02T08:43:02+09:00",
+  "last_run_at": "2026-06-04T08:57:52+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "EbookFoundation/free-programming-books",
+    "TheAlgorithms/Python",
     "awesome-selfhosted/awesome-selfhosted",
     "codecrafters-io/build-your-own-x",
     "donnemartin/system-design-primer",
@@ -20,5 +21,5 @@
     "vinta/awesome-python"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-06-02T08:43:04+09:00"
+  "last_candidate_refresh": "2026-06-04T08:57:55+09:00"
 }
