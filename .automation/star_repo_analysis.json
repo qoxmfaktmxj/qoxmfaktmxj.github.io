@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-06-14T08:19:43+09:00",
+  "last_run_at": "2026-06-16T08:59:15+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "EbookFoundation/free-programming-books",
@@ -15,6 +15,7 @@
     "nilbuild/developer-roadmap",
     "obra/superpowers",
     "openclaw/openclaw",
+    "ossu/computer-science",
     "practical-tutorials/project-based-learning",
     "public-apis/public-apis",
     "react/react",
@@ -25,5 +26,5 @@
     "vuejs/vue"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-06-14T08:19:45+09:00"
+  "last_candidate_refresh": "2026-06-16T08:59:17+09:00"
 }
