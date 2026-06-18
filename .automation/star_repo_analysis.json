@@ -1,9 +1,10 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-06-16T08:59:15+09:00",
+  "last_run_at": "2026-06-19T08:58:41+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "EbookFoundation/free-programming-books",
+    "NousResearch/hermes-agent",
     "TheAlgorithms/Python",
     "affaan-m/ECC",
     "awesome-selfhosted/awesome-selfhosted",
@@ -26,5 +27,5 @@
     "vuejs/vue"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-06-16T08:59:17+09:00"
+  "last_candidate_refresh": "2026-06-19T08:58:43+09:00"
 }
