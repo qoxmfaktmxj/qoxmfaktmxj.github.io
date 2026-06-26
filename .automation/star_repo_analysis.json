@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-06-25T08:19:22+09:00",
+  "last_run_at": "2026-06-27T08:20:43+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "EbookFoundation/free-programming-books",
@@ -25,9 +25,10 @@
     "torvalds/linux",
     "trekhleb/javascript-algorithms",
     "trimstray/the-book-of-secret-knowledge",
+    "ultraworkers/claw-code",
     "vinta/awesome-python",
     "vuejs/vue"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-06-25T08:19:24+09:00"
+  "last_candidate_refresh": "2026-06-27T08:20:45+09:00"
 }
