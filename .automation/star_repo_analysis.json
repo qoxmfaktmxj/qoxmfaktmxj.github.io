@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-06-27T08:20:43+09:00",
+  "last_run_at": "2026-06-30T08:13:35+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "EbookFoundation/free-programming-books",
@@ -13,6 +13,7 @@
     "facebook/react",
     "freeCodeCamp/freeCodeCamp",
     "jwasham/coding-interview-university",
+    "n8n-io/n8n",
     "nilbuild/developer-roadmap",
     "obra/superpowers",
     "openclaw/openclaw",
@@ -30,5 +31,5 @@
     "vuejs/vue"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-06-27T08:20:45+09:00"
+  "last_candidate_refresh": "2026-06-30T08:13:37+09:00"
 }
