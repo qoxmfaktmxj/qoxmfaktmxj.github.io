@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-06-30T08:13:35+09:00",
+  "last_run_at": "2026-07-02T08:39:05+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "EbookFoundation/free-programming-books",
@@ -16,6 +16,7 @@
     "n8n-io/n8n",
     "nilbuild/developer-roadmap",
     "obra/superpowers",
+    "ohmyzsh/ohmyzsh",
     "openclaw/openclaw",
     "ossu/computer-science",
     "practical-tutorials/project-based-learning",
@@ -31,5 +32,5 @@
     "vuejs/vue"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-06-30T08:13:37+09:00"
+  "last_candidate_refresh": "2026-07-02T08:39:06+09:00"
 }
