@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-07-05T08:10:20+09:00",
+  "last_run_at": "2026-07-07T08:20:55+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "EbookFoundation/free-programming-books",
@@ -13,6 +13,7 @@
     "facebook/react",
     "freeCodeCamp/freeCodeCamp",
     "jwasham/coding-interview-university",
+    "microsoft/vscode",
     "multica-ai/andrej-karpathy-skills",
     "n8n-io/n8n",
     "nilbuild/developer-roadmap",
@@ -33,5 +34,5 @@
     "vuejs/vue"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-07-05T08:10:22+09:00"
+  "last_candidate_refresh": "2026-07-07T08:20:56+09:00"
 }
