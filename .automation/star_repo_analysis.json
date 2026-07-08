@@ -1,10 +1,11 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-07-07T08:20:55+09:00",
+  "last_run_at": "2026-07-09T08:21:22+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "EbookFoundation/free-programming-books",
     "NousResearch/hermes-agent",
+    "Significant-Gravitas/AutoGPT",
     "TheAlgorithms/Python",
     "affaan-m/ECC",
     "awesome-selfhosted/awesome-selfhosted",
@@ -34,5 +35,5 @@
     "vuejs/vue"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-07-07T08:20:56+09:00"
+  "last_candidate_refresh": "2026-07-09T08:21:24+09:00"
 }
