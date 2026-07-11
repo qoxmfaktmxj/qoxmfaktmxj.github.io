@@ -1,8 +1,9 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-07-09T08:21:22+09:00",
+  "last_run_at": "2026-07-12T08:04:56+09:00",
   "analyzed": [
     "996icu/996.ICU",
+    "DigitalPlatDev/FreeDomain",
     "EbookFoundation/free-programming-books",
     "NousResearch/hermes-agent",
     "Significant-Gravitas/AutoGPT",
@@ -35,5 +36,5 @@
     "vuejs/vue"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-07-09T08:21:24+09:00"
+  "last_candidate_refresh": "2026-07-12T08:04:57+09:00"
 }
