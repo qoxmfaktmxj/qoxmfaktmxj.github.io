@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-07-12T08:04:56+09:00",
+  "last_run_at": "2026-07-14T08:08:24+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "DigitalPlatDev/FreeDomain",
@@ -9,6 +9,7 @@
     "Significant-Gravitas/AutoGPT",
     "TheAlgorithms/Python",
     "affaan-m/ECC",
+    "anomalyco/opencode",
     "awesome-selfhosted/awesome-selfhosted",
     "codecrafters-io/build-your-own-x",
     "donnemartin/system-design-primer",
@@ -36,5 +37,5 @@
     "vuejs/vue"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-07-12T08:04:57+09:00"
+  "last_candidate_refresh": "2026-07-14T08:08:27+09:00"
 }
