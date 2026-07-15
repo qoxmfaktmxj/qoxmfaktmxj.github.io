@@ -1,8 +1,9 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-07-14T08:08:24+09:00",
+  "last_run_at": "2026-07-16T08:09:35+09:00",
   "analyzed": [
     "996icu/996.ICU",
+    "CyC2018/CS-Notes",
     "DigitalPlatDev/FreeDomain",
     "EbookFoundation/free-programming-books",
     "NousResearch/hermes-agent",
@@ -37,5 +38,5 @@
     "vuejs/vue"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-07-14T08:08:27+09:00"
+  "last_candidate_refresh": "2026-07-16T08:09:37+09:00"
 }
