@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-07-19T08:05:11+09:00",
+  "last_run_at": "2026-07-21T08:11:40+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "CyC2018/CS-Notes",
@@ -17,6 +17,7 @@
     "facebook/react",
     "freeCodeCamp/freeCodeCamp",
     "getify/You-Dont-Know-JS",
+    "jackfrued/Python-100-Days",
     "jwasham/coding-interview-university",
     "microsoft/vscode",
     "multica-ai/andrej-karpathy-skills",
@@ -39,5 +40,5 @@
     "vuejs/vue"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-07-19T08:05:12+09:00"
+  "last_candidate_refresh": "2026-07-21T08:11:42+09:00"
 }
