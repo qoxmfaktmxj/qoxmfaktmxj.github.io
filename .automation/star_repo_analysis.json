@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-07-23T08:13:56+09:00",
+  "last_run_at": "2026-07-26T08:07:51+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "CyC2018/CS-Notes",
@@ -20,6 +20,7 @@
     "jackfrued/Python-100-Days",
     "jwasham/coding-interview-university",
     "massgravel/Microsoft-Activation-Scripts",
+    "mattpocock/skills",
     "microsoft/vscode",
     "multica-ai/andrej-karpathy-skills",
     "n8n-io/n8n",
@@ -41,5 +42,5 @@
     "vuejs/vue"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-07-23T08:13:58+09:00"
+  "last_candidate_refresh": "2026-07-26T08:07:53+09:00"
 }
