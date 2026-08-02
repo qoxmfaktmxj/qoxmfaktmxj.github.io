@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-07-31T08:16:23+09:00",
+  "last_run_at": "2026-08-03T08:06:54+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "CyC2018/CS-Notes",
@@ -16,6 +16,7 @@
     "codecrafters-io/build-your-own-x",
     "donnemartin/system-design-primer",
     "facebook/react",
+    "flutter/flutter",
     "freeCodeCamp/freeCodeCamp",
     "getify/You-Dont-Know-JS",
     "jackfrued/Python-100-Days",
@@ -44,5 +45,5 @@
     "yt-dlp/yt-dlp"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-07-31T08:16:25+09:00"
+  "last_candidate_refresh": "2026-08-03T08:06:56+09:00"
 }
