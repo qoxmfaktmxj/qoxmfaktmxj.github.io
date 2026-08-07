@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-08-05T08:15:47+09:00",
+  "last_run_at": "2026-08-07T10:33:22+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "CyC2018/CS-Notes",
@@ -19,6 +19,7 @@
     "flutter/flutter",
     "freeCodeCamp/freeCodeCamp",
     "getify/You-Dont-Know-JS",
+    "github/gitignore",
     "jackfrued/Python-100-Days",
     "jwasham/coding-interview-university",
     "massgravel/Microsoft-Activation-Scripts",
@@ -46,5 +47,5 @@
     "yt-dlp/yt-dlp"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-08-05T08:15:49+09:00"
+  "last_candidate_refresh": "2026-08-07T10:33:24+09:00"
 }
