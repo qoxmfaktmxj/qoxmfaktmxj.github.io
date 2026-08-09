@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-08-07T10:33:22+09:00",
+  "last_run_at": "2026-08-10T07:45:57+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "CyC2018/CS-Notes",
@@ -41,11 +41,12 @@
     "torvalds/linux",
     "trekhleb/javascript-algorithms",
     "trimstray/the-book-of-secret-knowledge",
+    "twbs/bootstrap",
     "ultraworkers/claw-code",
     "vinta/awesome-python",
     "vuejs/vue",
     "yt-dlp/yt-dlp"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-08-07T10:33:24+09:00"
+  "last_candidate_refresh": "2026-08-10T07:45:59+09:00"
 }
