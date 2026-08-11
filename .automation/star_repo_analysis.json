@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-08-10T07:45:57+09:00",
+  "last_run_at": "2026-08-12T07:57:37+09:00",
   "analyzed": [
     "996icu/996.ICU",
     "CyC2018/CS-Notes",
@@ -24,6 +24,7 @@
     "jwasham/coding-interview-university",
     "massgravel/Microsoft-Activation-Scripts",
     "mattpocock/skills",
+    "microsoft/markitdown",
     "microsoft/vscode",
     "multica-ai/andrej-karpathy-skills",
     "n8n-io/n8n",
@@ -48,5 +49,5 @@
     "yt-dlp/yt-dlp"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-08-10T07:45:59+09:00"
+  "last_candidate_refresh": "2026-08-12T07:57:39+09:00"
 }
