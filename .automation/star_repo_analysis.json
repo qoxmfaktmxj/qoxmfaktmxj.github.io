@@ -1,7 +1,8 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-08-12T07:57:37+09:00",
+  "last_run_at": "2026-08-14T07:57:45+09:00",
   "analyzed": [
+    "521xueweihan/HelloGitHub",
     "996icu/996.ICU",
     "CyC2018/CS-Notes",
     "DigitalPlatDev/FreeDomain",
@@ -49,5 +50,5 @@
     "yt-dlp/yt-dlp"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-08-12T07:57:39+09:00"
+  "last_candidate_refresh": "2026-08-14T07:57:47+09:00"
 }
