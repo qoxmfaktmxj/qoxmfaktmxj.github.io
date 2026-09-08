@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-09-06T08:50:23+09:00",
+  "last_run_at": "2026-09-08T09:18:12+09:00",
   "analyzed": [
     "521xueweihan/HelloGitHub",
     "996icu/996.ICU",
@@ -31,6 +31,7 @@
     "jackfrued/Python-100-Days",
     "jlevy/the-art-of-command-line",
     "jwasham/coding-interview-university",
+    "langflow-ai/langflow",
     "langgenius/dify",
     "massgravel/Microsoft-Activation-Scripts",
     "mattpocock/skills",
@@ -59,5 +60,5 @@
     "yt-dlp/yt-dlp"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-09-06T08:50:25+09:00"
+  "last_candidate_refresh": "2026-09-08T09:18:14+09:00"
 }
