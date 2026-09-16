@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-09-14T09:07:37+09:00",
+  "last_run_at": "2026-09-16T09:13:37+09:00",
   "analyzed": [
     "521xueweihan/HelloGitHub",
     "996icu/996.ICU",
@@ -8,6 +8,7 @@
     "CyC2018/CS-Notes",
     "DigitalPlatDev/FreeDomain",
     "EbookFoundation/free-programming-books",
+    "Genymobile/scrcpy",
     "NousResearch/hermes-agent",
     "Significant-Gravitas/AutoGPT",
     "Snailclimb/JavaGuide",
@@ -62,5 +63,5 @@
     "yt-dlp/yt-dlp"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-09-14T09:07:39+09:00"
+  "last_candidate_refresh": "2026-09-16T09:13:38+09:00"
 }
