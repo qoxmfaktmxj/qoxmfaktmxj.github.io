@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-09-16T09:13:37+09:00",
+  "last_run_at": "2026-09-19T09:14:57+09:00",
   "analyzed": [
     "521xueweihan/HelloGitHub",
     "996icu/996.ICU",
@@ -14,6 +14,7 @@
     "Snailclimb/JavaGuide",
     "TheAlgorithms/Python",
     "affaan-m/ECC",
+    "airbnb/javascript",
     "anomalyco/opencode",
     "anthropics/skills",
     "avelino/awesome-go",
@@ -63,5 +64,5 @@
     "yt-dlp/yt-dlp"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-09-16T09:13:38+09:00"
+  "last_candidate_refresh": "2026-09-19T09:14:59+09:00"
 }
