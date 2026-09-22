@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-09-19T09:14:57+09:00",
+  "last_run_at": "2026-09-22T09:46:21+09:00",
   "analyzed": [
     "521xueweihan/HelloGitHub",
     "996icu/996.ICU",
@@ -16,6 +16,7 @@
     "affaan-m/ECC",
     "airbnb/javascript",
     "anomalyco/opencode",
+    "anthropics/claude-code",
     "anthropics/skills",
     "avelino/awesome-go",
     "awesome-selfhosted/awesome-selfhosted",
@@ -64,5 +65,5 @@
     "yt-dlp/yt-dlp"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-09-19T09:14:59+09:00"
+  "last_candidate_refresh": "2026-09-22T09:46:23+09:00"
 }
