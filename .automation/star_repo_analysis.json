@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-09-22T09:46:21+09:00",
+  "last_run_at": "2026-09-25T09:31:13+09:00",
   "analyzed": [
     "521xueweihan/HelloGitHub",
     "996icu/996.ICU",
@@ -20,6 +20,7 @@
     "anthropics/skills",
     "avelino/awesome-go",
     "awesome-selfhosted/awesome-selfhosted",
+    "clash-verge-rev/clash-verge-rev",
     "codecrafters-io/build-your-own-x",
     "deepseek-ai/deepseek-harness",
     "donnemartin/system-design-primer",
@@ -65,5 +66,5 @@
     "yt-dlp/yt-dlp"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-09-22T09:46:23+09:00"
+  "last_candidate_refresh": "2026-09-25T09:31:15+09:00"
 }
