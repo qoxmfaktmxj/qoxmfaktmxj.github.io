@@ -1,11 +1,12 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-09-28T09:38:08+09:00",
+  "last_run_at": "2026-09-30T10:15:45+09:00",
   "analyzed": [
     "521xueweihan/HelloGitHub",
     "996icu/996.ICU",
     "AUTOMATIC1111/stable-diffusion-webui",
     "CyC2018/CS-Notes",
+    "DietrichGebert/ponytail",
     "DigitalPlatDev/FreeDomain",
     "EbookFoundation/free-programming-books",
     "Genymobile/scrcpy",
@@ -67,5 +68,5 @@
     "yt-dlp/yt-dlp"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-09-28T09:38:09+09:00"
+  "last_candidate_refresh": "2026-09-30T10:15:47+09:00"
 }
