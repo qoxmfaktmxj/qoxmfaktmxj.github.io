@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-10-07T10:29:38+09:00",
+  "last_run_at": "2026-10-09T11:05:17+09:00",
   "analyzed": [
     "521xueweihan/HelloGitHub",
     "996icu/996.ICU",
@@ -27,6 +27,7 @@
     "donnemartin/system-design-primer",
     "f/prompts.chat",
     "facebook/react",
+    "farion1231/cc-switch",
     "firecrawl/firecrawl",
     "flutter/flutter",
     "freeCodeCamp/freeCodeCamp",
@@ -71,5 +72,5 @@
     "yt-dlp/yt-dlp"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-10-07T10:29:40+09:00"
+  "last_candidate_refresh": "2026-10-09T11:05:20+09:00"
 }
