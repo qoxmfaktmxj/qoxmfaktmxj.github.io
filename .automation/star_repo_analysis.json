@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-10-15T09:29:17+09:00",
+  "last_run_at": "2026-10-16T07:11:37+09:00",
   "analyzed": [
     "521xueweihan/HelloGitHub",
     "996icu/996.ICU",
@@ -71,8 +71,11 @@
     "vuejs/vue",
     "x1xhlol/system-prompts-and-models-of-ai-tools",
     "yangshun/tech-interview-handbook",
-    "yt-dlp/yt-dlp"
+    "yt-dlp/yt-dlp",
+    "anthropics/claude-plugins-official"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-10-15T09:29:19+09:00"
+  "last_candidate_refresh": "2026-10-15T09:29:19+09:00",
+  "selection_mode": "github_trending_daily",
+  "last_trending_rank": 2
 }
