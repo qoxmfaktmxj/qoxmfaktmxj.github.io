@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "PostgreSQL Logical Replication 실전: Publication, Subscription, Replica Identity, Slot Lag, Initial Sync로 데이터 분배를 운영하는 법"
-date: 2026-07-18 11:50:00 +0900
+date: 2026-08-26 11:50:00 +0900
 categories: [sql]
 tags: [study, sql, postgresql, logical-replication, publication, subscription, replica-identity, replication-slot, wal, initial-sync, operations]
-permalink: /sql/2026/07/18/study-postgresql-logical-replication-publication-subscription-replica-identity-slot-lag-initial-sync.html
+permalink: /sql/2026/08/26/study-postgresql-logical-replication-publication-subscription-replica-identity-slot-lag-initial-sync.html
 ---
 
 ## 배경: 읽기 복제와 이벤트 스트리밍 사이에는 "논리 복제"라는 운영 경계가 있다

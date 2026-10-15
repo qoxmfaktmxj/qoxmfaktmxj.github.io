@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "Next.js URL State 실전: searchParams, useSearchParams, Suspense, Cache Key로 검색·필터·페이지네이션을 설계하는 법"
-date: 2026-07-10 11:50:00 +0900
+date: 2026-09-09 11:50:00 +0900
 categories: [nextjs]
 tags: [study, nextjs, url-state, searchparams, use-search-params, pagination, filter, sorting, suspense, cache, app-router, performance]
-permalink: /nextjs/2026/07/10/study-nextjs-url-state-searchparams-suspense-cache-pagination-filter.html
+permalink: /nextjs/2026/09/09/study-nextjs-url-state-searchparams-suspense-cache-pagination-filter.html
 ---
 
 ## 배경: 검색 조건은 작은 UI 상태처럼 보이지만, 운영에서는 라우팅·캐시·공유 가능성의 계약이 된다

@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "Elasticsearch ILM 실전: Rollover, Data Stream, Hot-Warm-Cold, Retention으로 로그 인덱스를 오래 운영하는 법"
-date: 2026-07-13 11:50:00 +0900
+date: 2026-08-19 11:50:00 +0900
 categories: [data-infra]
 tags: [study, data-infra, elasticsearch, ilm, rollover, data-stream, hot-warm-cold, retention, shard, operations]
-permalink: /data-infra/2026/07/13/study-elasticsearch-ilm-rollover-data-stream-hot-warm-cold-retention.html
+permalink: /data-infra/2026/08/19/study-elasticsearch-ilm-rollover-data-stream-hot-warm-cold-retention.html
 ---
 
 ## 배경: 검색은 잘 되는데 클러스터가 점점 무거워지는 이유

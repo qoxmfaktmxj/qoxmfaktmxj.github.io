@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "Python 관측 가능성 설계: Logging, ContextVar, Exception Chain, OpenTelemetry로 운영 로그를 증거로 만드는 법"
-date: 2026-07-15 11:50:00 +0900
+date: 2026-09-30 11:50:00 +0900
 categories: [python]
 tags: [study, python, logging, observability, contextvars, opentelemetry, exception, tracing, structured-logging, backend, operations]
-permalink: /python/2026/07/15/study-python-logging-contextvars-opentelemetry-exception-observability.html
+permalink: /python/2026/09/30/study-python-logging-contextvars-opentelemetry-exception-observability.html
 ---
 
 ## 배경: 로그는 많이 남기는 것이 아니라 나중에 판단할 수 있게 남기는 것이다

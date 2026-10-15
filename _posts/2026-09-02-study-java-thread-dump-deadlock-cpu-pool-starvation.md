@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "Java Thread Dump 분석 실전: CPU 스파이크, Deadlock, Pool Starvation, Blocked Thread를 운영 증거로 읽는 법"
-date: 2026-07-20 11:50:00 +0900
+date: 2026-09-02 11:50:00 +0900
 categories: [java]
 tags: [study, java, thread-dump, deadlock, cpu, blocked-thread, thread-pool, starvation, jstack, jcmd, operations, performance, backend]
-permalink: /java/2026/07/20/study-java-thread-dump-deadlock-cpu-pool-starvation.html
+permalink: /java/2026/09/02/study-java-thread-dump-deadlock-cpu-pool-starvation.html
 ---
 
 ## 배경: Thread dump는 장애 이후에 보는 로그가 아니라 장애 중에 읽어야 하는 증거다
