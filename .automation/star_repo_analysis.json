@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-10-12T10:16:04+09:00",
+  "last_run_at": "2026-10-15T09:29:17+09:00",
   "analyzed": [
     "521xueweihan/HelloGitHub",
     "996icu/996.ICU",
@@ -45,6 +45,7 @@
     "mattpocock/skills",
     "microsoft/markitdown",
     "microsoft/vscode",
+    "morluto/rea",
     "msitarzewski/agency-agents",
     "multica-ai/andrej-karpathy-skills",
     "n8n-io/n8n",
@@ -73,5 +74,5 @@
     "yt-dlp/yt-dlp"
   ],
   "exhausted": false,
-  "last_candidate_refresh": "2026-10-12T10:16:06+09:00"
+  "last_candidate_refresh": "2026-10-15T09:29:19+09:00"
 }
