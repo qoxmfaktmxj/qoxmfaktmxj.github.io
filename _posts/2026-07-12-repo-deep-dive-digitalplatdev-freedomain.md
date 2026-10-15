@@ -1,50 +1,83 @@
 ---
 layout: post
-title: "Repo Deep Dive: DigitalPlatDev/FreeDomain"
+title: "Repo Deep Dive: DigitalPlatDev/FreeDomain - 무료 이름을 신청하고 DNS와 갱신까지 관리하기"
 date: 2026-07-12 08:04:56 +0900
 categories: [github-repo-analysis]
-tags: [github, architecture, backend, open-source, deep-dive]
+tags: [github, domain, dns, nameserver, documentation, free-domain]
 repo: DigitalPlatDev/FreeDomain
-stars: 184946
-analyzed_at: 2026-07-12
+analyzed_at: 2026-10-16
+analyzed_commit: 9c7c54110705760267b07b6e6a6d406d1172a1bf
 ---
 
-## 1. 이 repo가 중요한 이유
+웹사이트를 처음 공개할 때는 서버보다 주소를 먼저 고민하기도 한다. 개인 소개 페이지나 작은 오픈소스 프로젝트에 기억하기 쉬운 이름을 붙이고 싶은데, 도메인 등록부터 비용이 든다. DigitalPlat FreeDomain은 지원하는 이름 공간 아래에서 공개 이름을 등록하고, 사용자가 고른 DNS와 호스팅에 연결하도록 돕는 서비스다. 이 저장소는 그 서비스를 이용하는 안내서와 DNS 학습 자료를 제공한다.
 
-FreeDomain은 도메인 등록 비용이 개인과 조직의 온라인 진입장벽이 되는 문제를 해결하는 프로젝트입니다. 500,000개 이상의 도메인이 등록되어 있으며, 전 세계 사용자들에게 무료 디지털 정체성을 제공함으로써 웹 접근성 민주화를 실현하고 있습니다.
+이번 글은 2026년 10월 16일 확인한 공식 자료를 기준으로 새로 작성했다. 공식 홈페이지와 약관, 저장소의 신청 및 갱신 안내를 확인했으며 계정 생성이나 실제 등록은 하지 않았다. 대시보드는 조사 환경에서 접근이 제한되어 로그인 이후의 최신 신청 화면은 확인하지 못했다. 아래 절차는 공식 문서를 따라 설명하되, 특정 이름의 신청 가능 여부나 최종 비용을 확인한 것으로 읽어서는 안 된다.
 
-## 2. 한 문장 요약
+## 먼저 무엇을 받는 서비스인지 구분한다
 
-DigitalPlat FreeDomain은 .DPDNS.ORG, .US.KG 등 5개의 무료 도메인 확장자를 제공하여 누구나 비용 부담 없이 고유한 도메인을 등록하고 Cloudflare, FreeDNS 등의 DNS 제공자와 연동할 수 있는 오픈소스 도메인 플랫폼입니다.
+공식 홈페이지는 `*.dpdns.org`, `*.us.kg`, `*.qzz.io`, `*.xx.kg`, `*.qd.je`를 공개 이름 공간으로 안내한다. 예를 들어 `example.dpdns.org`처럼 접미사 앞에 원하는 이름을 붙이는 형태다. 다섯 개의 최상위 도메인을 무료로 소유하는 상품이라는 뜻은 아니다. 운영 약관은 이를 제공되는 이름 공간 아래의 공개 서브도메인 등록으로 설명한다. 상위 이름 공간 자체나 영구적인 도메인 소유권을 판매하는 서비스도 아니다. [공식 홈페이지](https://domain.digitalplat.org/)와 [이용약관](https://domain.digitalplat.org/terms-of-service/)에서 이 범위를 확인할 수 있다.
 
-## 3. 제품/문제 정의
+등록한 이름은 외부 권한 DNS 서버에 위임할 수 있다. 권한 DNS는 그 이름에 대한 실제 레코드를 보관하고 답하는 서버다. FreeDomain에서 이름을 확보한 뒤 외부 DNS에 웹사이트 주소를 적고, 별도로 준비한 호스팅에서 페이지를 제공하는 구조다. 개인 사이트, 커뮤니티 안내 페이지, 학습용 배포처럼 이름과 서버를 직접 연결해 보고 싶은 사람이 활용할 수 있다.
 
-도메인 구매 비용($10-15/년)이 개발자, 학생, 저소득층의 웹사이트 구축을 저해하는 경제적 장벽으로 작용하고 있으며, 기존 무료 도메인 서비스들의 신뢰성 부족과 제한된 확장자 옵션이 사용자 선택을 제약하고 있습니다.
+저장소를 내려받는 일과 서비스에 가입하는 일도 다르다. [README](https://github.com/DigitalPlatDev/FreeDomain/blob/9c7c54110705760267b07b6e6a6d406d1172a1bf/README.md)는 FreeDomain 저장소를 공개 안내 및 학습 자료로 소개하고, 애플리케이션 소스는 별도 [Domain-OSS 저장소](https://github.com/DigitalPlatDev/Domain-OSS)에 있다고 명시한다. FreeDomain을 복제했다고 운영 서비스 계정이나 이름을 얻는 것은 아니다. 저장소의 [AGPL-3.0 라이선스](https://github.com/DigitalPlatDev/FreeDomain/blob/9c7c54110705760267b07b6e6a6d406d1172a1bf/LICENSE)도 공개 자료의 이용 조건이며 등록 서비스의 승인이나 유지 조건을 대신하지 않는다.
 
-## 4. 아키텍처 구조
+## 무료라는 안내 다음에 확인할 조건
 
-프론트엔드 중심의 정적 사이트 구조(HTML 102,723줄)로 대시보드(dash.domain.digitalplat.org)를 운영하며, JavaScript(3,684줄)로 클라이언트 상호작용을 처리하고, Python(2,424줄) 백엔드로 도메인 등록 로직과 DNS 연동을 관리합니다. 문서화된 튜토리얼과 FAQ를 통해 사용자 온보딩을 지원하는 커뮤니티 중심 아키텍처입니다.
+[FAQ](https://github.com/DigitalPlatDev/FreeDomain/blob/9c7c54110705760267b07b6e6a6d406d1172a1bf/documents/domains/faq.md)에 적힌 기본 한도는 사용자 계정당 도메인 한 개다. 확보한 이름 아래에 `blog.example.dpdns.org` 같은 하위 이름을 만드는 작업은 외부 DNS에서 할 수 있다. 이것을 FreeDomain에서 별도 이름을 계속 무료 등록할 수 있다는 의미로 확대하면 안 된다. 같은 FAQ는 GitHub 별표가 필수 조건이 아니라고도 명시한다.
 
-## 5. 핵심 모듈
+서비스 약관에는 제한된 무료 슬롯과 추가 등록 용량을 위한 Buy Slot이 구분되어 있다. 슬롯은 신청 가능 용량이며, Buy Slot은 그 용량을 늘리는 일회성 서비스 요금이다. 특정 이름의 확보나 영구 사용권, 향후 갱신을 보장하는 구매가 아니다. 접미사 목록만 보고 모두 같은 조건으로 등록할 수 있다고 판단할 수는 없다. 현재 슬롯 수와 접미사별 요구 조건, 표시되는 요금은 신청 직전에 확인한다. [이용약관의 슬롯 정책](https://domain.digitalplat.org/terms-of-service/)이 판단 근거다.
 
-1) 도메인 등록 엔진 - 5개 TLD(.DPDNS.ORG, .US.KG, .QZZ.IO, .XX.KG, .QD.JE)에 대한 등록 처리 2) DNS 제공자 연동 - Cloudflare, FreeDNS, Hostry와의 통합 3) 대시보드 UI - 사용자 도메인 관리 인터페이스 4) 어뷰즈 리포팅 시스템 - abusereport@digitalplat.org를 통한 악용 신고 처리 5) 커뮤니티 관리 - Discord 서버 기반 사용자 지원
+신청 자격도 확인해야 한다. 약관은 최소 13세를 제시하면서 거주지 법률이 더 높은 연령을 요구하면 그 기준을 따르도록 하고, 미성년자는 보호자의 동의와 감독을 요구한다. 조직을 대신해 신청하는 사람에게는 그 조직을 대표할 권한도 필요하다. 실제 적용 조건은 신청자가 약관에서 확인해야 한다.
 
-## 6. 백엔드 개발자가 배울 점
+유지 조건은 요금만의 문제가 아니다. [허용 이용 정책](https://domain.digitalplat.org/acceptable-use-policy/)은 피싱, 악성코드, 스팸, 사칭과 함께 다중 계정으로 무료 용량을 늘리거나 제한을 우회하는 행위를 금지한다. 등록 정보는 정확하게 유지하고, 보안이나 악용 신고에 응답해야 한다. 외부 호스팅에서 문제가 발생했더라도 그 주소로 연결하는 사용자의 책임이 사라지는 것은 아니다. 이름을 받은 뒤에도 공개하는 서비스와 계정 관리를 계속 맡아야 한다.
 
-1) 스케일 관리: 15세 DNS 실험에서 500,000 사용자 플랫폼으로 성장하면서 '빌드하기보다 운영이 훨씬 어렵다'는 교훈 획득 2) 신뢰성 구축: 보안 침해(Telegram 계정 해킹) 경험으로 공식 채널 관리의 중요성 인식 3) 커뮤니티 우선: Discord 커뮤니티를 통한 사용자 지원이 확장성 있는 운영 모델임을 증명 4) 어뷰즈 관리: 도메인 악용 신고 시스템으로 '몇 시간~며칠' 대응 시간 설정하여 현실적 SLA 운영 5) 문서화: 튜토리얼과 FAQ로 자동화된 사용자 온보딩 구현
+## 계정을 만들기 전에 DNS 서비스부터 고른다
 
-## 7. 내 프로젝트에 훔쳐올 패턴
+신청에 필요한 기본 준비물은 계속 접근할 수 있는 이메일, 정확한 이름 또는 조직명, 연락처와 주소다. 이메일은 복구와 정책 안내를 받는 통로이므로 곧 접근을 잃을 수 있는 수단은 운영에 불리하다. 공식 [계정 생성 안내](https://github.com/DigitalPlatDev/FreeDomain/blob/9c7c54110705760267b07b6e6a6d406d1172a1bf/documents/tutorial/platform/1.1-account-registration.md)는 실제 정보를 입력하고, 연락 정보와 청구 정보를 구분해 검토하도록 설명한다. 정보가 어떻게 수집되고 이용되는지는 [개인정보 처리방침](https://domain.digitalplat.org/privacy-policy/)을 함께 읽어야 한다.
 
-1) 무료 모델의 지속가능성: 도메인 등록 비용을 제거하되 DNS 제공자 연동으로 수익화 기회 창출 2) 다중 TLD 전략: 단일 TLD 의존도를 낮추고 사용자 선택지 확대로 플랫폼 안정성 증대 3) 커뮤니티 주도 운영: Discord 기반 커뮤니티로 저비용 고효율 사용자 지원 4) 투명한 어뷰즈 정책: 명확한 신고 프로세스와 기대 대응 시간 공시로 신뢰도 향상 5) 창립자 스토리텔링: 'dev.to 블로그'를 통한 성장 과정 공유로 브랜드 신뢰성 강화 6) 정적 사이트 + 경량 백엔드: HTML 기반 프론트엔드로 호스팅 비용 최소화
+다음으로 사용할 외부 DNS를 정한다. DNS 조회 기능만 있는 서비스가 아니라, 등록하려는 전체 이름의 존을 만들고 권한 네임서버 호스트명을 제공할 수 있어야 한다. 존은 그 이름 아래의 DNS 설정을 담는 관리 단위다. 외부 DNS가 배정한 네임서버 값은 FreeDomain에 넣고, 웹사이트나 메일 레코드는 그 외부 DNS에서 관리한다.
 
-## 8. 주의할 점 / 안티패턴
+공식 연결 안내에는 Cloudflare 화면이 등장하지만 이는 인터페이스 예시다. DigitalPlat이 해당 업체를 보증한다는 뜻은 아니며, 외부 서비스의 지원 범위와 요금, 보안 설정은 별도로 확인해야 한다. 무료 도메인 등록에 DNS, 웹 서버, 이메일 계정의 모든 비용이 함께 포함되는 것은 아니다. [제품 범위 안내](https://github.com/DigitalPlatDev/FreeDomain/blob/9c7c54110705760267b07b6e6a6d406d1172a1bf/documents/tutorial/platform/1.0-product-boundaries.md)는 웹 파일 업로드, 서버 구성, HTTPS 인증서와 메일함을 별도 작업으로 구분한다.
 
-1) 보안 위험: Telegram 계정 해킹 사례로 공식 채널 관리 실패 경험 - 다중 채널 운영 시 보안 감시 필수 2) 스케일 운영의 어려움: 500,000 도메인 관리 시 기술 부채와 운영 복잡도 급증 - 초기 아키텍처 설계 중요 3) 어뷰즈 대응 부담: 도메인 악용 신고 처리에 '몇 시간~며칠' 소요 - 자동화 시스템 부재 시 운영 병목 4) 무료 모델의 지속성: 도메인 등록 비용 제거 시 수익화 모델 부재 위험 5) 법적 리스크: 무료 도메인 제공 시 각국의 도메인 정책 및 규제 변화에 대한 대응 필요 6) 단일 창립자 의존도: Edward Hsing 개인에 대한 높은 의존도로 프로젝트 지속성 위험
+## 원하는 이름을 확인하고 결과를 기록한다
 
-## 9. vibe-grid / vibe-hr / jarvis / ehr-harness에 적용할 아이디어
+공식 문서의 신청 흐름은 대시보드 공지 확인부터 시작한다. 등록 중단, 접미사별 제한, 슬롯이나 가격이 바뀔 수 있으므로 오래된 화면을 따라 바로 제출하는 방식은 피한다. 원하는 이름을 외부 DNS에 추가해 배정받은 네임서버를 준비한 뒤, 대시보드의 Register에서 이름과 접미사를 선택하고 Check availability로 확인한다. 확인 대상은 짧은 이름 부분만이 아니라 결과로 만들어지는 전체 주소다.
 
-1) 마이크로서비스 플랫폼: 도메인 등록, DNS 연동, 어뷰즈 관리를 독립적 모듈로 분리하여 확장성 있는 아키텍처 설계 2) 커뮤니티 기반 SaaS: Discord 커뮤니티 중심의 사용자 지원 모델을 채택하여 저비용 고효율 운영 3) 무료 서비스 지속성: 핵심 기능은 무료 제공하되 부가 서비스(프리미엄 DNS, 고급 분석)로 수익화 4) 문서화 자동화: 튜토리얼과 FAQ를 마크다운 기반으로 관리하여 버전 관리 및 커뮤니티 기여 용이 5) 어뷰즈 관리 시스템: 신고 접수, 검토, 대응을 자동화된 워크플로우로 구현하여 운영 효율성 증대 6) 정적 사이트 + 경량 API: 프론트엔드는 정적 호스팅(GitHub Pages, Vercel)으로 비용 절감, 백엔드는 Python 기반 마이크로서비스로 구성
+최종 제출 전에는 전체 철자, 접미사, 네임서버 호스트명, 등록자 정보, 정책 동의와 표시된 슬롯 또는 요금을 검토한다. 네임서버 자리에 웹 서버 IP나 공개 DNS 리졸버 주소를 넣으면 역할이 맞지 않는다. 공식 안내의 `ns1.dns-service.example` 같은 값은 형식을 설명하는 가상 호스트명이다. 실제 신청에서는 선택한 DNS 서비스가 배정한 값을 넣어야 한다. [도메인 등록 안내](https://github.com/DigitalPlatDev/FreeDomain/blob/9c7c54110705760267b07b6e6a6d406d1172a1bf/documents/tutorial/platform/1.2-domain-registration.md)가 이 확인 순서를 제공한다.
 
-## 10. Source Links
+제출 이후에는 Domain List에서 정확한 이름과 상태, 만료일을 확인한다. 신청 버튼을 눌렀다는 사실과 등록 완료는 다르다. 보류 또는 거절로 표시되면 화면의 사유를 확인한다. 이름 중복, 잘못된 네임서버, 불완전한 등록 정보나 접미사 제한을 살피는 단계다. 성공한 경우에도 만료일과 담당 계정을 비공개 관리 기록에 남겨야 이후 갱신을 놓치지 않는다.
 
-['https://github.com/DigitalPlatDev/FreeDomain', 'https://dash.domain.digitalplat.org/', 'https://discord.gg/ma4RZzMmVW', 'https://dev.to/edwardhsing/i-bought-a-domain-at-15-now-it-powers-400000-users-7ol', 'https://github.com/EdwardLab', 'mailto:abusereport@digitalplat.org']
+## DNS 연결은 두 화면을 오가는 작업이다
+
+FreeDomain과 외부 DNS는 서로 다른 설정을 맡는다. FreeDomain에는 이름의 권한을 어느 네임서버에 위임할지 저장한다. 외부 DNS에는 그 이름으로 웹사이트, 메일이나 검증 서비스를 찾는 방법을 저장한다. 외부 DNS의 존에서 NS 레코드만 고쳐 놓고 FreeDomain의 위임 설정을 그대로 두면 상위에서 찾아가는 경로가 바뀌지 않을 수 있다.
+
+[공식 네임서버 연결 예제](https://github.com/DigitalPlatDev/FreeDomain/blob/9c7c54110705760267b07b6e6a6d406d1172a1bf/documents/tutorial/platform/1.3-connect-nameservers.md)는 외부 DNS에 전체 도메인을 추가하고 배정된 네임서버를 빠짐없이 복사한 뒤, FreeDomain의 등록 또는 관리 화면에 저장하도록 안내한다. 이어 다음 명령으로 위임된 값을 확인한다.
+
+```bash
+dig NS example.dpdns.org
+```
+
+이는 공식 문서의 설명용 명령이며 이 글에서 실행하지 않았다. 실제 확인 시에는 예시 도메인을 본인의 이름으로 바꾸고, 응답에 표시된 NS가 저장한 네임서버와 일치하는지 본다. 위임이 맞더라도 웹사이트 레코드를 만들지 않았다면 접속할 목적지는 아직 없다.
+
+외부 DNS에서는 호스팅이 요구하는 레코드를 만든다. 직접 서버를 운영하는 경우 A는 IPv4, AAAA는 IPv6 주소를 연결하고, `www` 같은 별칭은 CNAME을 쓸 수 있다. 메일 서비스는 MX와 해당 업체가 요구하는 TXT 등을 별도로 설정한다. [DNS 레코드 교재](https://github.com/DigitalPlatDev/FreeDomain/blob/9c7c54110705760267b07b6e6a6d406d1172a1bf/documents/tutorial/dns/2.1-record-types.md)에 나오는 `192.0.2.10`은 문서용 예시 주소다. 그대로 복사하지 말고 실제 호스팅에서 지정한 값을 사용해야 한다.
+
+문제가 생기면 어느 단계까지 성공했는지 나누어 확인한다. Domain List에 이름이 없으면 등록 상태부터 본다. 이름은 있지만 NS가 다르면 위임 설정을 확인한다. NS는 맞고 A가 없으면 외부 DNS 존을 본다. DNS가 맞는데 웹 연결이 실패하면 서버와 방화벽을 확인하고, HTTP는 되지만 HTTPS가 실패하면 인증서와 웹 서버 설정을 살핀다. [배포 안내](https://github.com/DigitalPlatDev/FreeDomain/blob/9c7c54110705760267b07b6e6a6d406d1172a1bf/documents/tutorial/website/3.5-deploy-and-connect.md)는 DNS 조회와 실제 HTTP 응답 확인을 별도 단계로 둔다. 기다리는 것만으로 누락된 레코드나 서버 설정이 만들어지지는 않는다.
+
+## 유지와 갱신까지 신청 과정에 포함한다
+
+이름이 처음 연결되었다면 다음 확인 대상은 만료일이다. [상태 및 갱신 안내](https://github.com/DigitalPlatDev/FreeDomain/blob/9c7c54110705760267b07b6e6a6d406d1172a1bf/documents/tutorial/platform/1.4-status-and-renewal.md)는 등록 상태와 만료일의 기준을 대시보드로 정한다. 갱신 기간, 비용, 슬롯 규칙과 유예 처리는 바뀔 수 있다고 명시하므로, 모든 접미사에 같은 기간이나 자동 무료 갱신이 적용된다고 가정하지 않는다.
+
+운영 기록에는 도메인, 담당자, 계정 이메일, 만료일, 외부 DNS와 호스팅을 함께 적어 두면 좋다. 공식 문서는 만료 90일, 60일, 30일, 7일 전 알림을 예로 들지만 이는 알림 일정의 예시다. 갱신 버튼이 열리는 기간이라는 뜻은 아니다. 실제 갱신 가능 기간을 확인한 다음 그 안에서 담당자가 행동하도록 알림을 정한다.
+
+갱신 시에는 현재 공지와 연락처를 확인하고, 표시된 결과와 요금 및 슬롯 사용을 검토한 뒤 한 번 제출한다. 그다음 Domain List에서 새 만료일을 확인해야 완료로 볼 수 있다. 응답이 불분명하다고 반복 제출하기보다 먼저 현재 상태를 확인한다. 만료나 정지로 상위 위임이 중단되었다면 외부 DNS의 A 레코드를 고치는 것만으로 복구할 수 없다.
+
+사용을 끝낼 때도 이름을 그냥 방치하지 않는다. [만료 및 운영 교재](https://github.com/DigitalPlatDev/FreeDomain/blob/9c7c54110705760267b07b6e6a6d406d1172a1bf/documents/tutorial/operations/5.2-renewal-and-expiration.md)는 이메일, 계정 복구, OAuth 콜백과 신뢰 목록 등에서 해당 이름을 제거하도록 안내한다. 나중에 다른 사람이 같은 이름을 등록할 가능성을 고려해야 하기 때문이다. 무료로 시작한 실험이라도 다른 서비스의 신뢰 관계에 연결했다면 정리 작업이 필요하다.
+
+이 저장소는 등록 방법만 보고 끝내기보다 [학습 가이드](https://github.com/DigitalPlatDev/FreeDomain/blob/9c7c54110705760267b07b6e6a6d406d1172a1bf/LEARN.md)를 따라 DNS와 배포까지 이해할 때 유용하다. 제품별 신청 절차와 일반적인 DNS 교재가 분리되어 있어, 정책 변경과 기술 개념을 혼동하지 않고 읽을 수 있다. 약관상 별도 서면 보장이 없는 서비스는 최선 노력 기준이며 지속적인 가용성이나 갱신을 약속하지 않는다. 중요한 서비스에 연결하려면 이름의 중단 가능성과 다른 주소로 옮길 경로까지 고려해야 한다.
+
+## 이어 읽을 공식 자료
+
+- [DigitalPlat Domains 홈페이지](https://domain.digitalplat.org/): 공개 이름 공간과 공식 신청 입구
+- [이용약관](https://domain.digitalplat.org/terms-of-service/), [허용 이용 정책](https://domain.digitalplat.org/acceptable-use-policy/), [개인정보 처리방침](https://domain.digitalplat.org/privacy-policy/): 신청과 유지에 적용되는 서비스 정책
+- [FreeDomain 튜토리얼 목차](https://github.com/DigitalPlatDev/FreeDomain/blob/9c7c54110705760267b07b6e6a6d406d1172a1bf/documents/tutorial/index.md): 계정, 신청, 위임, 갱신과 일반 DNS 교재
+- [FreeDomain FAQ](https://github.com/DigitalPlatDev/FreeDomain/blob/9c7c54110705760267b07b6e6a6d406d1172a1bf/documents/domains/faq.md): 문서상 기본 한도와 외부 DNS 이용 범위
