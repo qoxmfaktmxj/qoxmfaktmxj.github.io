@@ -27,20 +27,9 @@ GitHub Pages로 배포되며, AI 뉴스 요약 글과 개발 학습 글을 함�
 
 ## 자동화 워크플로
 
-### 1. `auto-post.yml`
+### 1. 일반 개발 글 (OpenClaw)
 
-수동 실행용 글 생성 워크플로입니다.
-
-- GitHub Actions의 `workflow_dispatch`로만 실행됩니다.
-- 항상 `main` 브랜치를 기준으로 체크아웃합니다.
-- `scripts/auto_post.py`를 실행해 당일 포스트를 생성합니다.
-- 변경이 있으면 GitHub Actions 봇 계정으로 커밋 후 `main`에 푸시합니다.
-- 실패 시 GitHub Issue를 만들고, Telegram 시크릿이 있으면 알림을 보냅니다.
-
-중요:
-
-- 현재는 스케줄 실행이 아니라 수동 실행만 설정되어 있습니다.
-- 워크플로 내부도 `main only` 기준으로 보호되어 있습니다.
+매주 수요일 11:40 KST에 `java → python → nextjs → sql → data-infra` 순서로 한 편씩 발행합니다. `openai/gpt-6-sol`, reasoning `high`를 사용하며 AI Daily News와 레포 리뷰는 별도 일정입니다. 작성 절차는 [`scripts/weekly-dev-post-runbook.md`](scripts/weekly-dev-post-runbook.md)를 따릅니다.
 
 ### 2. `pages-deploy.yml`
 
@@ -62,29 +51,23 @@ GitHub Discussions 기반 댓글 알림 워크플로입니다.
 - 저장소 소유자 본인 댓글과 Bot 댓글은 제외합니다.
 - Telegram 시크릿이 설정되어 있으면 알림을 보냅니다.
 
-### 4. `star-repo-deep-dive.yml`
+### 4. GitHub Trending 저장소 리뷰
 
-GitHub star 50,000+ 공개 저장소를 분석해 `GitHub Repo Analysis` 글을 생성하는 워크플로입니다.
+OpenClaw 예약 작업이 GitHub Trending 일간 목록에서 현재 순위가 가장 높은 미리뷰 저장소를 골라 `GitHub Repo Analysis` 글을 작성합니다.
 
-- 매일 22:10 UTC에 실행됩니다.
-- 실제 발행 주기는 `scripts/star_repo_deep_dive.py`와 `.automation/star_repo_analysis.json`의 48시간 guard가 제어합니다.
-- 수동 실행도 가능합니다.
+- 매주 화·금 07:10 KST에 실행됩니다.
+- 이미 리뷰한 1위는 건너뛰고 당시 목록의 2위, 2위도 리뷰했다면 3위로 내려갑니다.
+- 모델은 OpenClaw의 `openai/gpt-6-sol`, reasoning `high`이며 Claude API는 사용하지 않습니다.
+- 작성 기준과 발행 절차: [`scripts/trending-repo-review-runbook.md`](scripts/trending-repo-review-runbook.md).
 
 ## 필요한 GitHub 설정
 
 ### Repository secrets
 
-- `ANTHROPIC_API_KEY`
 - `TG_BOT_TOKEN`
 - `TG_CHAT_ID`
 
 Telegram 알림이 필요 없으면 `TG_BOT_TOKEN`, `TG_CHAT_ID`는 비워둘 수 있습니다.
-
-### Repository variables
-
-- `ANTHROPIC_MODEL` (선택)
-
-지정하지 않으면 `scripts/auto_post.py`에서 기본값 `claude-haiku-4-5-20251001`을 사용합니다.
 
 ### GitHub Pages
 
@@ -93,40 +76,7 @@ Telegram 알림이 필요 없으면 `TG_BOT_TOKEN`, `TG_CHAT_ID`는 비워둘 �
 
 ## 콘텐츠 생성 스크립트
 
-### 1. `scripts/auto_post.py`
-
-하루 글 생성 스크립트입니다.
-
-생성 대상:
-
-- AI 뉴스 요약 글 1개
-- 개발 학습 글 1개
-
-동작 방식:
-
-- RSS 피드를 읽어 AI 뉴스 후보를 수집합니다.
-- Anthropic API를 호출해 한국어 블로그 글을 생성합니다.
-- 학습 글은 내부 토픽 순환 목록을 따라 생성합니다.
-- 상태 파일 `.automation/state.json`에 다음 학습 주제를 기록합니다.
-
-현재 학습 토픽 순환:
-
-- Python
-- Next.js
-- Java
-- PostgreSQL SQL
-- MySQL SQL
-- Oracle SQL
-- Redis
-- Elasticsearch
-- Apache Kafka
-
-생성 파일 위치:
-
-- `_posts/YYYY-MM-DD-ai-news-daily.md`
-- `_posts/YYYY-MM-DD-study-<topic>.md`
-
-### 2. `scripts/import_naver_blog.py`
+### `scripts/import_naver_blog.py`
 
 네이버 블로그 글을 Jekyll 포스트로 가져오는 스크립트입니다.
 
@@ -162,24 +112,6 @@ macOS/Linux:
 python -m venv .venv
 source .venv/bin/activate
 pip install -r scripts/requirements.txt
-```
-
-### 자동 글 생성
-
-PowerShell:
-
-```powershell
-$env:ANTHROPIC_API_KEY="your_key"
-$env:ANTHROPIC_MODEL="claude-haiku-4-5-20251001"  # 선택
-py -3 scripts/auto_post.py
-```
-
-macOS/Linux:
-
-```bash
-export ANTHROPIC_API_KEY=your_key
-export ANTHROPIC_MODEL=claude-haiku-4-5-20251001  # 선택
-python scripts/auto_post.py
 ```
 
 ### 네이버 글 가져오기
