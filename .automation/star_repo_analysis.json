@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-10-20T07:11:59+09:00",
+  "last_run_at": "2026-10-23T07:11:44+09:00",
   "analyzed": [
     "521xueweihan/HelloGitHub",
     "996icu/996.ICU",
@@ -73,7 +73,8 @@
     "yangshun/tech-interview-handbook",
     "yt-dlp/yt-dlp",
     "anthropics/claude-plugins-official",
-    "MadsLorentzen/ai-job-search"
+    "MadsLorentzen/ai-job-search",
+    "php/php-src"
   ],
   "exhausted": false,
   "last_candidate_refresh": "2026-10-15T09:29:19+09:00",
