@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-10-27T07:12:22+09:00",
+  "last_run_at": "2026-10-30T07:12:35+09:00",
   "analyzed": [
     "521xueweihan/HelloGitHub",
     "996icu/996.ICU",
@@ -75,7 +75,8 @@
     "anthropics/claude-plugins-official",
     "MadsLorentzen/ai-job-search",
     "php/php-src",
-    "Nutlope/hallmark"
+    "Nutlope/hallmark",
+    "HKUDS/DeepTutor"
   ],
   "exhausted": false,
   "last_candidate_refresh": "2026-10-15T09:29:19+09:00",
