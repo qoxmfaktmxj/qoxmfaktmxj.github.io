@@ -1,6 +1,6 @@
 {
   "min_stars": 50000,
-  "last_run_at": "2026-11-03T07:11:51+09:00",
+  "last_run_at": "2026-11-06T07:12:00+09:00",
   "analyzed": [
     "521xueweihan/HelloGitHub",
     "996icu/996.ICU",
@@ -77,7 +77,8 @@
     "php/php-src",
     "Nutlope/hallmark",
     "HKUDS/DeepTutor",
-    "vercel-labs/agent-desktop"
+    "vercel-labs/agent-desktop",
+    "NVIDIA/auto-ontology"
   ],
   "exhausted": false,
   "last_candidate_refresh": "2026-10-15T09:29:19+09:00",
